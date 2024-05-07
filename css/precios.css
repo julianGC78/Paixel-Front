@@ -1,0 +1,99 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+}
+
+.precios{
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.price-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    gap: 20px;
+}
+
+.price-card {
+    flex-basis: 33%;
+    background-color: var(--color-blanco);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.34);
+    border-radius: 10px;
+    text-align: center;
+    font-family: var(--fuente);
+    margin: 30px;
+    
+}
+
+.price-card h2 {
+    color: var(--color-gris);
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.price-card .price {
+    color: var(--color-rojo);
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px 0;
+    margin-bottom: 30px;
+}
+
+.price-card p {
+    color: var(--color-negro);
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.price-card button.btn {
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+    border: none;
+    padding: 15px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 30px;
+    font-size: 20px;
+    font-family: var(--fuente);
+}
+
+.price-card button.btn:hover {
+    background-color: var(--color-verde);
+}
+
+.price-card button.trial {
+    background-color: var(--color-gris);
+}
+
+.price-card button.trial:hover {
+    background-color: var(--color-negro);
+}
+
+.price-card ul {
+    text-align: left;
+    padding: 0 20%;
+    list-style: none;
+}
+
+.price-card li {
+    padding: 5px 0;
+    color: var(--color-negro);
+    font-size: 18px;
+    font-family: var(--fuente);
+}

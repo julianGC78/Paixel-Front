@@ -1,0 +1,21 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+}
+
+
+
+
+.noticias{
+    height: 400px;
+}

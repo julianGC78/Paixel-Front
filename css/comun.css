@@ -1,0 +1,31 @@
+:root {
+    --texto-normal: "Comme", sans-serif;
+    --Texto-logo: "Stalinist One", sans-serif;
+    --fuente: "SafiroMedium", sans-serif;
+    --color-gris: #565656;
+    --color-grisOpacidad: #5656568b;
+    --color-blanco: #ffffff;
+    --color-negro: #1d1c1c;
+    --color-rojo: #db0335;
+    --color-verde:#159E82;
+    --color-azul: #0d6efd;
+ }
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+}
+.btn-cancelar{
+    background-color: white;
+    color: var(--color-negro);
+    padding: 16px;
+    margin-right: 20px;  
+    cursor: pointer;
+    border: 1px solid var(--color-negro);
+}

@@ -1,0 +1,161 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+
+.imagen {
+      height: 80vh;
+      width: 100vw;
+      background-image: url(../images/mujerRojo3.webp);
+      background-size: cover;
+      background-position: center 70%;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+}
+
+
+.slogan {
+      text-align: center;
+      width: 55%;
+      height: auto;
+      font-size: 100px;
+      color: rgb(255, 255, 255);
+      z-index: 1;
+      font-weight: bolder;
+      margin-bottom: 20px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: var(--fuente);
+}
+
+.contenedor-mensaje {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      width: 100vw;
+}
+
+.mensaje {
+      width: 80%;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: var(--fuente);
+}
+
+.mensaje h1 {
+      font-size: 70px;
+      color: var(--color-negro);
+      font-weight: bolder;
+}
+
+.mensaje p {
+      font-size: 22px;
+      color: var(--color-negro);
+      margin-top: 20px;
+}
+
+.contenedor_grid {
+      display: flex;
+      width: 100%;
+      height: auto;
+}
+
+.columna {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+}
+
+.columna::before {
+      content: "";
+      display: block;
+      padding-top: 90%;
+}
+
+.columna::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+}
+
+.c1::after {
+      background-image: url(../images/anime.webp);
+      background-color: rgba(0, 0, 0, 0.5);
+      background-blend-mode: darken;
+}
+
+.c2::after {
+      background-image: url(../images/rostroHombre.jpeg);
+      background-color: rgba(0, 0, 0, 0.5);
+      background-blend-mode: darken;
+}
+
+.c3::after {
+      background-image: url(../images/fantasia.webp);
+      background-color: rgba(0, 0, 0, 0.5);
+      background-blend-mode: darken;
+}
+
+.columna:hover::after {
+      transform: scale(1.15);
+      background-color: initial;
+      background-blend-mode: normal;
+}
+
+.button-grid {
+      width: 100px;
+      height: 40px;
+      border: none;
+      margin-bottom: 20px;
+      margin-right: 40px;
+      cursor: pointer;
+      justify-content: center;
+      margin-top: 20px;
+      background-color: var(--color-rojo);
+      z-index: 1;
+}
+
+.final {
+      height: 400px;
+      background-color: white;
+      color: var(color-negro);
+      text-align: center;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-family: var(--fuente);
+}
+
+.stat {
+      text-align: center;
+      width: 500px;
+      margin-right: 50px;
+}
+
+.stat-number {
+      font-size: 68px;
+      font-weight: bold;
+}
+
+.stat-title {
+      font-size: 34px;
+      margin: 10px 0;
+}
+
+.stat-desc {
+      font-size: 26px;
+      color: var(--color-gris);
+}

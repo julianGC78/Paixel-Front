@@ -1,0 +1,147 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+@import url('../css/formularioLoginRegister.css');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+}
+.material-symbols-outlined{
+    margin-top: 10px;
+
+}
+
+.perfilUsuario{
+    height: 550px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.lista ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 20px;
+}
+li a{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    font-size: 20px;
+    font-family: var(--fuente);
+}
+.user-card{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.user-data {
+    position: relative; /* Asegura que el posicionamiento absoluto funcione correctamente */
+    width: 600px;
+    height: auto;
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 5px;
+    padding: 20px;
+    overflow: hidden; /* Asegura que nada se desborde fuera del contenedor */
+}
+
+
+.user-data .a1{
+    position: absolute; /* Posicionamiento absoluto */
+    bottom: 10px;  /* Espacio desde el fondo del contenedor */
+    right: 10px;   /* Espacio desde la derecha del contenedor */
+   margin-top: 10px;
+}
+
+ .a1 a {
+    color: black;
+    font-size: 18px;
+    font-weight: lighter;
+    font-family: var(--fuente);
+    cursor: pointer;
+    padding: 5px 10px;
+    
+}
+.a1{
+    margin-top: 10px;
+    align-self: flex-end;
+}
+
+.a2{
+    margin-top: 10px;
+    align-self: flex-end;
+    margin-right: 12px;
+    
+}
+p.infor{
+    margin-bottom: 10px;
+    color: black;
+    font-size: 20px;
+    font-family: var(--fuente);
+    font-weight:500;
+    margin-bottom: 5px;
+    margin-left: 3px;
+    align-self: flex-start;
+}
+
+.delete-popup {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.popup-content p{
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.btn-eliminar{
+    background: var(--color-rojo);
+    margin-right: 20px;
+}
+
+.active-link {
+    position: relative;
+    color: var(--color-gris);
+    text-decoration: none;
+}
+.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: 5px; /* Controla la posición vertical del subrayado */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-gris);
+    transition: all 0.3s ease;
+}
+
+

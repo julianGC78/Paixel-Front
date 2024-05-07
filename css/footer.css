@@ -1,0 +1,23 @@
+footer {
+    height: 400px;
+    background-color: rgb(21, 21, 21);  
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items: center;
+}
+ .social i{ 
+    color: #565656;
+    font-size: 30px;
+    padding: 10px;
+}
+.isotipo{
+    align-self: flex-start;
+}
+.info{
+    align-self: flex-start;
+    margin-top: 20px;
+    color: #565656;
+}
