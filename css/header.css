@@ -4,14 +4,14 @@ Estilo menu y Hover
 
 header {
     height: 100px;
-    background-color: #151515;
+    background-color: var(--color-negro);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 :root {
     --color-blanco: #FFFFFF;
-    --color-negro: #000000;
+    --color-negro: #1d1c1c;
     --BottomOffset: 20px;
     --LineHeight: 5px;
 }
