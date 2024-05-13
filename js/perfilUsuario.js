@@ -40,7 +40,7 @@ function setup() {
     
 }
 
-
+    
 function displayUserInfo(user) {
     console.log("Displaying user info for: ", user);
     const userInfoContainer = document.querySelector(".user-data");

@@ -1,6 +1,7 @@
+@import url('../css/comun.css');
 footer {
     height: 400px;
-    background-color: rgb(21, 21, 21);  
+    background-color: var(--color-negroOs);  
     text-align: center;
     padding: 20px;
     display: flex;

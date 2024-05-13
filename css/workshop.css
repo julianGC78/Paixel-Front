@@ -46,7 +46,7 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
+    background-color: var(--color-negro);
 }
 
 .contenedor-grid {

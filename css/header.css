@@ -4,11 +4,12 @@ Estilo menu y Hover
 
 header {
     height: 100px;
-    background-color: var(--color-negro);
+    background-color: var(--color-negroOs);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 :root {
     --color-blanco: #FFFFFF;
     --color-negro: #1d1c1c;
@@ -19,6 +20,7 @@ header {
 .logo {
     margin-left: 30px;
 }
+
 .menu {
     margin-right: 30px;
     display: flex;
@@ -27,7 +29,6 @@ header {
     position: relative;
     color: white;
     font-size: 22px;
-    font-family: "Bricolage Grotesque", sans-serif;
     font-family: "SafiroMedium", sans-serif;
 }
 
@@ -36,7 +37,7 @@ header {
 }
 
 .menu a.active:before {
-    background: #565656; 
+    background: #565656;
 }
 
 .linea {
@@ -92,10 +93,12 @@ Submenu y Hover
     position: absolute;
     background-color: #565656;
     color: white;
-    width: 80%;
+    width: 90%;
     z-index: 1;
     top: 92px;
     left: 0px;
+    
+    
 }
 
 
@@ -117,6 +120,13 @@ Submenu y Hover
     color: black;
 }
 
+.allCursos {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+    margin-bottom: -10px;
+}
+
 .submenu-m5 {
     display: none;
     position: absolute;
@@ -124,7 +134,7 @@ Submenu y Hover
     color: white;
     width: 35%;
     z-index: 1;
-    top: 92px; /* Ajustar si es necesario según el layout */
+    top: 92px;
     right: 0px;
 }
 

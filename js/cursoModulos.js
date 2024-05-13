@@ -1,7 +1,7 @@
 import { headerContent } from "../parciales/headerContent.js";
 import { footerContent } from "../parciales/footerContent.js";
-import { setupMenuAndAuth} from '../js/menuHandler.js';
-import { customizeMenuColor } from '../js/comun.js';
+import { setupMenuAndAuth } from './menuHandler.js';
+import { customizeMenuColor } from './comun.js';
 
 // Función para configurar la cabecera y el pie de página se llama setup
 // para que se ejecute al cargar la página

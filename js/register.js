@@ -63,7 +63,7 @@ window.onload = function () {
             document.getElementById('successMessage').innerText = 'Usuario registrado con éxito!';
             document.getElementById('successMessage').style.display = 'block';
             setTimeout(() => {
-                window.location.href = 'home.html';  // Redirige después de 1 segundo
+                window.location.href = 'login.html';  // Redirige después de 1 segundo
             }, 2000);
         })
         .catch((error) => {
