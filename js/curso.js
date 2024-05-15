@@ -23,13 +23,6 @@ function setup() {
 
 }
 
-function getCursoId() {
-    const queryParams = new URLSearchParams(window.location.search);
-    const id = queryParams.get('id');
-    console.log("Curso ID:", id);  // Esto mostrará el ID en la consola
-    return id;
-}
-
 // Configuración del evento click para la imagen del curso.
 function setupCourseButtonClick() {
     document.querySelector('.cursoButton').addEventListener('click', function (event) {
@@ -76,51 +69,69 @@ function checkPaymentStatus(userId) {
 }
 
 
-
 /*******************************************************************/
-
-function fetchCursoDetails(idcurso) {
-    const token = sessionStorage.getItem('jwtToken');
-    console.log("JWT Token:", token);
-    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-    fetch(`http://127.0.0.1:8081/curso/findById/${idcurso}`, {
-        headers: headers
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to load course details, status: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            displayCursoDetails(data);
-        })
-        .catch(error => {
-            console.error('Error fetching course details:', error);
-        });
-}
-
-function displayCursoDetails(curso) {
-    const titleElement = document.querySelector('.cursoTitle');
-    const descriptionElement = document.querySelector('.cursoDescription');
-    const imageElement = document.querySelector('.cursoImage');
-
-    if (titleElement && descriptionElement && imageElement) {
-        titleElement.textContent = curso.titulo;
-        descriptionElement.textContent = curso.descripcion;
-        imageElement.src = curso.recurso;
-        imageElement.alt = `Imagen de ${curso.titulo}`;
-    } else {
-        console.error("Uno o más elementos del DOM no están disponibles.");
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     const cursoId = getCursoId();
+
     if (cursoId) {
         fetchCursoDetails(cursoId);
     } else {
         console.error('No course ID found in URL');
+    }
+
+    const button = document.querySelector('.cursoButton');
+
+    if (button) {
+        button.addEventListener('click', function () {
+            if (cursoId) {
+                window.location.href = `cursoModulos.html?id=${cursoId}`;
+            } else {
+                console.error('No course ID found in URL');
+            }
+        });
+    }
+
+    function getCursoId() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get('id');
+        console.log("Curso ID:", id);  // Esto mostrará el ID en la consola
+        return id;
+    }
+
+    function fetchCursoDetails(idcurso) {
+        const token = sessionStorage.getItem('jwtToken');
+        console.log("JWT Token:", token);
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+        fetch(`http://127.0.0.1:8081/curso/findById/${idcurso}`, {
+            headers: headers
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load course details, status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayCursoDetails(data);
+            })
+            .catch(error => {
+                console.error('Error fetching course details:', error);
+            });
+    }
+
+    function displayCursoDetails(curso) {
+        const titleElement = document.querySelector('.cursoTitle');
+        const descriptionElement = document.querySelector('.cursoDescription');
+        const imageElement = document.querySelector('.cursoImage');
+
+        if (titleElement && descriptionElement && imageElement) {
+            titleElement.textContent = curso.titulo;
+            descriptionElement.textContent = curso.descripcion;
+            imageElement.src = curso.recurso;
+            imageElement.alt = `Imagen de ${curso.titulo}`;
+        } else {
+            console.error("Uno o más elementos del DOM no están disponibles.");
+        }
     }
 });
 

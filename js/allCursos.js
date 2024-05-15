@@ -1,11 +1,12 @@
 import { headerContent } from "../parciales/headerContent.js";
 import { footerContent } from "../parciales/footerContent.js";
 import { setupMenuAndAuth } from '../js/menuHandler.js';
-import { customizeMenuColor } from '../js/comun.js';
+import { customizeMenuColor ,checkAuthentication} from '../js/comun.js';
 
 // Función para configurar la cabecera y el pie de página se llama setup
 // para que se ejecute al cargar la página
 function setup() {
+    console.log("Setup iniciado");
     let body = document.querySelector("body");
     let header = document.createElement("header");
     let footer = document.createElement("footer");
@@ -17,6 +18,7 @@ function setup() {
     body.appendChild(footer);
 
     setTimeout(() => {
+        console.log("SetTimeout ejecutado");
         setupMenuAndAuth();
         customizeMenuColor();
         checkAuthentication();
@@ -24,11 +26,19 @@ function setup() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("DOM Content Loaded");
     fetch('http://127.0.0.1:8081/curso/findAll')
-        .then(response => response.json())
+        .then(response => {
+            console.log("Respuesta recibida:", response);
+            return response.json();
+        })
         .then(data => {
             console.log("Datos recibidos:", data);
             const container = document.querySelector('.cursos-container'); // Asegúrate de tener este contenedor en tu HTML
+            if (!container) {
+                console.error("No se encontró el contenedor '.cursos-container'");
+                return;
+            }
             data.forEach(curso => {
                 // Crear el div 'celda'
                 const celdaDiv = document.createElement('div');
@@ -37,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Aquí adjuntas el manejador de eventos de clic
                 celdaDiv.addEventListener('click', () => handleCourseClick(curso.idcurso));
                  
-
                 // Crear el div 'celda-content'
                 const cursoDiv = document.createElement('div');
                 cursoDiv.className = 'celda-content';
@@ -68,24 +77,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error fetching courses:', error));
 });
 
-/*
 function handleCourseClick(cursoId) {
-    if (sessionStorage.getItem('jwtToken')) {
-
-        window.location.href = `curso.html?id=${cursoId}`;
-    } else {
-        window.location.href = 'login.html';
-    }
-}
-*/
-
-function handleCourseClick(cursoId) {
+    console.log("Curso clicado:", cursoId);
     // Redirige directamente a la página de detalles del curso sin comprobar si el usuario está autenticado
     window.location.href = `curso.html?id=${cursoId}`;
 }
 
-
-
-
-
 window.addEventListener('load', setup);
+
