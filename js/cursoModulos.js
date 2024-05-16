@@ -22,6 +22,7 @@ function setup() {
         const cursoId = getCursoId();
         if (cursoId) {
             fetchCursoDetails(cursoId);
+            fetchModulosByCurso(cursoId);
         } else {
             console.error('No course ID found in URL');
         }
@@ -60,6 +61,29 @@ function fetchCursoDetails(idcurso) {
     });
 }
 
+
+function fetchModulosByCurso(idcurso) {
+    const token = sessionStorage.getItem('jwtToken');
+    console.log("JWT Token:", token);
+    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+    fetch(`http://127.0.0.1:8081/modulo/byCurso/${idcurso}`, {
+        headers: headers
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to load modules, status: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(modulos => {
+        console.log("Modulos:", modulos);
+        displayModulos(modulos);
+    })
+    .catch(error => {
+        console.error('Error fetching modules:', error);
+    });
+}
+
 function displayCursoDetails(curso) {
     const titleElement = document.querySelector('.cursoTitle');
     const descriptionElement = document.querySelector('.cursoDescription');
@@ -74,6 +98,30 @@ function displayCursoDetails(curso) {
         console.error("Uno o más elementos del DOM no están disponibles.");
     }
 }
+
+
+
+function displayModulos(modulos) {
+    const moduleLinksElement = document.querySelector('.module-links');
+
+    if (moduleLinksElement) {
+        modulos.forEach(modulo => {
+            const moduleLink = document.createElement('a');
+            moduleLink.className = 'module-link';
+            // Actualizar el href para pasar parámetros en la URL
+            moduleLink.href = `modulo.html?id=${modulo.idmodulo}&titulo=${encodeURIComponent(modulo.titulo)}`;
+            moduleLink.textContent = modulo.titulo;
+
+            const durationSpan = document.createElement('span');
+            durationSpan.textContent = modulo.tiempo;
+            moduleLink.appendChild(durationSpan);
+            moduleLinksElement.appendChild(moduleLink);
+        });
+    } else {
+        console.error("Elemento del DOM para los módulos no está disponible.");
+    }
+}
+
 
 function displayDocenteDetails(docente) {
     const docenteImageElement = document.querySelector('.docenteImage');
@@ -91,8 +139,6 @@ function displayDocenteDetails(docente) {
         console.error("Uno o más elementos del DOM del docente no están disponibles.");
     }
 }
-
-
 
 window.onload = setup;
 
