@@ -45,8 +45,13 @@ window.onload = function () {
         .then(data => {
             console.log('Éxito:', data);
             sessionStorage.setItem('jwtToken', data.token); 
-            window.location.href = 'home.html'; 
-        
+            
+            // Verificar si las credenciales son del administrador
+            if (loginData.username === 'admin' && loginData.password === 'admin123') {
+                window.location.href = '../admin.html';
+            } else {
+                window.location.href = 'home.html';
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

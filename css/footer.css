@@ -13,12 +13,16 @@ footer {
     color: #565656;
     font-size: 30px;
     padding: 10px;
+    margin-top: 100px;
 }
 .isotipo{
     align-self: flex-start;
 }
 .info{
-    align-self: flex-start;
-    margin-top: 20px;
+    display: flex;
     color: #565656;
+}
+.info p{
+    margin: 0;
+    padding: 10px;
 }

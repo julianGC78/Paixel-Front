@@ -1,0 +1,50 @@
+@import url('../css/comun.css');
+
+
+.main{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+.izquierda{
+width: 15%;
+height: 100vh;
+background-color: var(--color-negro);
+color: var(--color-blanco);
+}
+.derecha{
+width: 85%;
+height: 70px;
+border-bottom: 2px solid var(--color-negro);
+}
+.logo{
+  padding: 40px;  
+}
+.head{
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    margin-right: 50px;
+    margin-bottom: 40px;
+    height: 80px;
+}
+ span{
+    width: auto;
+    font-family: var(--fuente);
+    font-size: 1vw;
+}
+ul{
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 100px;
+    text-decoration: none;
+}
+li{
+    list-style-type: none;
+    font-family: var(--fuente);
+    font-size: 1.2vw;
+    margin-bottom: 20px;
+}

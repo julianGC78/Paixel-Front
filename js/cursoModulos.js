@@ -77,12 +77,16 @@ function fetchModulosByCurso(idcurso) {
     })
     .then(modulos => {
         console.log("Modulos:", modulos);
+        if (modulos.length > 0) {
+            updateAccessButton(modulos[0]);  // Aquí se actualiza el botón con el primer módulo
+        }
         displayModulos(modulos);
     })
     .catch(error => {
         console.error('Error fetching modules:', error);
     });
 }
+
 
 function displayCursoDetails(curso) {
     const titleElement = document.querySelector('.cursoTitle');
@@ -139,6 +143,18 @@ function displayDocenteDetails(docente) {
         console.error("Uno o más elementos del DOM del docente no están disponibles.");
     }
 }
+
+function updateAccessButton(modulo) {
+    const accessButton = document.querySelector('.contenido-overlay button');
+    if (accessButton && modulo) {
+        accessButton.onclick = () => {
+            window.location.href = `modulo.html?id=${modulo.idmodulo}&titulo=${encodeURIComponent(modulo.titulo)}`;
+        };
+    } else {
+        console.error("El botón de acceso o el módulo no está disponible.");
+    }
+}
+
 
 window.onload = setup;
 

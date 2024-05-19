@@ -11,10 +11,11 @@ const footerContent = `
       <i class="fa-brands fa-facebook"></i>
       <i class="fa-brands fa-facebook-f"></i>
       <i class="fa-brands fa-square-instagram"></i>
+      <div class="info">
+            <p>© 2021 Paixel. Todos los derechos reservados</p>
+            <p>Política de privacidad</p>
+            <p>Terminos y condiciones</p>
+      </div>
 </div>
-<div class="info">
-      <p>© 2021 Paixel. Todos los derechos reservados</p>
-      <p>Política de privacidad</p>
-      <p>Terminos y condiciones</p>
 `
 export { footerContent };

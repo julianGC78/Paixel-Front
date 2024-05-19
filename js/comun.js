@@ -91,6 +91,41 @@ export async function fetchUserData() {
 }
 
 
+export function redirectBasedOnAuth(cursoId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const userId = payload.userId;
+        checkPaymentStatus(userId, cursoId);
+    } else {
+        window.location.href = 'login.html';
+    }
+}
+
+export function checkPaymentStatus(userId, cursoId) {
+    const token = sessionStorage.getItem('jwtToken');
+    fetch(`http://127.0.0.1:8081/matricula/estadoPago/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Fallo al verificar el estado de pago');
+        }
+        return response.json();
+    })
+    .then(pagado => {
+        if (pagado) {
+            window.location.href = `cursoModulos.html?id=${cursoId}`; // Redirige a la página de cursos si el pago es true
+        } else {
+            window.location.href = 'tarifas.html'; // Redirige a la página de precios si el pago es false
+        }
+    })
+    .catch(error => {
+        console.error('Error al verificar el estado de pago', error);
+        alert('Error al verificar el estado de matrícula. Por favor, intente nuevamente.');
+    });
+}
+
 
 
 

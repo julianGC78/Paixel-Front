@@ -1,9 +1,10 @@
 
-
 import { headerContent } from "../parciales/headerContent.js";
 import { footerContent } from "../parciales/footerContent.js";
 import { setupMenuAndAuth } from '../js/menuHandler.js';
-import { customizeMenuColor } from '../js/comun.js';
+import { customizeMenuColor, redirectBasedOnAuth, checkPaymentStatus } from '../js/comun.js';
+
+let globalModules = [];
 
 function setup() {
     let body = document.querySelector("body");
@@ -80,6 +81,7 @@ function fetchCourseByModule(idmodulo) {
     .then(curso => {
         displayCourseDetails(curso);
         fetchModulesByCourse(curso.idcurso); // Cargar los módulos del curso
+        setupCourseTitleClick(curso.idcurso); // Configurar el clic del título del curso
     })
     .catch(error => {
         console.error('Error fetching course details:', error);
@@ -95,7 +97,8 @@ function displayModuleDetails(modulo) {
         videoSource.src = modulo.recurso;
         document.getElementById('videoFrame').load();
         tituloModulo.textContent = decodeURIComponent(modulo.titulo);
-        } else {
+        setupNextButton(modulo.idmodulo); // Configurar el botón 'SIGUIENTE' con el módulo actual
+    } else {
         console.error("Uno o más elementos del DOM no están disponibles.");
     }
 }
@@ -103,13 +106,16 @@ function displayModuleDetails(modulo) {
 // Función para mostrar los detalles del curso
 function displayCourseDetails(curso) {
     const tituloCurso = document.querySelector('.titulo-curso');
+    const cursoNombre = tituloCurso.querySelector('.curso-nombre');
 
-    if (tituloCurso) {
-        tituloCurso.textContent = decodeURIComponent(curso.titulo);
+    if (tituloCurso && cursoNombre) {
+        cursoNombre.textContent = decodeURIComponent(curso.titulo);
+        tituloCurso.href = `cursoModulos.html?id=${curso.idcurso}`; // Asegurarse de que el enlace apunte a la página correcta
     } else {
         console.error("Elemento del DOM para el título del curso no está disponible.");
     }
 }
+
 
 // Función para obtener y mostrar los módulos de un curso
 function fetchModulesByCourse(idcurso) {
@@ -125,7 +131,10 @@ function fetchModulesByCourse(idcurso) {
         return response.json();
     })
     .then(modulos => {
+        globalModules = modulos; // Guardar módulos globalmente
         displayModulos(modulos);
+        const moduleId = getModuleId();
+        setupNextButton(moduleId); // Configurar el botón 'SIGUIENTE' con el módulo actual
     })
     .catch(error => {
         console.error('Error fetching modules:', error);
@@ -153,9 +162,46 @@ function displayModulos(modulos) {
     }
 }
 
+function setupCourseTitleClick(cursoId) {
+    const cursoTitleElement = document.querySelector('.titulo-curso');
+    if (cursoTitleElement) {
+        cursoTitleElement.addEventListener('click', function (event) {
+            event.preventDefault();
+            redirectBasedOnAuth(cursoId);
+        });
+    } else {
+        console.error("Elemento del DOM para el título del curso no está disponible.");
+    }
+}
+
+function setupNextButton(currentModuleId) {
+    const nextButton = document.querySelector('.siguiente');
+    if (!nextButton) {
+        console.error("Elemento del DOM para el botón 'SIGUIENTE' no está disponible.");
+        return;
+    }
+
+    const currentIndex = globalModules.findIndex(modulo => modulo.idmodulo == currentModuleId);
+    if (currentIndex === -1) {
+        console.error('No se encontró el módulo actual en la lista de módulos.');
+        nextButton.href = '#';
+        nextButton.style.display = 'none';
+        return;
+    }
+
+    if (currentIndex === globalModules.length - 1) {
+        // Si es el último módulo, ocultar el botón "SIGUIENTE"
+        nextButton.href = '#';
+        nextButton.style.display = 'none';
+    } else {
+        // Si no es el último módulo, configurar el enlace al siguiente módulo
+        const nextModule = globalModules[currentIndex + 1];
+        nextButton.href = `modulo.html?id=${nextModule.idmodulo}&titulo=${encodeURIComponent(nextModule.titulo)}`;
+        nextButton.style.display = 'block'; // Asegurarse de que el botón esté visible
+    }
+}
+
 document.addEventListener('DOMContentLoaded', setup);
-
-
 
 
 
