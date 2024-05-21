@@ -48,7 +48,7 @@ window.onload = function () {
             
             // Verificar si las credenciales son del administrador
             if (loginData.username === 'admin' && loginData.password === 'admin123') {
-                window.location.href = '../admin.html';
+                window.location.href = 'admin.html';
             } else {
                 window.location.href = 'home.html';
             }

@@ -115,8 +115,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // Añade la clase activa solo al enlace clickeado
             this.classList.add('active-link');
 
-            // Aquí puedes agregar lo que necesites hacer cuando un enlace es clickeado
-            // Por ejemplo, cargar contenido dinámicamente
         });
     });
 });

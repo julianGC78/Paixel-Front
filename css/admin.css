@@ -9,7 +9,7 @@
 }
 .izquierda{
 width: 15%;
-height: 100vh;
+height: 200vh;
 background-color: var(--color-negro);
 color: var(--color-blanco);
 }
@@ -29,22 +29,162 @@ border-bottom: 2px solid var(--color-negro);
     margin-bottom: 40px;
     height: 80px;
 }
- span{
+h1 {
+    font-family: var(--fuente);
+    padding: 20px;
+}
+
+h2 {
+    text-decoration: underline;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+span {
     width: auto;
     font-family: var(--fuente);
     font-size: 1vw;
 }
-ul{
-    margin-top: 200px;
+
+ul {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 100px;
+    margin-left: 50px;
     text-decoration: none;
 }
-li{
+
+li {
     list-style-type: none;
     font-family: var(--fuente);
     font-size: 1.2vw;
     margin-bottom: 20px;
+    cursor: pointer;
+}
+
+i {
+    color: var(--color-gris);
+    font-size: 1.2vw;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: auto;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: middle; /* Asegura que el contenido esté alineado verticalmente en el centro */
+}
+
+td {
+    padding: 20px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.fa-solid {
+    font-size: 1.2em;
+    color: var(--color-gris);
+    cursor: pointer;
+}
+
+.modeltable {
+    width: 90%;
+}
+
+.data-table {
+    display: none;
+}
+
+.tableHeaders {
+    background-color: var(--color-verde);
+    font-family: var(--fuente);
+    font-size: 1vw;
+}
+
+.tableHeaders th {
+    padding: 20px;
+}
+
+.cuerpo-tabla {
+    font-family: var(--fuente);
+    font-size: 0.9vw;
+}
+
+.fa-magnifying-glass {
+    color: var(--color-azul);
+}
+
+.fa-pen-to-square {
+    color: var(--color-verde);
+}
+
+.fa-trash-can {
+    color: var(--color-rojo);
+}
+
+.acciones {
+    width: 300px;
+}
+
+.tr {
+    width: 100%;
+}
+
+.userDetails,
+.cursoDetails,
+.moduloDetails,
+.workshopDetails {
+    display: none;
+    margin-top: 20px;
+}
+
+.userDetails table,
+.cursoDetails table,
+.moduloDetails table,
+.workshopDetails table{
+    width: 50%;
+    border-collapse: collapse;
+}
+
+.userDetails th, .userDetails td ,
+.cursoDetails th, .cursoDetails td,
+.moduloDetails th, .moduloDetails td,
+.workshopDetails th, .workshopDetails td{
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    font-family: var(--fuente);
+    font-size: 0.9vw;
+}
+
+.backToUsers ,
+.backToCursos,
+.backToModulos,
+.backToWorkshops{
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px 20px;
+    background-color: var(--color-verde);
+    font-family: var(--fuente);
+    font-size: 0.9vw;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.backToUsers:hover ,
+.backToCursos:hover,
+.backToModulos:hover,
+.backToWorkshops:hover{
+    color: var(--color-negro);
 }

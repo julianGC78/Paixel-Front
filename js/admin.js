@@ -1,31 +1,62 @@
+import { cargarUsuarios } from './adminUser.js';
+import { cargarDocentes } from './adminDocente.js';
+import { cargarCursos } from './adminCurso.js';
+import { cargarModulos } from './adminModulo.js';
+import { cargarWorkshops } from './adminWorkshop.js'; // Importar la función cargarWorkshops
+
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://127.0.0.1:8081/usuario/findAll')
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.querySelector('#userTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
+    const userMenuItem = document.querySelector('.user');
+    const docenteMenuItem = document.querySelector('.docente');
+    const cursosMenuItem = document.querySelector('.curso');
+    const modulosMenuItem = document.querySelector('.modulo'); 
+    const workshopsMenuItem = document.querySelector('.workshop'); // Selector del menú de workshops
 
-            data.forEach(user => {
-                const row = document.createElement('tr');
+    userMenuItem.addEventListener('click', () => {
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarUsuarios();
+    });
 
-                row.innerHTML = `
-                    <td>${user.email}</td>
-                    <td>${user.username}</td>
-                    <td>${user.apellidos}</td>
-                    <td>${user.localidad || 'Null'}</td>
-                    <td>${user.matricula ? 'Yes' : 'No'}</td>
-                    <td>${new Date(user.fechaNacimiento).toLocaleDateString()}</td>
-                    <td>
-                        <a href="#">🔗</a>
-                        <span class="icon">🔍</span>
-                        <span class="icon">✏️</span>
-                    </td>
-                `;
+    docenteMenuItem.addEventListener('click', () => {
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarDocentes();
+    });
 
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
+    cursosMenuItem.addEventListener('click', () => {
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarCursos();
+    });
+
+    modulosMenuItem.addEventListener('click', () => {
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarModulos();
+    });
+
+    workshopsMenuItem.addEventListener('click', () => {
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarWorkshops();
+    });
 });
+
+
+
+
