@@ -1,27 +1,32 @@
 @import url('../css/comun.css');
+@import url('../css/formularioLoginRegister.css');
 
 
-.main{
+.main {
     display: flex;
     flex-direction: row;
     justify-content: center;
 
 }
-.izquierda{
-width: 15%;
-height: 200vh;
-background-color: var(--color-negro);
-color: var(--color-blanco);
+
+.izquierda {
+    width: 15%;
+    height: 200vh;
+    background-color: var(--color-negro);
+    color: var(--color-blanco);
 }
-.derecha{
-width: 85%;
-height: 70px;
-border-bottom: 2px solid var(--color-negro);
+
+.derecha {
+    width: 85%;
+    height: 70px;
+    border-bottom: 2px solid var(--color-negro);
 }
-.logo{
-  padding: 40px;  
+
+.logo {
+    padding: 40px;
 }
-.head{
+
+.head {
     display: flex;
     justify-content: flex-end;
     align-content: center;
@@ -29,6 +34,7 @@ border-bottom: 2px solid var(--color-negro);
     margin-bottom: 40px;
     height: 80px;
 }
+
 h1 {
     font-family: var(--fuente);
     padding: 20px;
@@ -50,7 +56,8 @@ ul {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    align-items: flex-start;
     margin-left: 50px;
     text-decoration: none;
 }
@@ -75,11 +82,13 @@ table {
     overflow: auto;
 }
 
-th, td {
+th,
+td {
     text-align: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-    vertical-align: middle; /* Asegura que el contenido esté alineado verticalmente en el centro */
+    vertical-align: middle;
+    /* Asegura que el contenido esté alineado verticalmente en el centro */
 }
 
 td {
@@ -140,6 +149,7 @@ tr:last-child td {
 }
 
 .userDetails,
+.docenteDetails,
 .cursoDetails,
 .moduloDetails,
 .workshopDetails {
@@ -150,15 +160,21 @@ tr:last-child td {
 .userDetails table,
 .cursoDetails table,
 .moduloDetails table,
-.workshopDetails table{
+.workshopDetails table {
     width: 50%;
     border-collapse: collapse;
 }
 
-.userDetails th, .userDetails td ,
-.cursoDetails th, .cursoDetails td,
-.moduloDetails th, .moduloDetails td,
-.workshopDetails th, .workshopDetails td{
+.userDetails th,
+.userDetails td,
+.docenteDetails th,
+.docenteDetails td,
+.cursoDetails th,
+.cursoDetails td,
+.moduloDetails th,
+.moduloDetails td,
+.workshopDetails th,
+.workshopDetails td {
     text-align: left;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
@@ -166,10 +182,11 @@ tr:last-child td {
     font-size: 0.9vw;
 }
 
-.backToUsers ,
+.backToUsers,
+.backToDocentes,
 .backToCursos,
 .backToModulos,
-.backToWorkshops{
+.backToWorkshops {
     margin-top: 20px;
     margin-left: 40px;
     padding: 10px 20px;
@@ -182,9 +199,111 @@ tr:last-child td {
     cursor: pointer;
 }
 
-.backToUsers:hover ,
+.backToUsers:hover,
+.backToDocentes:hover,
 .backToCursos:hover,
 .backToModulos:hover,
-.backToWorkshops:hover{
+.backToWorkshops:hover {
     color: var(--color-negro);
+}
+
+#addUserButton {
+    font-family: var(--fuente);
+    font-size: 0.8vw;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: var(--color-azul);
+    margin-bottom: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+}
+
+.popup-content button {
+    margin: 10px;
+}
+
+form {
+    margin-left: 20px;
+}
+
+.form-control.checkbox-control {
+    display: flex;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+}
+
+.form-control.checkbox-control input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.btn-añadir {
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px 20px;
+    background-color: var(--color-azul);
+    font-family: var(--fuente);
+    font-size: 0.9vw;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.btn-añadir:hover {
+    color: var(--color-negro)
+}
+
+.bot {
+    margin-top: -20px;
+    margin-left: 390px;
+    display: flex;
+    justify-content: center;
+}
+#addMatricula,
+#matricula{
+    margin-top: 20px;
+    cursor: pointer;
+    content: '';
+    display: inline-block;
+}
+#addMatricula,
+#matricula {
+    -webkit-appearance: none; /* Quitar apariencia predeterminada en WebKit */
+    -moz-appearance: none; /* Quitar apariencia predeterminada en Firefox */
+    appearance: none; /* Quitar apariencia predeterminada */
+    width: 20px; /* Ancho de la caja */
+    height: 20px; /* Alto de la caja */
+    border: 2px solid transparent; /* Quitar borde */
+}
+
+/* Estilo cuando el checkbox está seleccionado */
+#addMatricula:checked,
+#matricual:checked {
+    background-color: var(--color-azul); /* Fondo negro cuando está seleccionado */
+}
+.matricula{
+    margin-left: -28px;
 }

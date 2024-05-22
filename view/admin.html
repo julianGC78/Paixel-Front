@@ -16,7 +16,7 @@
             <nav>
                 <img class="logo" src="../../images/paixel_P_T.png" alt="">
                 <ul>
-                    <li><i class="fa-solid fa-house"></i>Home</li>
+                    <li class="home"><i class="fa-solid fa-house"></i>Home</li>
                     <li class="dashboard"><i class="fa-solid fa-chart-pie"></i>Dashboard</li>
                     <li class="user"><i class="fa-solid fa-users"></i>Usuarios</li>
                     <li class="docente"><i class="fa-solid fa-user-tie"></i>Docentes</li>
@@ -28,16 +28,20 @@
         </div>
         <div class="derecha">
             <div class="head"><span><i class="fa-solid fa-user-shield"></i>Admin</span></div>
-            <main>
-                <h1></h1>
+
+             <!-- Agregar botón de añadir usuario aquí -->
+             
+             <h1 class="main-title"></h1>
+             <button id="addUserButton" style="display: none;">Añadir Usuario</button>
                 <table class="cabecera-tabla">
                     <thead>
                         <tr class="tableHeaders"></tr>
                     </thead>
                     <tbody class="cuerpo-tabla">
-                        <!-- Los datos de los usuarios se insertarán aquí dinámicamente -->
+                        <!-- Los datos se insertarán aquí dinámicamente -->
                     </tbody>
                 </table>
+                <div class="dashboardDetails" style="display: none;">Dashboard content</div>
                 <div class="userDetails" style="display: none;">
                     <h2>Detalles del Usuario</h2>
                     <table>
@@ -47,6 +51,16 @@
                     </table>
                     <button class="backToUsers">Volver a la lista de usuarios</button>
                 </div>
+                <div class="docenteDetails" style="display: none;">
+                    <h2>Detalles del Docente</h2>
+                    <table>
+                        <tbody class="docenteDetailsBody">
+                            <!-- Los detalles del docente se insertarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                    <button class="backToDocentes">Volver a la lista de docentes</button>
+                </div>
+
                 <div class="cursoDetails" style="display: none;">
                     <h2>Detalles del Curso</h2>
                     <table>
@@ -74,45 +88,125 @@
                     </table>
                     <button class="backToWorkshops">Volver a la lista de workshops</button>
                 </div>
-                
+
                 <div class="userEdit" style="display: none;">
                     <h2>Editar Usuario</h2>
-                    <form id="userEditForm">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                        
-                        <label for="username">Nombre de Usuario:</label>
-                        <input type="text" id="username" name="username" required>
-                        
-                        <label for="apellidos">Apellidos:</label>
-                        <input type="text" id="apellidos" name="apellidos" required>
-                        
-                        <label for="localidad">Localidad:</label>
-                        <input type="text" id="localidad" name="localidad">
-                        
-                        <label for="matricula">Matrícula:</label>
-                        <input type="checkbox" id="matricula" name="matricula">
-                        
-                        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
-                        
-                        <label for="genero">Género:</label>
-                        <input type="text" id="genero" name="genero">
-                        
-                        <label for="role">Role:</label>
-                        <select id="role" name="role">
-                            <option value="ADMIN">ADMIN</option>
-                            <option value="USER">USER</option>
-                        </select>
-                        
-                        <button type="submit">Guardar Cambios</button>
-                        <button type="button" class="backToUsers">Cancelar</button>
+                    <form class="register-form" id="userEditForm" method="POST">
+                        <div class="form-control">
+                            <input type="email" id="email" name="email" required>
+                            <label for="email">Correo Electrónico</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="username" name="username" required>
+                            <label for="username">Nombre de Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="apellidos" name="apellidos" required>
+                            <label for="apellidos">Apellidos</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="localidad" name="localidad">
+                            <label for="localidad">Localidad</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        </div>
+                        <div class="form-control">
+                            <select id="genero" name="genero" required onfocus="adjustLabel(this)" onblur="adjustLabel(this)"
+                                onchange="adjustLabel(this)">
+                                <option value="" disabled selected></option>
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <label for="genero">Género</label>
+                        </div>
+                        <div class="form-control">
+                            <select id="role" name="role">
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                            <label for="role">Role</label>
+                        </div>
+                        <div class="form-control checkbox-control">
+                            <input type="checkbox" id="matricula" name="matricula">
+                            <label class="matricula" for="matricula">Matrícula</label>
+                            <div class="button-group">
+                                <button class="btn-añadir" type="submit">Añadir</button>
+                                <button type="button" class="backToUsers">Cancelar</button>
+                            </div>
+                        </div>
                     </form>
+        
                 </div>
-                
-                
-            </main>
+        
+                <div class="userAdd" style="display: none;">
+                    <h2>Añadir Usuario</h2>
+                    <form class="register-form" id="userAddForm" method="POST">
+                        <div class="form-control">
+                            <input type="email" id="addEmail" name="email" required>
+                            <label for="addEmail">Correo Electrónico</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addUsername" name="username" required>
+                            <label for="addUsername">Nombre de Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addApellidos" name="apellidos" required>
+                            <label for="addApellidos">Apellidos</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addLocalidad" name="localidad">
+                            <label for="addLocalidad">Localidad</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="addFechaNacimiento" name="fechaNacimiento" required>
+                            <label for="addFechaNacimiento">Fecha de Nacimiento</label>
+                        </div>
+                        <div class="form-control">
+                            <select id="addGenero" name="genero" required onfocus="adjustLabel(this)" onblur="adjustLabel(this)"
+                                onchange="adjustLabel(this)">
+                                <option value="" disabled selected></option>
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <label for="addGenero">Género</label>
+                        </div>
+                        <div class="form-control">
+                            <select id="addRole" name="role">
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                            <label for="addRole">Role</label>
+                        </div>
+                        <div class="form-control checkbox-control">
+                            <input type="checkbox" id="addMatricula" name="matricula">
+                            <label class="matricula" for="addMatricula">Matrícula</label>
+                            <div class="bot">
+                                <button class="btn-añadir" type="submit">Añadir</button>
+                                <button type="button" class="backToUsers">Cancelar</button>
+                            </div>
+                        </div>
+        
+        
+                    </form>
+        
+                </div>
         </div>
+
+
+
+        
+        <div id="deletePopup" class="popup">
+            <div class="popup-content">
+                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                <button id="confirmDeleteButton">Eliminar</button>
+                <button id="cancelDeleteButton">Cancelar</button>
+            </div>
+        </div>
+    </div>
     </div>
 
 </body>
