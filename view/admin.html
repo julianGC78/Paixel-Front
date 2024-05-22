@@ -33,6 +33,7 @@
              
              <h1 class="main-title"></h1>
              <button id="addUserButton" style="display: none;">Añadir Usuario</button>
+             <button id="addDocenteButton" style="display: none;">Añadir docente</button>
                 <table class="cabecera-tabla">
                     <thead>
                         <tr class="tableHeaders"></tr>
@@ -137,8 +138,7 @@
                                 <button type="button" class="backToUsers">Cancelar</button>
                             </div>
                         </div>
-                    </form>
-        
+                    </form>      
                 </div>
         
                 <div class="userAdd" style="display: none;">
@@ -194,6 +194,35 @@
                     </form>
         
                 </div>
+
+                <div class="docenteEdit" style="display: none;">
+                    <h2>Editar Docente</h2>
+                    <form class="register-form" id="docenteEditForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="docenteUsername" name="username" required>
+                            <label for="docenteUsername">Nombre de Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="docenteEspecialidad" name="especialidad" required>
+                            <label for="docenteEspecialidad">Especialidad</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="docenteDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="docenteDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="docenteRecurso" name="recurso">
+                            <label for="docenteRecurso">Recurso</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-actualizar" type="submit">Guardar</button>
+                            <button type="button" class="btn-cancelar backToDocentes">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+
+
         </div>
 
 

@@ -18,9 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
+        document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarUsuarios();
-        addUserButton.style.display = 'block'; // Mostrar botón de añadir usuario
+        addUserButton.style.display = 'block'; 
+        addDocenteButton.style.display = 'none';
     });
 
     docenteMenuItem.addEventListener('click', () => {
@@ -29,9 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
+        document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarDocentes();
-        addUserButton.style.display = 'none'; // Ocultar botón de añadir usuario
+        addUserButton.style.display = 'none'; 
+        addDocenteButton.style.display = 'block';
     });
 
     cursosMenuItem.addEventListener('click', () => {
@@ -40,9 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
+        document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarCursos();
-        addUserButton.style.display = 'none'; // Ocultar botón de añadir usuario
+        addUserButton.style.display = 'none'; 
+        addDocenteButton.style.display = 'none';// Ocultar botón de añadir usuario
     });
 
     modulosMenuItem.addEventListener('click', () => {
@@ -51,9 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
+        document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarModulos();
-        addUserButton.style.display = 'none'; // Ocultar botón de añadir usuario
+        addUserButton.style.display = 'none'; 
+        addDocenteButton.style.display = 'none';// Ocultar botón de añadir usuario
     });
 
     workshopsMenuItem.addEventListener('click', () => {
@@ -62,23 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
+        document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarWorkshops();
-        addUserButton.style.display = 'none'; // Ocultar botón de añadir usuario
+        addUserButton.style.display = 'none'; 
+        addDocenteButton.style.display = 'none';// Ocultar botón de añadir usuario
     });
 
     // Evento para mostrar el formulario de añadir usuario
     addUserButton.addEventListener('click', () => {
         document.querySelector('.userAdd').style.display = 'block';
         document.querySelector('table.cabecera-tabla').style.display = 'none';
-        addUserButton.style.display = 'none'; // Ocultar el botón mientras se muestra el formulario
+        addUserButton.style.display = 'none'; 
+        addDocenteButton.style.display = 'none';// Ocultar el botón mientras se muestra el formulario
     });
 
     // Evento para cancelar el añadido de usuario y volver a la lista
     document.querySelector('.userAdd .backToUsers').addEventListener('click', () => {
         document.querySelector('.userAdd').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
-        addUserButton.style.display = 'block'; // Mostrar el botón de nuevo
+        addUserButton.style.display = 'block'; 
+        addDocenteButton.style.display = 'none';// Mostrar el botón de nuevo
     });
 });
 

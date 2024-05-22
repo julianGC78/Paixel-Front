@@ -122,6 +122,13 @@ function mostrarDetallesUsuario(userId) {
         userDetails.style.display = 'block';
         document.querySelector('table.cabecera-tabla').style.display = 'none';
         document.getElementById('addUserButton').style.display = 'none'; 
+
+           // Añadir event listener para volver a la lista de usuarios
+           backToUsersButton.addEventListener('click', () => {
+            userDetails.style.display = 'none';
+            document.querySelector('table.cabecera-tabla').style.display = 'table';
+            document.getElementById('addUserButton').style.display = 'block'; // Mostrar el botón de añadir usuario
+        });
     })
     .catch(error => {
         console.error('Error fetching user details:', error);
