@@ -1,3 +1,5 @@
+import { showMessage } from './admin.js';
+let userIdToDelete = null; // Variable para almacenar el ID del usuario a eliminar
 
 export function cargarUsuarios() {
     fetch('http://127.0.0.1:8081/usuario/findAll')
@@ -61,10 +63,13 @@ export function cargarUsuarios() {
                 });
             });
 
-            // Agregar event listeners a los íconos de eliminación
-            document.querySelectorAll('.delete-user').forEach(icon => {
+              // Agregar event listeners a los íconos de eliminación
+              document.querySelectorAll('.delete-user').forEach(icon => {
                 icon.addEventListener('click', (event) => {
                     userIdToDelete = event.currentTarget.dataset.id;
+                    document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este usuario?";
+                    document.getElementById('confirmDeleteUserButton').style.display = 'block';
+                    document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
                     document.getElementById('deletePopup').style.display = 'block';
                 });
             });
@@ -123,8 +128,8 @@ function mostrarDetallesUsuario(userId) {
         document.querySelector('table.cabecera-tabla').style.display = 'none';
         document.getElementById('addUserButton').style.display = 'none'; 
 
-           // Añadir event listener para volver a la lista de usuarios
-           backToUsersButton.addEventListener('click', () => {
+        // Añadir event listener para volver a la lista de usuarios
+        backToUsersButton.addEventListener('click', () => {
             userDetails.style.display = 'none';
             document.querySelector('table.cabecera-tabla').style.display = 'table';
             document.getElementById('addUserButton').style.display = 'block'; // Mostrar el botón de añadir usuario
@@ -135,6 +140,7 @@ function mostrarDetallesUsuario(userId) {
         alert(error.message);
     });
 }
+
 
 
 
@@ -192,6 +198,11 @@ function showEditUserForm(userId) {
     });
 }
 
+// Manejar la adición de un usuario
+document.getElementById('userAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Previene el comportamiento por defecto del formulario
+    addUser();
+});
 
 
 
@@ -297,6 +308,11 @@ export function addUser() {
     });
 }
 
+document.querySelector('.userAdd .btn-añadir').addEventListener('click', (event) => {
+    event.preventDefault(); // Previene el comportamiento por defecto del formulario
+    addUser();
+});
+
 function deleteUser() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
@@ -328,15 +344,8 @@ function deleteUser() {
     });
 }
 
-// Event listener para el botón de volver a la lista de usuarios
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.backToUsers').addEventListener('click', () => {
-        document.querySelector('.userDetails').style.display = 'none';
-        document.querySelector('table.cabecera-tabla').style.display = 'table';
-    });
-});
 // Inicializar el popup de eliminación
-document.getElementById('confirmDeleteButton').addEventListener('click', deleteUser);
+document.getElementById('confirmDeleteUserButton').addEventListener('click', deleteUser);
 document.getElementById('cancelDeleteButton').addEventListener('click', () => {
     document.getElementById('deletePopup').style.display = 'none';
 });

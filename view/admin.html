@@ -134,8 +134,8 @@
                             <input type="checkbox" id="matricula" name="matricula">
                             <label class="matricula" for="matricula">Matrícula</label>
                             <div class="button-group">
-                                <button class="btn-añadir" type="submit">Añadir</button>
-                                <button type="button" class="backToUsers">Cancelar</button>
+                                <button class="btn-editarUser" type="submit">Editar</button>
+                                <button type="button" class="backToList">Cancelar</button>
                             </div>
                         </div>
                     </form>      
@@ -161,11 +161,11 @@
                             <label for="addLocalidad">Localidad</label>
                         </div>
                         <div class="form-control">
-                            <input type="date" id="addFechaNacimiento" name="fechaNacimiento" required>
+                            <input type="date" id="addFechaNacimiento" name="fechaNacimiento" >
                             <label for="addFechaNacimiento">Fecha de Nacimiento</label>
                         </div>
                         <div class="form-control">
-                            <select id="addGenero" name="genero" required onfocus="adjustLabel(this)" onblur="adjustLabel(this)"
+                            <select id="addGenero" name="genero"  onfocus="adjustLabel(this)" onblur="adjustLabel(this)"
                                 onchange="adjustLabel(this)">
                                 <option value="" disabled selected></option>
                                 <option value="masculino">Masculino</option>
@@ -175,7 +175,7 @@
                             <label for="addGenero">Género</label>
                         </div>
                         <div class="form-control">
-                            <select id="addRole" name="role">
+                            <select id="addRole" name="role" required>
                                 <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
@@ -186,11 +186,10 @@
                             <label class="matricula" for="addMatricula">Matrícula</label>
                             <div class="bot">
                                 <button class="btn-añadir" type="submit">Añadir</button>
-                                <button type="button" class="backToUsers">Cancelar</button>
+                                <button type="button" class="backToList">Cancelar</button>
                             </div>
                         </div>
-        
-        
+               
                     </form>
         
                 </div>
@@ -216,25 +215,53 @@
                         </div>
                         <div class="button-group">
                             <button class="btn-actualizar" type="submit">Guardar</button>
-                            <button type="button" class="btn-cancelar backToDocentes">Cancelar</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
                         </div>
                     </form>
                 </div>
                 
-
+                <div class="docenteAdd" style="display: none;">
+                    <h2>Añadir Docente</h2>
+                    <form class="register-form" id="docenteAddForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="addDocenteUsername" name="username" required>
+                            <label for="addDocenteUsername">Nombre de Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addDocenteEspecialidad" name="especialidad" required>
+                            <label for="addDocenteEspecialidad">Especialidad</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="addDocenteDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="addDocenteDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addDocenteRecurso" name="recurso">
+                            <label for="addDocenteRecurso">Recurso</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-añadirDocente" type="submit">Añadir</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                
 
         </div>
-
-
 
         
         <div id="deletePopup" class="popup">
             <div class="popup-content">
-                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-                <button id="confirmDeleteButton">Eliminar</button>
+                <p id="deletePopupMessage">¿Estás seguro de que deseas eliminar este usuario?</p>
+                <button id="confirmDeleteUserButton">Eliminar Usuario</button>
+                <button id="confirmDeleteDocenteButton" style="display:none;">Eliminar Docente</button>
                 <button id="cancelDeleteButton">Cancelar</button>
             </div>
         </div>
+        
+
+
     </div>
     </div>
 

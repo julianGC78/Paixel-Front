@@ -1,3 +1,7 @@
+import { showMessage } from './admin.js';
+
+let docenteIdToDelete=null;
+
 export function cargarDocentes() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
@@ -73,6 +77,17 @@ export function cargarDocentes() {
                 showEditDocenteForm(docenteId);
             });
         });
+        // Agregar event listeners a los íconos de eliminación
+        document.querySelectorAll('.delete-docente').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                docenteIdToDelete = event.currentTarget.dataset.id;
+                document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este docente?";
+                document.getElementById('confirmDeleteUserButton').style.display = 'none';
+                document.getElementById('confirmDeleteDocenteButton').style.display = 'block';
+                document.getElementById('deletePopup').style.display = 'block';
+            });
+        });
+        
     })
     .catch(error => {
         console.error('Error fetching docente data:', error);
@@ -109,13 +124,7 @@ function mostrarDetallesDocente(docenteId) {
         const docenteDetailsTitle = document.querySelector('.docenteDetails h2');
         const backToDocentesButton = document.querySelector('.backToDocentes');
 
-        // Verificar que todos los elementos existen
-        console.log({
-            docenteDetails,
-            docenteDetailsBody,
-            docenteDetailsTitle,
-            backToDocentesButton
-        });
+    
 
         if (!docenteDetails || !docenteDetailsBody || !docenteDetailsTitle || !backToDocentesButton) {
             throw new Error('No se encontraron algunos de los elementos del DOM necesarios para mostrar los detalles del docente.');
@@ -141,6 +150,7 @@ function mostrarDetallesDocente(docenteId) {
             document.querySelector('table.cabecera-tabla').style.display = 'table';
             document.getElementById('addDocenteButton').style.display = 'block'; // Mostrar el botón de añadir docente
         });
+
     })
     .catch(error => {
         console.error('Error fetching docente details:', error);
@@ -259,6 +269,106 @@ function updateDocente(docenteId) {
         alert(error.message);
     });
 }
+
+function addDocente() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const usernameElement = document.getElementById('addDocenteUsername');
+    const especialidadElement = document.getElementById('addDocenteEspecialidad');
+    const descripcionElement = document.getElementById('addDocenteDescripcion');
+    const recursoElement = document.getElementById('addDocenteRecurso');
+
+    // Verificar si los elementos existen
+    if (!usernameElement || !especialidadElement || !descripcionElement || !recursoElement) {
+        console.error('Uno o más elementos del formulario no se encontraron');
+        return;
+    }
+
+    const docenteData = {
+        username: usernameElement.value,
+        especialidad: especialidadElement.value,
+        descripcion: descripcionElement.value,
+        recurso: recursoElement.value
+    };
+
+    fetch('http://127.0.0.1:8081/docente/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(docenteData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al añadir el docente: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Docente añadido con éxito');
+        document.querySelector('.docenteAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addDocenteButton').style.display = 'block';
+        cargarDocentes(); // Volver a cargar la lista de docentes
+    })
+    .catch(error => {
+        console.error('Error adding docente:', error);
+        alert(error.message);
+    });
+}
+
+
+// Handle adding a docente
+document.getElementById('docenteAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addDocente();
+});
+
+
+
+// Función para eliminar docente
+
+function deleteDocente() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/docente/delete/${docenteIdToDelete}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el docente: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('deletePopup').style.display = 'none';
+        alert('Docente eliminado con éxito');
+        cargarDocentes(); // Volver a cargar la lista de docentes
+    })
+    .catch(error => {
+        console.error('Error deleting docente:', error);
+        alert('Error al eliminar el docente: ' + error.message);
+    });
+}
+
+// Inicializar el popup de eliminación
+document.getElementById('confirmDeleteDocenteButton').addEventListener('click', deleteDocente);
+document.getElementById('cancelDeleteButton').addEventListener('click', () => {
+    document.getElementById('deletePopup').style.display = 'none';
+});
 
 
 // Event listener para el botón de volver a la lista de docentes
