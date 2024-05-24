@@ -7,6 +7,9 @@ const headerContent = `
                   </div>
             </a>
             <nav class="menu">
+                  <div id="adminPanelButton" style="display: none;">
+                        <a href="admin.html" id="goToAdminPanel">Panel Admin</a>
+                  </div>
                   <div class="m1"><a class="linea">Cursos</a>
                         <span class="material-symbols-outlined">
                               expand_more

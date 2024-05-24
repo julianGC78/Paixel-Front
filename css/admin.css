@@ -34,6 +34,12 @@
     margin-bottom: 40px;
     height: 80px;
 }
+.home{
+    text-decoration: none;
+    font-family: var(--fuente);
+    font-size: 1.2vw;
+    color: white;
+}
 
 h1 {
     font-family: var(--fuente);
@@ -209,7 +215,9 @@ tr:last-child td {
 }
 
 #addUserButton,
-#addDocenteButton {
+#addDocenteButton,
+#addCursoButton,
+#addModuloButton {
     font-family: var(--fuente);
     font-size: 0.8vw;
     padding: 10px 10px;
@@ -221,7 +229,8 @@ tr:last-child td {
     cursor: pointer;
 }
 .btn-actualizar,
-.btn-editarUser{
+.btn-editarUser,
+.btn-añadirDocente{
     background-color: var(--color-azul);
     margin-left: 40px;
     padding: 10px 20px;

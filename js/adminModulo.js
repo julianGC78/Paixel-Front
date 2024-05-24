@@ -69,6 +69,8 @@ export function cargarModulos() {
             tableBody.appendChild(row);
         });
 
+        addModuloButton.style.display = 'block';
+
         // Agregar event listeners a los íconos de lupa (similar a usuarios y cursos)
         document.querySelectorAll('.view-modulo').forEach(icon => {
             icon.addEventListener('click', (event) => {

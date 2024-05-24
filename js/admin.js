@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modulosMenuItem = document.querySelector('.modulo');
     const workshopsMenuItem = document.querySelector('.workshop');
     const addUserButton = document.getElementById('addUserButton');
-    const addDocenteButton = document.getElementById('addDocenteButton'); // Botón de añadir docente
-    let docenteIdToDelete = null; // Variable para almacenar el ID del docente a eliminar
+    const addDocenteButton = document.getElementById('addDocenteButton');
+    const addCursoButton =document.getElementById('addCursoButton') 
+    const addModuloButton=document.getElementById('addModuloButton')
+    const addWorkshopButton = document.getElementById('addWorkshopButton'); 
+   
 
     // Configurar eventos de menú
     userMenuItem.addEventListener('click', () => {
@@ -21,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarUsuarios();
         addUserButton.style.display = 'block';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
     });
 
     docenteMenuItem.addEventListener('click', () => {
@@ -29,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarDocentes();
         addUserButton.style.display = 'none';
         addDocenteButton.style.display = 'block';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
     });
 
     
@@ -38,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarCursos();
         addUserButton.style.display = 'none';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'block';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
     });
 
     modulosMenuItem.addEventListener('click', () => {
@@ -46,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarModulos();
         addUserButton.style.display = 'none';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'block';
+        addModuloButton.style.display = 'none';
     });
 
     workshopsMenuItem.addEventListener('click', () => {
@@ -54,6 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarWorkshops();
         addUserButton.style.display = 'none';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'block';
     });
 
     // Evento para mostrar el formulario de añadir usuario
@@ -62,9 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.userAdd').style.display = 'block';
         addUserButton.style.display = 'none';
         addDocenteButton.style.display = 'none';
-    });
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
 
-    
+    });
 
     //**********************************User********************************************/
     // Evento para cancelar el añadido de usuario y volver a la lista
@@ -73,6 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         addUserButton.style.display = 'block';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
     });
 
     // Evento para cancelar el formulario de edición de usuario y volver a la lista
@@ -95,13 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         addUserButton.style.display = 'block';
         addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
     });
 
     // Evento para cancelar el formulario de edición de usuario y volver a la lista
     document.querySelector('.docenteEdit .backToList').addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
-        addUserButton.style.display = 'none';
+        addUserButton.style.display = 'block';
 
     });
     // Handle editing a docente

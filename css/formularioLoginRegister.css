@@ -50,7 +50,8 @@
    flex-direction: column;
 }
 
-.form-control input {
+.form-control input ,
+.form-control textarea{
    width: 100%;
    box-sizing: border-box;
    color: black;
@@ -65,7 +66,8 @@
    background: transparent;
 }
 
-.form-control input:is(:focus, :valid) {
+.form-control input:is(:focus, :valid),
+.form-control textarea:is(:focus, :valid) {
    outline-color: var(--color-verde);
 }
 
@@ -84,7 +86,9 @@
 }
 
 .form-control input:focus + label,
-.form-control input:valid + label {
+.form-control input:valid + label,
+.form-control textarea:focus + label,
+.form-control textarea:valid + label {
    top: 10%;
    transform: translateY(-100%); 
    font-size: 15px;

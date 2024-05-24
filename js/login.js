@@ -2,6 +2,7 @@ import { headerContent } from "../parciales/headerContent.js";
 
 import{footerContent} from "../parciales/footerContent.js";
 
+import { checkAuthentication } from '../js/comun.js';
 window.onload = function () {
     // Cremos cabecera dinamicamente
     let body = document.querySelector("body");
@@ -44,9 +45,13 @@ window.onload = function () {
         })
         .then(data => {
             console.log('Éxito:', data);
-            sessionStorage.setItem('jwtToken', data.token); 
+            sessionStorage.setItem('jwtToken', data.token);
+    
+            // Imprimir el token en la consola
+            console.log('Token JWT:', data.token);
+    
+            checkAuthentication();
             
-            // Verificar si las credenciales son del administrador
             if (loginData.username === 'admin' && loginData.password === 'admin123') {
                 window.location.href = 'admin.html';
             } else {
@@ -57,4 +62,5 @@ window.onload = function () {
             console.error('Error:', error);
         });
     });
+
 }

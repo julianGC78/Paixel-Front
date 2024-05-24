@@ -29,4 +29,6 @@ export function setupMenuAndAuth() {
 
     // Verificar la autenticación al cargar la página
     checkAuthentication();
+
+
 }

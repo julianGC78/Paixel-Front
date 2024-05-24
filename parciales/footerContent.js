@@ -16,6 +16,7 @@ const footerContent = `
             <p>Política de privacidad</p>
             <p>Terminos y condiciones</p>
       </div>
+      
 </div>
 `
 export { footerContent };

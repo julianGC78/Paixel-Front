@@ -62,6 +62,9 @@ export function cargarCursos() {
             `;
             tableBody.appendChild(row);
         });
+
+        addCursoButton.style.display = 'block'; // Mostrar el botón de añadir curso
+        
         // Agregar event listeners a los íconos de lupa (similar a usuarios y docentes)
         document.querySelectorAll('.view-curso').forEach(icon => {
             icon.addEventListener('click', (event) => {

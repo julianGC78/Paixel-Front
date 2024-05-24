@@ -14,11 +14,12 @@ export function toggleSubMenu(selector) {
 }
 
 
-// Función para verificar si el usuario está autenticado
+// Función para verificar si el usuario está autenticado y mostrar el botón del panel de administrador si es necesario
 export function checkAuthentication() {
     const token = sessionStorage.getItem('jwtToken');
     const submenu = document.querySelector('.submenu-m5');
     const loginLink = document.querySelector('.loginLink');
+    
 
     if (submenu && loginLink) {
         if (token) {
@@ -32,6 +33,9 @@ export function checkAuthentication() {
         console.log('Elementos del DOM no disponibles.');
     }
 }
+
+
+
 
 // Función para personalizar el color del menú según la página
 export function customizeMenuColor() {

@@ -34,10 +34,12 @@ window.onload = function () {
 };
 */
 
-import { setupMenuAndAuth } from '../js/menuHandler.js';
+import { setupMenuAndAuth  } from '../js/menuHandler.js';
+
 
 window.onload = function () {
     setupMenuAndAuth();
+  
 };
 
 
