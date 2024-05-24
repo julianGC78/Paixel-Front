@@ -56,15 +56,15 @@ export function cargarCursos() {
                 <td>${curso.docente ? curso.docente.iddocente : 'undefined'}</td>
                 <td class="acciones">
                     <span class="view-curso" data-id="${curso.idcurso}"><i class="fa-solid fa-magnifying-glass"></i></span>
-                    <span><i class="fa-solid fa-pen-to-square"></i></span>
-                    <span><i class="fa-solid fa-trash-can"></i></span>
+                    <span class="edit-curso" data-id="${curso.idcurso}"><i class="fa-solid fa-pen-to-square"></i></span>
+                    <span class="delete-curso" data-id="${curso.idcurso}"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
             tableBody.appendChild(row);
         });
 
         addCursoButton.style.display = 'block'; // Mostrar el botón de añadir curso
-        
+
         // Agregar event listeners a los íconos de lupa (similar a usuarios y docentes)
         document.querySelectorAll('.view-curso').forEach(icon => {
             icon.addEventListener('click', (event) => {
@@ -72,6 +72,25 @@ export function cargarCursos() {
                 mostrarDetallesCurso(cursoId); // Implementa esta función similar a mostrarDetallesUsuario
             });
         });
+        document.querySelectorAll('.edit-curso').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                const cursoId = event.currentTarget.dataset.id;
+                showEditCursoForm(cursoId);
+            });
+        });
+        // Agregar event listeners a los íconos de eliminación de cursos
+document.querySelectorAll('.delete-curso').forEach(icon => {
+    icon.addEventListener('click', (event) => {
+        const cursoIdToDelete = event.currentTarget.dataset.id;
+        document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este curso?";
+        document.getElementById('confirmDeleteCursoButton').style.display = 'block';
+        document.getElementById('confirmDeleteUserButton').style.display = 'none';
+        document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+        document.getElementById('deletePopup').style.display = 'block';
+
+    });
+});
+
     })
     .catch(error => {
         console.error('Error fetching curso data:', error);
@@ -122,6 +141,7 @@ export function mostrarDetallesCurso(cursoId) {
 
         cursoDetails.style.display = 'block';
         document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addCursoButton').style.display = 'none';
     })
     .catch(error => {
         console.error('Error fetching curso details:', error);
@@ -129,10 +149,199 @@ export function mostrarDetallesCurso(cursoId) {
     });
 }
 
+
+function showEditCursoForm(cursoId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/curso/findById/${cursoId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para ver esta información');
+            } else {
+                throw new Error('Error al obtener detalles del curso: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(curso => {
+        // Llenar el formulario de edición con los datos del curso
+        document.getElementById('cursoDescripcion').value = curso.descripcion;
+        document.getElementById('cursoRecurso').value = curso.recurso;
+        document.getElementById('cursoTitulo').value = curso.titulo;
+        document.getElementById('cursoIdUsuario').value = curso.user ? curso.user.iduser : 'undefined';
+        document.getElementById('cursoIdDocente').value = curso.docente ? curso.docente.iddocente : 'undefined';
+
+        // Mostrar el formulario de edición
+        document.querySelector('.cursoEdit').style.display = 'block';
+        document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addCursoButton').style.display = 'none';
+
+        // Manejar la actualización del curso al enviar el formulario
+        const cursoEditForm = document.getElementById('cursoEditForm');
+        cursoEditForm.onsubmit = function(event) {
+            event.preventDefault();
+            updateCurso(cursoId);
+        };
+    })
+    .catch(error => {
+        console.error('Error fetching curso details:', error);
+        alert(error.message);
+    });
+}
+
+function updateCurso(cursoId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const cursoUpdates = {
+        descripcion: document.getElementById('cursoDescripcion').value,
+        recurso: document.getElementById('cursoRecurso').value,
+        titulo: document.getElementById('cursoTitulo').value,
+        idusuario: document.getElementById('cursoIdUsuario').value,
+        iddocente: document.getElementById('cursoIdDocente').value
+    };
+
+    fetch(`http://127.0.0.1:8081/curso/update/${cursoId}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cursoUpdates)
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para actualizar este curso');
+            } else {
+                throw new Error('Error al actualizar el curso: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Curso updated successfully:", data);
+        if (data.newToken) {
+            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
+        }
+        alert('Curso actualizado con éxito');
+        document.querySelector('.cursoEdit').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarCursos(); 
+    })
+    .catch(error => {
+        console.error('Error updating curso:', error);
+        alert(error.message);
+    });
+}
+
+
+
+export function addCurso() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const cursoData = {
+        descripcion: document.getElementById('addCursoDescripcion').value,
+        recurso: document.getElementById('addCursoRecurso').value,
+        titulo: document.getElementById('addCursoTitulo').value,
+        idusuario: document.getElementById('addCursoIdUsuario').value,
+        iddocente: document.getElementById('addCursoIdDocente').value
+    };
+
+    fetch('http://127.0.0.1:8081/curso/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cursoData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al añadir el curso: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Curso añadido con éxito');
+        document.querySelector('.cursoAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addCursoButton').style.display = 'block';
+        cargarCursos(); // Volver a cargar la lista de cursos
+    })
+    .catch(error => {
+        console.error('Error adding curso:', error);
+        alert(error.message);
+    });
+}
+
+// Handle adding a curso
+document.getElementById('cursoAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addCurso();
+});
+
+
+function deleteCurso(cursoIdToDelete) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/curso/delete/${cursoIdToDelete}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el curso: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {     
+        document.getElementById('deletePopup').style.display = 'none';
+        showMessage(data.message, true);
+        cargarCursos(); // Volver a cargar la lista de cursos
+    })
+    .catch(error => {
+        console.error('Error deleting curso:', error);
+        alert(error.message);
+    });
+}
+
+// Inicializar el popup de eliminación
+document.getElementById('confirmDeleteCursoButton').addEventListener('click', deleteCurso);
+document.getElementById('cancelDeleteButton').addEventListener('click', () => {
+    document.getElementById('deletePopup').style.display = 'none';
+});
+
 // Event listener para el botón de volver a la lista de cursos
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.backToCursos').addEventListener('click', () => {
         document.querySelector('.cursoDetails').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addCursoButton.style.display = 'block';
     });
 });

@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const workshopsMenuItem = document.querySelector('.workshop');
     const addUserButton = document.getElementById('addUserButton');
     const addDocenteButton = document.getElementById('addDocenteButton');
-    const addCursoButton =document.getElementById('addCursoButton') 
-    const addModuloButton=document.getElementById('addModuloButton')
-    const addWorkshopButton = document.getElementById('addWorkshopButton'); 
-   
+    const addCursoButton = document.getElementById('addCursoButton')
+    const addModuloButton = document.getElementById('addModuloButton')
+    const addWorkshopButton = document.getElementById('addWorkshopButton');
+
 
     // Configurar eventos de menú
     userMenuItem.addEventListener('click', () => {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'none';
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
     docenteMenuItem.addEventListener('click', () => {
@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'block';
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
-    
+
     cursosMenuItem.addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'none';
         addCursoButton.style.display = 'block';
         addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
     modulosMenuItem.addEventListener('click', () => {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'none';
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'block';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
     workshopsMenuItem.addEventListener('click', () => {
@@ -74,17 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'block';
     });
 
-    // Evento para mostrar el formulario de añadir usuario
-    addUserButton.addEventListener('click', () => {
-        ocultarTodasLasSecciones();
-        document.querySelector('.userAdd').style.display = 'block';
-        addUserButton.style.display = 'none';
-        addDocenteButton.style.display = 'none';
-        addCursoButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
-
-    });
 
     //**********************************User********************************************/
     // Evento para cancelar el añadido de usuario y volver a la lista
@@ -95,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'none';
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
     // Evento para cancelar el formulario de edición de usuario y volver a la lista
@@ -120,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addDocenteButton.style.display = 'none';
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
-        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
     });
 
     // Evento para cancelar el formulario de edición de usuario y volver a la lista
@@ -137,8 +126,82 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDocente(docenteId);
     });
 
+    //*********************************Curso*********************************************/
+    document.querySelector('.cursoAdd .backToList').addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addUserButton.style.display = 'none';
+        addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'block';
+        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
+    });
+    document.querySelector('.cursoEdit .backToList').addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addCursoButton.style.display = 'block';
+    });
+    document.getElementById('cursoEditForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const cursoId = document.querySelector('.edit-curso').dataset.id; // Get the ID of the curso being edited
+        updateCurso(cursoId);
+    });
 
-    // Evento para mostrar el formulario de añadir docente
+    //*********************************Modulo*********************************************/
+    document.querySelector('.moduloAdd .backToList').addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addUserButton.style.display = 'none';
+        addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'block';
+        addWorkshopButton.style.display = 'none';
+    });
+    document.querySelector('.moduloEdit .backToList').addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addModuloButton.style.display = 'block';
+    });
+    document.getElementById('moduloEditForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const moduloId = document.querySelector('.edit-modulo').dataset.id; // Get the ID of the modulo being edited
+        updateModulo(moduloId);
+    });
+
+    //*********************************workshop*********************************************/
+    document.querySelector('.workshopAdd .backToList').addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addUserButton.style.display = 'none';
+        addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'block';
+    });
+    document.querySelector('.workshopEdit .backToList').addEventListener('click', () => {   
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addWorkshopButton.style.display = 'block';
+    });
+    document.getElementById('workshopEditForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const workshopId = document.querySelector('.edit-workshop').dataset.id; // Get the ID of the workshop being edited
+        updateWorkshop(workshopId);
+    });
+
+    //*********************************EVENTOS CLICK ADDBUTTON PARA OCULTAR BOTONES*********************************************/
+
+    addUserButton.addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('.userAdd').style.display = 'block';
+        addUserButton.style.display = 'none';
+        addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
+
+    });
+
     addDocenteButton.addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('.docenteAdd').style.display = 'block';
@@ -146,22 +209,51 @@ document.addEventListener('DOMContentLoaded', () => {
         addUserButton.style.display = 'none';
     });
 
+    addCursoButton.addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('.cursoAdd').style.display = 'block';
+        addCursoButton.style.display = 'none';
+        addUserButton.style.display = 'none';
+    });
 
-    // Función para ocultar todas las secciones
+    addModuloButton.addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('.moduloAdd').style.display = 'block';
+        addModuloButton.style.display = 'none';
+        addUserButton.style.display = 'none';
+    });
+
+    addWorkshopButton.addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('.workshopAdd').style.display = 'block';
+        addWorkshopButton.style.display = 'none';
+        addUserButton.style.display = 'none';
+    });
+
+
+//*******************************FUNCION PARA OCULTAR TODAS LAS SECIONES ********************/
     function ocultarTodasLasSecciones() {
-        document.querySelector('.cursoDetails').style.display = 'none';
-        document.querySelector('.workshopDetails').style.display = 'none';
-        document.querySelector('.docenteDetails').style.display = 'none';
         document.querySelector('.userDetails').style.display = 'none';
+        document.querySelector('.docenteDetails').style.display = 'none';
+        document.querySelector('.cursoDetails').style.display = 'none';
+        document.querySelector('.moduloDetails').style.display = 'none';
+        document.querySelector('.workshopDetails').style.display = 'none';
         document.querySelector('.userEdit').style.display = 'none';
         document.querySelector('.docenteEdit').style.display = 'none';
+        document.querySelector('.cursoEdit').style.display = 'none';
+        document.querySelector('.moduloEdit').style.display = 'none';
+        document.querySelector('.workshopEdit').style.display = 'none';
         document.querySelector('.userAdd').style.display = 'none';
         document.querySelector('.docenteAdd').style.display = 'none';
+        document.querySelector('.cursoAdd').style.display = 'none';
+        document.querySelector('.moduloAdd').style.display = 'none';
+        document.querySelector('.workshopAdd').style.display = 'none';
     }
 });
 
 
 
+//*********************************EVENTOS CLICK ADDBUTTON PARA MOSTAR SOLO EL FROMULARIO*********************************************/
 
 addUserButton.addEventListener('click', () => {
     document.querySelector('.userAdd').style.display = 'block';
@@ -177,6 +269,27 @@ addDocenteButton.addEventListener('click', () => {
     addDocenteButton.style.display = 'none';// Ocultar el botón mientras se muestra el formulario
 });
 
+addCursoButton.addEventListener('click', () => {
+    document.querySelector('.cursoAdd').style.display = 'block';
+    document.querySelector('table.cabecera-tabla').style.display = 'none';
+    addUserButton.style.display = 'none';
+    addDocenteButton.style.display = 'none';// Ocultar el botón mientras se muestra el formulario
+});
+
+addModuloButton.addEventListener('click', () => {
+    document.querySelector('.moduloAdd').style.display = 'block';
+    document.querySelector('table.cabecera-tabla').style.display = 'none';
+    addUserButton.style.display = 'none';
+    addDocenteButton.style.display = 'none';// Ocultar el botón mientras se muestra el formulario
+});
+addWorkshopButton.addEventListener('click', () => {
+    document.querySelector('.workshopAdd').style.display = 'block';
+    document.querySelector('table.cabecera-tabla').style.display = 'none';
+    addUserButton.style.display = 'none';
+    addDocenteButton.style.display = 'none';// Ocultar el botón mientras se muestra el formulario
+});
+
+//******************************************************************************/
 export function showMessage(message, isSuccess) {
     const messageContainer = document.createElement('div');
     messageContainer.className = `message ${isSuccess ? 'success' : 'error'}`;

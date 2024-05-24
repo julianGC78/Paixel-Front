@@ -18,20 +18,18 @@
     border-radius: 10px;
 }
 
-.formulario{
-    width: 600px;
-    max-width: 600px;
+.formulario {
+   width: 600px;
+   max-width: 600px;
 }
 
 .register-form,
 .login-form,
-.edit-contact-form
-{
-    max-width: 710px;
-    display: flex;
-    flex-direction: column;
+.edit-contact-form {
+   max-width: 710px;
+   display: flex;
+   flex-direction: column;
 }
-
 
 /************************* Formulario *************************/
 /* Para controlar el color de fondo del autofill */
@@ -39,61 +37,65 @@
 .form-control input:-webkit-autofill:hover,
 .form-control input:-webkit-autofill:focus,
 .form-control input:-webkit-autofill:active {
-   -webkit-text-fill-color: black;
-   transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: black;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-control {
-   position: relative;
-   margin-bottom: 20px;
-   display: flex; /* Asegura flexbox para gestionar alineaciones internas */
-   flex-direction: column;
+  position: relative;
+  margin-bottom: 20px;
+  display: flex; /* Asegura flexbox para gestionar alineaciones internas */
+  flex-direction: column;
 }
 
-.form-control input ,
-.form-control textarea{
-   width: 100%;
-   box-sizing: border-box;
-   color: black;
-   padding: 13px;
-   margin-bottom: 20px;
-   border: 1px solid transparent;
-   border-radius: 4px;
-   background-color: white;
-   outline: 2px solid rgb(130, 130, 130);
-   transition: outline-color 500ms;
-   font-size: 18px;
-   background: transparent;
+.form-control input,
+.form-control textarea {
+  width: 100%;
+  box-sizing: border-box;
+  color: black;
+  padding: 13px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+  outline: 2px solid rgb(130, 130, 130);
+  transition: outline-color 500ms;
+  font-size: 18px;
+  background: transparent;
 }
 
-.form-control input:is(:focus, :valid),
-.form-control textarea:is(:focus, :valid) {
-   outline-color: var(--color-verde);
+.form-control input:is(:focus, :valid, :-webkit-autofill),
+.form-control textarea:is(:focus, :valid, :-webkit-autofill) {
+  outline-color: var(--color-verde);
 }
 
 .form-control label {
-   pointer-events: none;
-   position: absolute;
-   left: 15px;
-   top: 35%; 
-   padding: 0 10px;
-   background-color: white;
-   transform: translateY(-50%);
-   color: var(--color-grisOpacidad);
-   transition: transform 300ms, font-size 300ms, top 300ms;
-   font-size: 18px;
-   font-family: var(--fuente);
+  pointer-events: none;
+  position: absolute;
+  left: 15px;
+  top: 35%;
+  padding: 0 10px;
+  background-color: white;
+  transform: translateY(-50%);
+  color: var(--color-grisOpacidad);
+  transition: transform 300ms, font-size 300ms, top 300ms;
+  font-size: 18px;
+  font-family: var(--fuente);
 }
 
 .form-control input:focus + label,
 .form-control input:valid + label,
+.form-control input:-webkit-autofill + label,
 .form-control textarea:focus + label,
-.form-control textarea:valid + label {
-   top: 10%;
-   transform: translateY(-100%); 
-   font-size: 15px;
-   color: var(--color-verde);
+.form-control textarea:valid + label,
+.form-control textarea:-webkit-autofill + label {
+  top: 10%;
+  transform: translateY(-100%);
+  font-size: 15px;
+  color: var(--color-verde);
 }
+
+
 
 /************************* Estilos boton *************************/
 .button{

@@ -1,3 +1,4 @@
+let moduloIdToDelete = null;
 export function cargarModulos() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
@@ -78,6 +79,27 @@ export function cargarModulos() {
                 mostrarDetallesModulo(moduloId); // Implementa esta función similar a mostrarDetallesUsuario
             });
         });
+        document.querySelectorAll('.edit-modulo').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                const moduloId = event.currentTarget.dataset.id;
+                showEditModuloForm(moduloId);
+            });
+        });
+
+        document.querySelectorAll('.delete-modulo').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                moduloIdToDelete = event.currentTarget.dataset.id;
+                document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este curso?";
+                document.getElementById('confirmDeleteCursoButton').style.display = 'block';
+                document.getElementById('confirmDeleteUserButton').style.display = 'none';
+                document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+                document.getElementById('confirmDeleteModuloButton').style.display = 'none';
+                document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+                document.getElementById('deletePopup').style.display = 'block';
+
+              
+            });
+        });
     })
     .catch(error => {
         console.error('Error fetching modulo data:', error);
@@ -129,11 +151,12 @@ export function mostrarDetallesModulo(moduloId) {
             <tr><td>Descripción:</td><td>${modulo.descripcion}</td></tr>
             <tr><td>Orden:</td><td>${modulo.orden}</td></tr>
             <tr><td>Tiempo:</td><td>${modulo.tiempo}</td></tr>
-            <td>${modulo.curso ? modulo.curso.idcurso : 'undefined'}</td>
+            <tr><td>Id curso</td><td>${modulo.curso ? modulo.curso.idcurso : 'undefined'}</td></tr>
         `;
 
         moduloDetails.style.display = 'block';
         document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addModuloButton').style.display = 'none';
     })
     .catch(error => {
         console.error('Error fetching modulo details:', error);
@@ -141,10 +164,203 @@ export function mostrarDetallesModulo(moduloId) {
     });
 }
 
+function showEditModuloForm(moduloId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/modulo/findById/${moduloId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para ver esta información');
+            } else {
+                throw new Error('Error al obtener detalles del módulo: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(modulo => {
+        // Llenar el formulario de edición con los datos del módulo
+        document.getElementById('moduloDescripcion').value = modulo.descripcion;
+        document.getElementById('moduloOrden').value = modulo.orden;
+        document.getElementById('moduloRecurso').value = modulo.recurso;
+        document.getElementById('moduloTiempo').value = modulo.tiempo;
+        document.getElementById('moduloTitulo').value = modulo.titulo;
+        document.getElementById('moduloIdCurso').value=modulo.curso ? modulo.curso.idcurso : 'N/A';
+
+        // Mostrar el formulario de edición
+        document.querySelector('.moduloEdit').style.display = 'block';
+        document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addModuloButton').style.display = 'none';
+
+        // Manejar la actualización del módulo al enviar el formulario
+        const moduloEditForm = document.getElementById('moduloEditForm');
+        moduloEditForm.onsubmit = function(event) {
+            event.preventDefault();
+            updateModulo(moduloId);
+        };
+    })
+    .catch(error => {
+        console.error('Error fetching módulo details:', error);
+        alert(error.message);
+    });
+}
+
+
+function updateModulo(moduloId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const moduloUpdates = {
+        descripcion: document.getElementById('moduloDescripcion').value,
+        orden: document.getElementById('moduloOrden').value,
+        recurso: document.getElementById('moduloRecurso').value,
+        tiempo: document.getElementById('moduloTiempo').value,
+        titulo: document.getElementById('moduloTitulo').value,
+        idcurso: document.getElementById('moduloIdCurso').value
+    };
+
+    fetch(`http://127.0.0.1:8081/modulo/update/${moduloId}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(moduloUpdates)
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para actualizar este módulo');
+            } else {
+                throw new Error('Error al actualizar el módulo: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Modulo updated successfully:", data);
+        if (data.newToken) {
+            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
+        }
+        alert('Módulo actualizado con éxito');
+        document.querySelector('.moduloEdit').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarModulos(); 
+    })
+    .catch(error => {
+        console.error('Error updating módulo:', error);
+        alert(error.message);
+    });
+}
+
+
+
+
+export function addModulo() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const moduloData = {
+        descripcion: document.getElementById('addModuloDescripcion').value,
+        orden: document.getElementById('addModuloOrden').value,
+        recurso: document.getElementById('addModuloRecurso').value,
+        tiempo: document.getElementById('addModuloTiempo').value,
+        titulo: document.getElementById('addModuloTitulo').value,
+        idcurso: document.getElementById('addModuloIdCurso').value
+    };
+
+    fetch('http://127.0.0.1:8081/modulo/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(moduloData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al añadir el módulo: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Módulo añadido con éxito');
+        document.querySelector('.moduloAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addModuloButton').style.display = 'block';
+        cargarModulos(); // Volver a cargar la lista de módulos
+    })
+    .catch(error => {
+        console.error('Error adding modulo:', error);
+        alert(error.message);
+    });
+}
+
+function deleteModulo(moduloId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/modulo/delete/${moduloId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el módulo: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Módulo eliminado con éxito');
+        document.getElementById('deletePopup').style.display = 'none';
+        cargarModulos(); // Volver a cargar la lista de módulos
+    })
+    .catch(error => {
+        console.error('Error deleting modulo:', error);
+        alert(error.message);
+    });
+}
+
+// Inicializar el popup de eliminación
+document.getElementById('confirmDeleteModuloButton').addEventListener('click', deleteModulo);
+document.getElementById('cancelDeleteButton').addEventListener('click', () => {
+    document.getElementById('deletePopup').style.display = 'none';
+});
+
+// Handle adding a modulo
+document.getElementById('moduloAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addModulo();
+});
+
+
 // Event listener para el botón de volver a la lista de módulos
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.backToModulos').addEventListener('click', () => {
         document.querySelector('.moduloDetails').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addModuloButton.style.display = 'block';
     });
 });

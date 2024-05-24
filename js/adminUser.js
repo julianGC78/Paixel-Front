@@ -8,7 +8,7 @@ export function cargarUsuarios() {
             const tableHeaders = document.querySelector('.cabecera-tabla thead .tableHeaders');
             const tableBody = document.querySelector('.cabecera-tabla tbody.cuerpo-tabla');
             const tableTitle = document.querySelector('h1');
-           
+
 
             tableTitle.textContent = 'Usuarios';
 
@@ -63,13 +63,17 @@ export function cargarUsuarios() {
                 });
             });
 
-              // Agregar event listeners a los íconos de eliminación
-              document.querySelectorAll('.delete-user').forEach(icon => {
+            // Agregar event listeners a los íconos de eliminación
+            document.querySelectorAll('.delete-user').forEach(icon => {
                 icon.addEventListener('click', (event) => {
                     userIdToDelete = event.currentTarget.dataset.id;
                     document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este usuario?";
                     document.getElementById('confirmDeleteUserButton').style.display = 'block';
                     document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+                    document.getElementById('confirmDeleteCursoButton').style.display = 'none';
+                    document.getElementById('confirmDeleteModuloButton').style.display = 'none';
+                    document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+
                     document.getElementById('deletePopup').style.display = 'block';
                 });
             });
@@ -94,26 +98,26 @@ function mostrarDetallesUsuario(userId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            if (response.status === 403) {
-                throw new Error('No tienes permiso para ver esta información');
-            } else {
-                throw new Error('Error al obtener detalles del usuario: ' + response.statusText);
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 403) {
+                    throw new Error('No tienes permiso para ver esta información');
+                } else {
+                    throw new Error('Error al obtener detalles del usuario: ' + response.statusText);
+                }
             }
-        }
-        return response.json();
-    })
-    .then(user => {
-        const userDetails = document.querySelector('.userDetails');
-        const userDetailsBody = document.querySelector('.userDetailsBody');
-        const userDetailsTitle = document.querySelector('.userDetails h2');
-        const backToUsersButton = document.querySelector('.backToUsers');
+            return response.json();
+        })
+        .then(user => {
+            const userDetails = document.querySelector('.userDetails');
+            const userDetailsBody = document.querySelector('.userDetailsBody');
+            const userDetailsTitle = document.querySelector('.userDetails h2');
+            const backToUsersButton = document.querySelector('.backToUsers');
 
-        userDetailsTitle.textContent = 'Detalles del Usuario';
-        backToUsersButton.textContent = 'Volver a la lista de usuarios';
+            userDetailsTitle.textContent = 'Detalles del Usuario';
+            backToUsersButton.textContent = 'Volver a la lista de usuarios';
 
-        userDetailsBody.innerHTML = `
+            userDetailsBody.innerHTML = `
             <tr><td>Email:</td><td>${user.email}</td></tr>
             <tr><td>Nombre de Usuario:</td><td>${user.username}</td></tr>
             <tr><td>Apellidos:</td><td>${user.apellidos}</td></tr>
@@ -124,24 +128,22 @@ function mostrarDetallesUsuario(userId) {
             <tr><td>Role:</td><td>${user.role}</td></tr>
         `;
 
-        userDetails.style.display = 'block';
-        document.querySelector('table.cabecera-tabla').style.display = 'none';
-        document.getElementById('addUserButton').style.display = 'none'; 
+            userDetails.style.display = 'block';
+            document.querySelector('table.cabecera-tabla').style.display = 'none';
+            document.getElementById('addUserButton').style.display = 'none';
 
-        // Añadir event listener para volver a la lista de usuarios
-        backToUsersButton.addEventListener('click', () => {
-            userDetails.style.display = 'none';
-            document.querySelector('table.cabecera-tabla').style.display = 'table';
-            document.getElementById('addUserButton').style.display = 'block'; // Mostrar el botón de añadir usuario
+            // Añadir event listener para volver a la lista de usuarios
+            backToUsersButton.addEventListener('click', () => {
+                userDetails.style.display = 'none';
+                document.querySelector('table.cabecera-tabla').style.display = 'table';
+                document.getElementById('addUserButton').style.display = 'block'; // Mostrar el botón de añadir usuario
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+            alert(error.message);
         });
-    })
-    .catch(error => {
-        console.error('Error fetching user details:', error);
-        alert(error.message);
-    });
 }
-
-
 
 
 function showEditUserForm(userId) {
@@ -158,54 +160,45 @@ function showEditUserForm(userId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            if (response.status === 403) {
-                throw new Error('No tienes permiso para ver esta información');
-            } else {
-                throw new Error('Error al obtener detalles del usuario: ' + response.statusText);
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 403) {
+                    throw new Error('No tienes permiso para ver esta información');
+                } else {
+                    throw new Error('Error al obtener detalles del usuario: ' + response.statusText);
+                }
             }
-        }
-        return response.json();
-    })
-    .then(user => {
-        // Llenar el formulario de edición con los datos del usuario
-        document.getElementById('email').value = user.email;
-        document.getElementById('username').value = user.username;
-        document.getElementById('apellidos').value = user.apellidos;
-        document.getElementById('localidad').value = user.localidad || '';
-        document.getElementById('matricula').checked = user.matricula;
-        document.getElementById('fechaNacimiento').value = new Date(user.fechaNacimiento).toISOString().substr(0, 10);
-        document.getElementById('genero').value = user.genero || '';
-        document.getElementById('role').value = user.role;
+            return response.json();
+        })
+        .then(user => {
+            // Llenar el formulario de edición con los datos del usuario
+            document.getElementById('email').value = user.email;
+            document.getElementById('username').value = user.username;
+            document.getElementById('apellidos').value = user.apellidos;
+            document.getElementById('localidad').value = user.localidad || '';
+            document.getElementById('matricula').checked = user.matricula;
+            document.getElementById('fechaNacimiento').value = new Date(user.fechaNacimiento).toISOString().substr(0, 10);
+            document.getElementById('genero').value = user.genero || '';
+            document.getElementById('role').value = user.role;
 
-        // Mostrar el formulario de edición
-        document.querySelector('.userEdit').style.display = 'block';
-        document.querySelector('table.cabecera-tabla').style.display = 'none';
-        document.getElementById('addUserButton').style.display = 'none';
+            // Mostrar el formulario de edición
+            document.querySelector('.userEdit').style.display = 'block';
+            document.querySelector('table.cabecera-tabla').style.display = 'none';
+            document.getElementById('addUserButton').style.display = 'none';
 
-      
-        // Manejar la actualización del usuario al enviar el formulario
-        const userEditForm = document.getElementById('userEditForm');
-        userEditForm.onsubmit = function(event) {
-            event.preventDefault();
-            updateUser(userId);
-        };
-    })
-    .catch(error => {
-        console.error('Error fetching user details:', error);
-        alert(error.message);
-    });
+
+            // Manejar la actualización del usuario al enviar el formulario
+            const userEditForm = document.getElementById('userEditForm');
+            userEditForm.onsubmit = function (event) {
+                event.preventDefault();
+                updateUser(userId);
+            };
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+            alert(error.message);
+        });
 }
-
-// Manejar la adición de un usuario
-document.getElementById('userAddForm').addEventListener('submit', (event) => {
-    event.preventDefault(); // Previene el comportamiento por defecto del formulario
-    addUser();
-});
-
-
-
 
 
 function updateUser(userId) {
@@ -234,33 +227,31 @@ function updateUser(userId) {
         },
         body: JSON.stringify(userUpdates)
     })
-    .then(response => {
-        if (!response.ok) {
-            if (response.status === 403) {
-                throw new Error('No tienes permiso para actualizar este usuario');
-            } else {
-                throw new Error('Error al actualizar el usuario: ' + response.statusText);
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 403) {
+                    throw new Error('No tienes permiso para actualizar este usuario');
+                } else {
+                    throw new Error('Error al actualizar el usuario: ' + response.statusText);
+                }
             }
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("User updated successfully:", data);
-        if (data.newToken) {
-            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
-        }
-        alert('Usuario actualizado con éxito');
-        document.querySelector('.userEdit').style.display = 'none';
-        document.querySelector('table.cabecera-tabla').style.display = 'table';
-        cargarUsuarios(); 
-    })
-    .catch(error => {
-        console.error('Error updating user:', error);
-        alert(error.message);
-    });
+            return response.json();
+        })
+        .then(data => {
+            console.log("User updated successfully:", data);
+            if (data.newToken) {
+                sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
+            }
+            alert('Usuario actualizado con éxito');
+            document.querySelector('.userEdit').style.display = 'none';
+            document.querySelector('table.cabecera-tabla').style.display = 'table';
+            cargarUsuarios();
+        })
+        .catch(error => {
+            console.error('Error updating user:', error);
+            alert(error.message);
+        });
 }
-
-
 
 
 export function addUser() {
@@ -289,24 +280,30 @@ export function addUser() {
         },
         body: JSON.stringify(userData)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al añadir el usuario: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert('Usuario añadido con éxito');
-        document.querySelector('.userAdd').style.display = 'none';
-        document.querySelector('table.cabecera-tabla').style.display = 'table';
-        document.getElementById('addUserButton').style.display = 'block';
-        cargarUsuarios(); // Volver a cargar la lista de usuarios
-    })
-    .catch(error => {
-        console.error('Error adding user:', error);
-        alert(error.message);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al añadir el usuario: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Usuario añadido con éxito');
+            document.querySelector('.userAdd').style.display = 'none';
+            document.querySelector('table.cabecera-tabla').style.display = 'table';
+            document.getElementById('addUserButton').style.display = 'block';
+            cargarUsuarios(); // Volver a cargar la lista de usuarios
+        })
+        .catch(error => {
+            console.error('Error adding user:', error);
+            alert(error.message);
+        });
 }
+
+// Manejar la adición de un usuario
+document.getElementById('userAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Previene el comportamiento por defecto del formulario
+    addUser();
+});
 
 document.querySelector('.userAdd .btn-añadir').addEventListener('click', (event) => {
     event.preventDefault(); // Previene el comportamiento por defecto del formulario
@@ -327,21 +324,21 @@ function deleteUser() {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al eliminar el usuario: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {     
-        document.getElementById('deletePopup').style.display = 'none';
-        showMessage(data.message, true);
-        cargarUsuarios(); // Volver a cargar la lista de usuarios
-    })
-    .catch(error => {
-        console.error('Error deleting user:', error);
-        alert(error.message);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al eliminar el usuario: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('deletePopup').style.display = 'none';
+            showMessage(data.message, true);
+            cargarUsuarios(); // Volver a cargar la lista de usuarios
+        })
+        .catch(error => {
+            console.error('Error deleting user:', error);
+            alert(error.message);
+        });
 }
 
 // Inicializar el popup de eliminación

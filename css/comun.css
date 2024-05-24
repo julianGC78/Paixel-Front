@@ -30,3 +30,19 @@ body {
     cursor: pointer;
     border: 1px solid var(--color-negro);
 }
+.btn-admin{
+    text-decoration: none;
+    margin-right: 20px;
+}
+.btn-admin button{
+    font-family: var(--fuente);
+    font-size: 0.9vw;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: yellow;
+    border: none;
+    cursor: pointer;
+}
+.btn-admin:hover{
+    transform: scale(110%);
+}

@@ -1,3 +1,5 @@
+import { showMessage } from './admin.js';
+let workshopIdToDelete = null;
 export function cargarWorkshops() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
@@ -60,7 +62,7 @@ export function cargarWorkshops() {
             tableBody.appendChild(row);
         });
 
-        addModuloButton.style.display = 'block';
+        addWorkshopButton.style.display = 'block';
 
         // Agregar event listeners a los íconos de lupa (similar a usuarios y cursos)
         document.querySelectorAll('.view-workshop').forEach(icon => {
@@ -69,6 +71,27 @@ export function cargarWorkshops() {
                 mostrarDetallesWorkshop(workshopId); // Implementa esta función similar a mostrarDetallesUsuario
             });
         });
+        document.querySelectorAll('.edit-workshop').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                const workshopId = event.currentTarget.dataset.id;
+                showEditWorkshopForm(workshopId);
+            });
+        });
+        // Agregar event listeners a los íconos de eliminación de workshops
+document.querySelectorAll('.delete-workshop').forEach(icon => {
+    icon.addEventListener('click', (event) => {
+        workshopIdToDelete = event.currentTarget.dataset.id;
+        document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este workshop?";
+        document.getElementById('confirmDeleteWorkshopButton').style.display = 'block';
+        document.getElementById('confirmDeleteUserButton').style.display = 'none';
+        document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+        document.getElementById('confirmDeleteCursoButton').style.display = 'none';
+        document.getElementById('confirmDeleteModuloButton').style.display = 'none';
+        document.getElementById('deletePopup').style.display = 'block';
+
+       
+    });
+});
     })
     .catch(error => {
         console.error('Error fetching workshop data:', error);
@@ -115,11 +138,12 @@ export function mostrarDetallesWorkshop(workshopId) {
             <tr><td>Imagen:</td><td><img src="${workshop.contenido}" alt="${workshop.descripcion}" width="100"></td></tr>
             <tr><td>Descripción:</td><td>${workshop.descripcion}</td></tr>
             <tr><td>Fecha:</td><td>${new Date(workshop.fecha).toLocaleDateString()}</td></tr>
-            <tr><td>ID Usuario:</td><td>${workshop.usuario ? workshop.usuario.username : 'N/A'}</td></tr> <!-- Asegúrate de que el idusuario esté definido -->
+            <tr><td>ID Usuario:</td><td>${workshop.usuario ? workshop.usuario.username : 'N/A'}</td></tr> 
         `;
 
         workshopDetails.style.display = 'block';
         document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addWorkshopButton').style.display = 'none';
     })
     .catch(error => {
         console.error('Error fetching workshop details:', error);
@@ -127,4 +151,194 @@ export function mostrarDetallesWorkshop(workshopId) {
     });
 }
 
+function showEditWorkshopForm(workshopId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/workshop/findById/${workshopId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para ver esta información');
+            } else {
+                throw new Error('Error al obtener detalles del workshop: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(workshop => {
+        // Llenar el formulario de edición con los datos del workshop
+        document.getElementById('workshopContenido').value = workshop.contenido;
+        document.getElementById('workshopDescripcion').value = workshop.descripcion;
+        document.getElementById('workshopFecha').value = new Date(workshop.fecha).toISOString().substr(0, 10);
+        document.getElementById('workshopIdUsuario').value = workshop.usuario ? workshop.usuario.iduser : 'N/A';
+
+        // Mostrar el formulario de edición
+        document.querySelector('.workshopEdit').style.display = 'block';
+        document.querySelector('table.cabecera-tabla').style.display = 'none';
+        document.getElementById('addWorkshopButton').style.display = 'none';
+
+        // Manejar la actualización del workshop al enviar el formulario
+        const workshopEditForm = document.getElementById('workshopEditForm');
+        workshopEditForm.onsubmit = function(event) {
+            event.preventDefault();
+            updateWorkshop(workshopId);
+        };
+    })
+    .catch(error => {
+        console.error('Error fetching workshop details:', error);
+        alert(error.message);
+    });
+}
+
+
+function updateWorkshop(workshopId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const workshopUpdates = {
+        contenido: document.getElementById('workshopContenido').value,
+        descripcion: document.getElementById('workshopDescripcion').value,
+        fecha: document.getElementById('workshopFecha').value,
+        idusuario: document.getElementById('workshopIdUsuario').value
+    };
+
+    fetch(`http://127.0.0.1:8081/workshop/update/${workshopId}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workshopUpdates)
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('No tienes permiso para actualizar este workshop');
+            } else {
+                throw new Error('Error al actualizar el workshop: ' + response.statusText);
+            }
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Workshop updated successfully:", data);
+        if (data.newToken) {
+            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
+        }
+        alert('Workshop actualizado con éxito');
+        document.querySelector('.workshopEdit').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarWorkshops(); 
+    })
+    .catch(error => {
+        console.error('Error updating workshop:', error);
+        alert(error.message);
+    });
+}
+
+
+export function addWorkshop() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    const workshopData = {
+        contenido: document.getElementById('addWorkshopContenido').value,
+        descripcion: document.getElementById('addWorkshopDescripcion').value,
+        fecha: document.getElementById('addWorkshopFecha').value,
+        idusuario: document.getElementById('addWorkshopIdUsuario').value
+    };
+
+    fetch('http://127.0.0.1:8081/workshop/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workshopData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al añadir el workshop: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Workshop añadido con éxito');
+        document.querySelector('.workshopAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addWorkshopButton').style.display = 'block';
+        cargarWorkshops(); // Volver a cargar la lista de workshops
+    })
+    .catch(error => {
+        console.error('Error adding workshop:', error);
+        alert(error.message);
+    });
+}
+
+function deleteWorkshop(workshopId) {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8081/workshop/delete/${workshopId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el workshop: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('Workshop eliminado con éxito');
+        document.getElementById('deletePopup').style.display = 'none';
+        cargarWorkshops(); // Volver a cargar la lista de workshops
+    })
+    .catch(error => {
+        console.error('Error deleting workshop:', error);
+        alert(error.message);
+    });
+}
+// Inicializar el popup de eliminación
+document.getElementById('confirmDeleteWorkshopButton').addEventListener('click', deleteWorkshop);
+document.getElementById('cancelDeleteButton').addEventListener('click', () => {
+    document.getElementById('deletePopup').style.display = 'none';
+});
+
+// Handle adding a workshop
+document.getElementById('workshopAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addWorkshop();
+});
+
+// Event listener para el botón de volver a la lista de cursos
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.backToWorkshops').addEventListener('click', () => {
+        document.querySelector('.workshopDetails').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        addWorkshopButton.style.display = 'block';
+    });
+});
 

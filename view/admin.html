@@ -36,6 +36,7 @@
              <button id="addDocenteButton" style="display: none;">Añadir docente</button>
              <button id="addCursoButton" style="display: none;">Añadir curso</button>
              <button id="addModuloButton" style="display: none;">Añadir modulo</button>
+             <button id="addWorkshopButton" style="display: none;">Añadir workshop</button>
                 <table class="cabecera-tabla">
                     <thead>
                         <tr class="tableHeaders"></tr>
@@ -91,7 +92,7 @@
                     </table>
                     <button class="backToWorkshops">Volver a la lista de workshops</button>
                 </div>
-
+                <!-- FORMULARIOS DE USUARIOS-->
                 <div class="userEdit" style="display: none;">
                     <h2>Editar Usuario</h2>
                     <form class="register-form" id="userEditForm" method="POST">
@@ -108,7 +109,7 @@
                             <label for="apellidos">Apellidos</label>
                         </div>
                         <div class="form-control">
-                            <input type="text" id="localidad" name="localidad">
+                            <input type="text" id="localidad" name="localidad" required>
                             <label for="localidad">Localidad</label>
                         </div>
                         <div class="form-control">
@@ -159,7 +160,7 @@
                             <label for="addApellidos">Apellidos</label>
                         </div>
                         <div class="form-control">
-                            <input type="text" id="addLocalidad" name="localidad">
+                            <input type="text" id="addLocalidad" name="localidad" required>
                             <label for="addLocalidad">Localidad</label>
                         </div>
                         <div class="form-control">
@@ -196,6 +197,7 @@
         
                 </div>
 
+                <!-- FORMULARIOS DE DOCCENTE-->
                 <div class="docenteEdit" style="display: none;">
                     <h2>Editar Docente</h2>
                     <form class="register-form" id="docenteEditForm" method="POST">
@@ -238,7 +240,7 @@
                             <label for="addDocenteDescripcion">Descripción</label>
                         </div>
                         <div class="form-control">
-                            <input type="text" id="addDocenteRecurso" name="recurso">
+                            <input type="text" id="addDocenteRecurso" name="recurso" required>
                             <label for="addDocenteRecurso">Recurso</label>
                         </div>
                         <div class="button-group">
@@ -249,6 +251,189 @@
                 </div>
                 
                 
+                <!-- FORMULARIOS DE DOCCENTE-->
+                <div class="cursoEdit" style="display: none;">
+                    <h2>Editar Curso</h2>
+                    <form class="register-form" id="cursoEditForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="cursoTitulo" name="titulo" required>
+                            <label for="cursoTitulo">Título</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="cursoDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="cursoDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="cursoRecurso" name="recurso">
+                            <label for="cursoRecurso">Recurso</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="cursoIdUsuario" name="idusuario" required>
+                            <label for="cursoIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="cursoIdDocente" name="iddocente" required>
+                            <label for="cursoIdDocente">ID Docente</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-actualizar" type="submit">Guardar</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="cursoAdd" style="display: none;">
+                    <h2>Añadir Curso</h2>
+                    <form class="register-form" id="cursoAddForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="addCursoTitulo" name="titulo" required>
+                            <label for="addCursoTitulo">Título</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="addCursoDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="addCursoDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addCursoRecurso" name="recurso" required>
+                            <label for="addCursoRecurso">Recurso</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addCursoIdUsuario" name="idusuario" required>
+                            <label for="addCursoIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addCursoIdDocente" name="iddocente" required>
+                            <label for="addCursoIdDocente">ID Docente</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-añadir" type="submit">Añadir</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                
+                <!-- FORMULARIOS DE MODULOS-->
+                <div class="moduloEdit" style="display: none;">
+                    <h2>Editar Módulo</h2>
+                    <form class="register-form" id="moduloEditForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="moduloTitulo" name="titulo" required>
+                            <label for="moduloTitulo">Título</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="moduloDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="moduloDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="moduloOrden" name="orden" required>
+                            <label for="moduloOrden">Orden</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="moduloRecurso" name="recurso" required>
+                            <label for="moduloRecurso">Recurso</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="moduloTiempo" name="tiempo" required>
+                            <label for="moduloTiempo">Tiempo</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="moduloIdCurso" name="idcurso" required>
+                            <label for="moduloIdCurso">ID Curso</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-actualizar" type="submit">Guardar</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="moduloAdd" style="display: none;">
+                    <h2>Añadir Módulo</h2>
+                    <form class="register-form" id="moduloAddForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="addModuloTitulo" name="titulo" required>
+                            <label for="addModuloTitulo">Título</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="addModuloDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="addModuloDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addModuloOrden" name="orden" required>
+                            <label for="addModuloOrden">Orden</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addModuloRecurso" name="recurso" required>
+                            <label for="addModuloRecurso">Recurso</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" id="addModuloTiempo" name="tiempo" required>
+                            <label for="addModuloTiempo">Tiempo</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addModuloIdCurso" name="idcurso" required>
+                            <label for="addModuloIdCurso">ID Curso</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-añadir" type="submit">Añadir</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- FORMULARIOS DE workshop-->
+                <div class="workshopEdit" style="display: none;">
+                    <h2>Editar Workshop</h2>
+                    <form class="register-form" id="workshopEditForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="workshopContenido" name="contenido" required>
+                            <label for="workshopContenido">Contenido</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="workshopDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="workshopDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="workshopFecha" name="fecha" required>
+                            <label for="workshopFecha">Fecha</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="workshopIdUsuario" name="idusuario" required>
+                            <label for="workshopIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-actualizar" type="submit">Guardar</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="workshopAdd" style="display: none;">
+                    <h2>Añadir Workshop</h2>
+                    <form class="register-form" id="workshopAddForm" method="POST">
+                        <div class="form-control">
+                            <input type="text" id="addWorkshopContenido" name="contenido" required>
+                            <label for="addWorkshopContenido">Contenido</label>
+                        </div>
+                        <div class="form-control">
+                            <textarea id="addWorkshopDescripcion" name="descripcion" rows="4" required></textarea>
+                            <label for="addWorkshopDescripcion">Descripción</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="addWorkshopFecha" name="fecha" >
+                            <label for="addWorkshopFecha">Fecha</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addWorkshopIdUsuario" name="idusuario" required>
+                            <label for="addWorkshopIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-añadir" type="submit">Añadir</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
 
         </div>
 
@@ -256,11 +441,17 @@
         <div id="deletePopup" class="popup">
             <div class="popup-content">
                 <p id="deletePopupMessage">¿Estás seguro de que deseas eliminar este usuario?</p>
-                <button id="confirmDeleteUserButton">Eliminar Usuario</button>
-                <button id="confirmDeleteDocenteButton" style="display:none;">Eliminar Docente</button>
-                <button id="cancelDeleteButton">Cancelar</button>
+                <div class="popup-button">                  
+                    <button id="confirmDeleteUserButton" style="display:none;">Eliminar Usuario</button>
+                    <button id="confirmDeleteDocenteButton" style="display:none;">Eliminar Docente</button>
+                    <button id="confirmDeleteCursoButton" style="display:none;">Eliminar Curso</button>
+                    <button id="confirmDeleteModuloButton" style="display:none;">Eliminar Módulo</button>
+                    <button id="confirmDeleteWorkshopButton" style="display:none;">Eliminar Workshop</button>
+                    <button id="cancelDeleteButton">Cancelar</button>
+                </div>
             </div>
         </div>
+        
         
 
 

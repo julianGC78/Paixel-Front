@@ -27,8 +27,18 @@ export function setupMenuAndAuth() {
         window.location.href = 'login.html';
     });
 
+    function checkAuthentication() {
+        const adminButton = document.getElementById('adminButton');
+        const userRole = sessionStorage.getItem('userRole');
+    
+        if (userRole === 'ADMIN') {
+            adminButton.style.display = 'block';
+        }
+    }
     // Verificar la autenticación al cargar la página
     checkAuthentication();
+     }
+    
 
+   
 
-}

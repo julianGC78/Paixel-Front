@@ -1,10 +1,12 @@
 import { headerContent } from "../parciales/headerContent.js";
+import { footerContent } from "../parciales/footerContent.js";
+import { checkAuthentication } from "./comun.js";
 
-import{footerContent} from "../parciales/footerContent.js";
+// Verificar si jwt_decode está disponible globalmente
+const jwt_decode = window.jwt_decode || require('jwt-decode');
 
-import { checkAuthentication } from '../js/comun.js';
 window.onload = function () {
-    // Cremos cabecera dinamicamente
+    // Crear cabecera y pie de página dinámicamente
     let body = document.querySelector("body");
     let header = document.createElement("header");
     let footer = document.createElement("footer");
@@ -12,8 +14,8 @@ window.onload = function () {
     footer.innerHTML = footerContent;
     body.before(header);
     body.after(footer);
-    
-    // Mostramos y ocultamos el submenu
+
+    // Mostrar y ocultar el submenu
     document.querySelector('.m1 .linea').addEventListener('click', function() {
         var submenu = document.querySelector('.m1 .submenu');
         submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
@@ -37,7 +39,7 @@ window.onload = function () {
         })
         .then(response => {
             if (response.ok) {
-                return response.json(); 
+                return response.json();
             } else {
                 document.getElementById('loginError').style.display = 'block';
                 throw new Error('Respuesta del servidor: ' + response.status);
@@ -46,16 +48,26 @@ window.onload = function () {
         .then(data => {
             console.log('Éxito:', data);
             sessionStorage.setItem('jwtToken', data.token);
-    
-            // Imprimir el token en la consola
-            console.log('Token JWT:', data.token);
-    
-            checkAuthentication();
-            
-            if (loginData.username === 'admin' && loginData.password === 'admin123') {
-                window.location.href = 'admin.html';
-            } else {
-                window.location.href = 'home.html';
+
+            // Decodificar el token para obtener el rol del usuario
+            try {
+                const decodedToken = jwt_decode(data.token);
+                sessionStorage.setItem('userRole', decodedToken.role); // Guardar el rol del usuario
+
+                // Imprimir el token en la consola
+                console.log('Token JWT:', data.token);
+                console.log('Rol del usuario:', decodedToken.role);
+
+                
+
+                if (decodedToken.role === 'ADMIN') {
+                    window.location.href = 'admin.html';
+                    adminButton.style.display = 'block';
+                } else {
+                    window.location.href = 'home.html';
+                }
+            } catch (error) {
+                console.error('Error al decodificar el token:', error);
             }
         })
         .catch((error) => {
@@ -63,4 +75,10 @@ window.onload = function () {
         });
     });
 
+    // Chequear autenticación para mostrar el botón si es admin
+    checkAuthentication();
 }
+
+
+ 
+
