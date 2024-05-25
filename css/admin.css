@@ -2,37 +2,44 @@
 @import url('../css/formularioLoginRegister.css');
 
 
+
 .main {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-
+    min-height: 100vh;
+   
 }
 
+/* Menú izquierdo */
 .izquierda {
     width: 15%;
-    height: 200vh;
     background-color: var(--color-negro);
     color: var(--color-blanco);
+    display: flex;
+    flex-direction: column;  
+    padding-bottom: 20px; /* Añadir algo de espacio al final */
 }
 
 .derecha {
-    width: 85%;
-    height: 70px;
-    border-bottom: 2px solid var(--color-negro);
+    flex-grow: 1; /* Permitir que el contenido de la derecha ocupe el espacio restante */
+    padding: 20px;
+    min-width: 88vw;
+    margin-left: -20px;
 }
 
 .logo {
     padding: 40px;
 }
 
+
 .head {
+    border-bottom: solid black 2px; 
     display: flex;
     justify-content: flex-end;
-    align-content: center;
-    margin-right: 50px;
-    margin-bottom: 40px;
-    height: 80px;
+    align-items: center;  
+}
+.head span{
+    margin-right: 80px;
+margin-top: -20px;
 }
 .home{
     text-decoration: none;
@@ -348,22 +355,28 @@ form {
 
 .message {
     position: fixed;
-    top: 20px;
-    right: 50%;
+    top: 80px;
+    right: 40px;
     padding: 10px 20px;
     border-radius: 5px;
     color: var(--color-negro);
     z-index: 2;
     opacity: 0;
-    animation: fadeInOut 3s forwards;
+    animation: fadeInOut 10s forwards;
 }
 
 .message.success {
+    font-family: var(--fuente);
+    font-size: 1vw;
     background-color: var(--color-verde);
 }
 
 .message.error {
+    font-family: var(--fuente);
+    font-size: 1vw;
     background-color: var(--color-rojo);
+    color: var(--color-blanco);
+   
 }
 
 @keyframes fadeInOut {

@@ -212,6 +212,7 @@ function updateCurso(cursoId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -231,30 +232,32 @@ function updateCurso(cursoId) {
         },
         body: JSON.stringify(cursoUpdates)
     })
-        .then(response => {
-            if (!response.ok) {
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(error => {
                 if (response.status === 403) {
                     throw new Error('No tienes permiso para actualizar este curso');
                 } else {
-                    throw new Error('Error al actualizar el curso: ' + response.statusText);
+                    throw new Error(`Error al actualizar el curso: ${error.message}`);
                 }
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Curso updated successfully:", data);
-            if (data.newToken) {
-                sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
-            }
-            alert('Curso actualizado con éxito');
-            document.querySelector('.cursoEdit').style.display = 'none';
-            document.querySelector('table.cabecera-tabla').style.display = 'table';
-            cargarCursos();
-        })
-        .catch(error => {
-            console.error('Error updating curso:', error);
-            alert(error.message);
-        });
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Curso updated successfully:", data);
+        if (data.newToken) {
+            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
+        }
+        showMessage('Curso actualizado con éxito', 'success');
+        document.querySelector('.cursoEdit').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        cargarCursos();
+    })
+    .catch(error => {
+        console.error('Error updating curso:', error);
+        showMessage(`Error al actualizar el curso: ${error.message}`, 'error');
+    });
 }
 
 

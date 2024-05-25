@@ -227,6 +227,7 @@ function updateModulo(moduloId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -249,11 +250,13 @@ function updateModulo(moduloId) {
     })
     .then(response => {
         if (!response.ok) {
-            if (response.status === 403) {
-                throw new Error('No tienes permiso para actualizar este módulo');
-            } else {
-                throw new Error('Error al actualizar el módulo: ' + response.statusText);
-            }
+            return response.json().then(error => {
+                if (response.status === 403) {
+                    throw new Error('No tienes permiso para actualizar este módulo');
+                } else {
+                    throw new Error(`Error al actualizar el módulo: ${error.message}`);
+                }
+            });
         }
         return response.json();
     })
@@ -262,16 +265,17 @@ function updateModulo(moduloId) {
         if (data.newToken) {
             sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
         }
-        alert('Módulo actualizado con éxito');
+        showMessage('Módulo actualizado con éxito', 'success');
         document.querySelector('.moduloEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarModulos(); 
     })
     .catch(error => {
         console.error('Error updating módulo:', error);
-        alert(error.message);
+        showMessage(`Error al actualizar el módulo: ${error.message}`, 'error');
     });
 }
+
 
 
 

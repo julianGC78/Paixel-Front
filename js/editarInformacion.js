@@ -55,7 +55,7 @@ function displayUserInfo(user) {
 
 // Función para actualizar la información del usuario
 async function updateUserInfo() {
-    const userId = JSON.parse(atob(sessionStorage.getItem('jwtToken').split('.')[1])).userId;
+const userId = JSON.parse(atob(sessionStorage.getItem('jwtToken').split('.')[1])).userId;
 
 const rawFecha = document.getElementById('fecha_nacimiento').value;
 const fechaNacimiento = new Date(rawFecha);
