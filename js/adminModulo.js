@@ -1,3 +1,4 @@
+import { showMessage } from './admin.js';
 let moduloIdToDelete = null;
 export function cargarModulos() {
     const token = sessionStorage.getItem('jwtToken');
@@ -86,25 +87,31 @@ export function cargarModulos() {
             });
         });
 
-        document.querySelectorAll('.delete-modulo').forEach(icon => {
-            icon.addEventListener('click', (event) => {
-                moduloIdToDelete = event.currentTarget.dataset.id;
-                document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este curso?";
-                document.getElementById('confirmDeleteCursoButton').style.display = 'block';
-                document.getElementById('confirmDeleteUserButton').style.display = 'none';
-                document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
-                document.getElementById('confirmDeleteModuloButton').style.display = 'none';
-                document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
-                document.getElementById('deletePopup').style.display = 'block';
+       // Agregar event listeners a los íconos de eliminación de módulos
+document.querySelectorAll('.delete-modulo').forEach(icon => {
+    icon.addEventListener('click', (event) => {
+        const moduloIdToDelete = event.currentTarget.dataset.id;
+        document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este módulo?";
+        document.getElementById('confirmDeleteModuloButton').style.display = 'block';
+        document.getElementById('confirmDeleteUserButton').style.display = 'none';
+        document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+        document.getElementById('confirmDeleteCursoButton').style.display = 'none';
+        document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+        document.getElementById('deletePopup').style.display = 'block';
 
-              
-            });
+        const confirmDeleteModuloButton = document.getElementById('confirmDeleteModuloButton');
+        confirmDeleteModuloButton.removeEventListener('click', deleteModulo); // Asegúrate de no agregar múltiples event listeners
+        confirmDeleteModuloButton.addEventListener('click', () => {
+            deleteModulo(moduloIdToDelete);
         });
-    })
+    });
+});
+})
     .catch(error => {
         console.error('Error fetching modulo data:', error);
     });
 }
+
 
 
 export function mostrarDetallesModulo(moduloId) {
@@ -273,6 +280,7 @@ export function addModulo() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -284,7 +292,7 @@ export function addModulo() {
         titulo: document.getElementById('addModuloTitulo').value,
         idcurso: document.getElementById('addModuloIdCurso').value
     };
-
+    console.log('Adding modulo:', moduloData);
     fetch('http://127.0.0.1:8081/modulo/add', {
         method: 'POST',
         headers: {
@@ -295,12 +303,14 @@ export function addModulo() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error al añadir el módulo: ' + response.statusText);
+            return response.json().then(error => {
+                throw new Error(`Error al añadir el módulo: ${error.message}`);
+            });
         }
         return response.json();
     })
     .then(data => {
-        alert('Módulo añadido con éxito');
+        showMessage('Módulo añadido con éxito', 'success');
         document.querySelector('.moduloAdd').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         document.getElementById('addModuloButton').style.display = 'block';
@@ -308,7 +318,7 @@ export function addModulo() {
     })
     .catch(error => {
         console.error('Error adding modulo:', error);
-        alert(error.message);
+        showMessage(`Error al añadir el módulo: ${error.message}`, 'error');
     });
 }
 
@@ -316,6 +326,7 @@ function deleteModulo(moduloId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -328,26 +339,24 @@ function deleteModulo(moduloId) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error al eliminar el módulo: ' + response.statusText);
+            return response.json().then(error => {
+                throw new Error(`Error al eliminar el módulo: ${error.message}`);
+            });
         }
         return response.json();
     })
     .then(data => {
-        alert('Módulo eliminado con éxito');
+        showMessage('Módulo eliminado con éxito', 'success');
         document.getElementById('deletePopup').style.display = 'none';
         cargarModulos(); // Volver a cargar la lista de módulos
     })
     .catch(error => {
         console.error('Error deleting modulo:', error);
-        alert(error.message);
+        showMessage(`Error al eliminar el módulo: ${error.message}`, 'error');
     });
 }
 
-// Inicializar el popup de eliminación
-document.getElementById('confirmDeleteModuloButton').addEventListener('click', deleteModulo);
-document.getElementById('cancelDeleteButton').addEventListener('click', () => {
-    document.getElementById('deletePopup').style.display = 'none';
-});
+
 
 // Handle adding a modulo
 document.getElementById('moduloAddForm').addEventListener('submit', (event) => {

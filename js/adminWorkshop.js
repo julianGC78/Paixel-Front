@@ -77,10 +77,10 @@ export function cargarWorkshops() {
                 showEditWorkshopForm(workshopId);
             });
         });
-        // Agregar event listeners a los íconos de eliminación de workshops
+      // Agregar event listeners a los íconos de eliminación de workshops
 document.querySelectorAll('.delete-workshop').forEach(icon => {
     icon.addEventListener('click', (event) => {
-        workshopIdToDelete = event.currentTarget.dataset.id;
+        const workshopIdToDelete = event.currentTarget.dataset.id;
         document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este workshop?";
         document.getElementById('confirmDeleteWorkshopButton').style.display = 'block';
         document.getElementById('confirmDeleteUserButton').style.display = 'none';
@@ -89,7 +89,11 @@ document.querySelectorAll('.delete-workshop').forEach(icon => {
         document.getElementById('confirmDeleteModuloButton').style.display = 'none';
         document.getElementById('deletePopup').style.display = 'block';
 
-       
+        const confirmDeleteWorkshopButton = document.getElementById('confirmDeleteWorkshopButton');
+        confirmDeleteWorkshopButton.removeEventListener('click', deleteWorkshop); // Asegúrate de no agregar múltiples event listeners
+        confirmDeleteWorkshopButton.addEventListener('click', () => {
+            deleteWorkshop(workshopIdToDelete);
+        });
     });
 });
     })
@@ -254,6 +258,7 @@ export function addWorkshop() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -263,6 +268,7 @@ export function addWorkshop() {
         fecha: document.getElementById('addWorkshopFecha').value,
         idusuario: document.getElementById('addWorkshopIdUsuario').value
     };
+    console.log('Workshop data:', workshopData);
 
     fetch('http://127.0.0.1:8081/workshop/add', {
         method: 'POST',
@@ -279,22 +285,24 @@ export function addWorkshop() {
         return response.json();
     })
     .then(data => {
-        alert('Workshop añadido con éxito');
+        showMessage('Workshop añadido con éxito', 'success');
         document.querySelector('.workshopAdd').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         document.getElementById('addWorkshopButton').style.display = 'block';
-        cargarWorkshops(); // Volver a cargar la lista de workshops
+        /*
+        cargarWorkshops(); 
+        */
     })
     .catch(error => {
         console.error('Error adding workshop:', error);
-        alert(error.message);
+        showMessage(`Error al añadir el workshop: ${error.message}`, 'error');
     });
 }
-
 function deleteWorkshop(workshopId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -307,25 +315,23 @@ function deleteWorkshop(workshopId) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error al eliminar el workshop: ' + response.statusText);
+            return response.json().then(error => {
+                throw new Error(`Error al eliminar el workshop: ${error.message}`);
+            });
         }
         return response.json();
     })
     .then(data => {
-        alert('Workshop eliminado con éxito');
+        showMessage('Workshop eliminado con éxito', 'success');
         document.getElementById('deletePopup').style.display = 'none';
         cargarWorkshops(); // Volver a cargar la lista de workshops
     })
     .catch(error => {
         console.error('Error deleting workshop:', error);
-        alert(error.message);
+        showMessage(`Error al eliminar el workshop: ${error.message}`, 'error');
     });
 }
-// Inicializar el popup de eliminación
-document.getElementById('confirmDeleteWorkshopButton').addEventListener('click', deleteWorkshop);
-document.getElementById('cancelDeleteButton').addEventListener('click', () => {
-    document.getElementById('deletePopup').style.display = 'none';
-});
+
 
 // Handle adding a workshop
 document.getElementById('workshopAddForm').addEventListener('submit', (event) => {

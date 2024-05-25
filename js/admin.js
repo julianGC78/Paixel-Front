@@ -290,9 +290,9 @@ addWorkshopButton.addEventListener('click', () => {
 });
 
 //******************************************************************************/
-export function showMessage(message, isSuccess) {
+export function showMessage(message, type = 'success') {
     const messageContainer = document.createElement('div');
-    messageContainer.className = `message ${isSuccess ? 'success' : 'error'}`;
+    messageContainer.classList.add('message', type);
     messageContainer.innerText = message;
 
     document.body.appendChild(messageContainer);

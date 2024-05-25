@@ -345,3 +345,30 @@ form {
 .matricula{
     margin-left: -28px;
 }
+
+.message {
+    position: fixed;
+    top: 20px;
+    right: 50%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: var(--color-negro);
+    z-index: 2;
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+}
+
+.message.success {
+    background-color: var(--color-verde);
+}
+
+.message.error {
+    background-color: var(--color-rojo);
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}

@@ -274,6 +274,7 @@ function addDocente() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -285,6 +286,7 @@ function addDocente() {
     // Verificar si los elementos existen
     if (!usernameElement || !especialidadElement || !descripcionElement || !recursoElement) {
         console.error('Uno o más elementos del formulario no se encontraron');
+        showMessage('Uno o más elementos del formulario no se encontraron', 'error');
         return;
     }
 
@@ -310,7 +312,7 @@ function addDocente() {
         return response.json();
     })
     .then(data => {
-        alert('Docente añadido con éxito');
+        showMessage('Docente añadido con éxito', 'success');
         document.querySelector('.docenteAdd').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         document.getElementById('addDocenteButton').style.display = 'block';
@@ -318,7 +320,7 @@ function addDocente() {
     })
     .catch(error => {
         console.error('Error adding docente:', error);
-        alert(error.message);
+        showMessage('Error al añadir el docente: ' + error.message, 'error');
     });
 }
 
@@ -337,6 +339,7 @@ function deleteDocente() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -355,12 +358,12 @@ function deleteDocente() {
     })
     .then(data => {
         document.getElementById('deletePopup').style.display = 'none';
-        alert('Docente eliminado con éxito');
+        showMessage('Docente eliminado con éxito', 'success');
         cargarDocentes(); // Volver a cargar la lista de docentes
     })
     .catch(error => {
         console.error('Error deleting docente:', error);
-        alert('Error al eliminar el docente: ' + error.message);
+        showMessage('Error al eliminar el docente: ' + error.message, 'error');
     });
 }
 

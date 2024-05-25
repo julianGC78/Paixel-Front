@@ -258,6 +258,7 @@ export function addUser() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -287,7 +288,7 @@ export function addUser() {
             return response.json();
         })
         .then(data => {
-            alert('Usuario añadido con éxito');
+            showMessage('Usuario añadido con éxito', 'success');
             document.querySelector('.userAdd').style.display = 'none';
             document.querySelector('table.cabecera-tabla').style.display = 'table';
             document.getElementById('addUserButton').style.display = 'block';
@@ -295,7 +296,7 @@ export function addUser() {
         })
         .catch(error => {
             console.error('Error adding user:', error);
-            alert(error.message);
+            showMessage(error.message, 'error');
         });
 }
 
