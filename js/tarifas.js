@@ -1,3 +1,4 @@
+
 import { headerContent } from "../parciales/headerContent.js";
 import { footerContent } from "../parciales/footerContent.js";
 import { setupMenuAndAuth } from '../js/menuHandler.js';
@@ -43,7 +44,7 @@ function setupPaymentButtons() {
             if (token) {
                 document.getElementById('paymentPopup').style.display = 'flex';  // Muestra el popup
             } else {
-                window.location.href = 'login.html';  // Redirige a la página de login si no está autenticado
+                window.location.href = 'login.html'; 
             }
         });
     });
@@ -79,8 +80,10 @@ function updatePaymentStatus(userId) {
     fetch(`http://localhost:8081/matricula/pagar/${userId}`, {
         method: 'PUT',
         headers: {
-            'Authorization': `Bearer ${token}`
-        }
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'  // Asegúrate de que el encabezado Content-Type está presente
+        },
+        body: JSON.stringify({ userId: userId })  // Incluye el cuerpo de la solicitud si es necesario
     })
     .then(response => {
         if (response.ok) {
@@ -106,8 +109,10 @@ function redirectBasedOnAuth(cursoId) {
     }
 }
 
+
 function checkPaymentStatus(userId, cursoId) {
     const token = sessionStorage.getItem('jwtToken');
+    console.log(`Verificando estado de pago para UserID: ${userId}`);
     fetch(`http://127.0.0.1:8081/matricula/estadoPago/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -119,8 +124,10 @@ function checkPaymentStatus(userId, cursoId) {
     })
     .then(pagado => {
         if (pagado) {
-            window.location.href = `allCursos.html`; // Redirige a la página de cursos si el pago es true
+            console.log('Pago verificado: true');
+            window.location.href = ''; // Redirige a la página de cursos si el pago es true
         } else {
+            console.log('Pago verificado: false');
             window.location.href = 'tarifas.html'; // Redirige a la página de precios si el pago es false
         }
     })

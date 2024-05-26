@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/admin.css">
     <script src="https://kit.fontawesome.com/97457a5c00.js" crossorigin="anonymous"></script>
     <script type="module" src="../../js/admin.js"></script>
+    <script  src="../../js/adminDashboard.js"></script>
 </head>
 
 <body>
@@ -27,13 +28,17 @@
             </nav>
         </div>
         <div class="derecha">
-            <nav>
-    
+            
+            <nav>    
                 <div class="head"><span><i class="fa-solid fa-user-shield"></i>Admin</span></div>
-            </nav>
-
-             <!-- Agregar botón de añadir usuario aquí -->
-             
+            </nav>            
+            <h1>Dashboard de Paixel</h1>
+            <div id="userCountContainer">
+                <Span>Usuarios registrados</Span>: <span id="userCount">0</span>
+            </div>
+            <div id="matriculatedUserCountContainer">
+                <Span>Usuarios matriculados</Span>: <span id="matriculatedUserCount">0</span>
+            </div>
              <h1 class="main-title"></h1>
              <button id="addUserButton" style="display: none;">Añadir Usuario</button>
              <button id="addDocenteButton" style="display: none;">Añadir docente</button>

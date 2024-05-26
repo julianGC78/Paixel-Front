@@ -5,6 +5,7 @@ import { cargarModulos } from './adminModulo.js';
 import { cargarWorkshops } from './adminWorkshop.js'; // Importar la función cargarWorkshops
 
 document.addEventListener('DOMContentLoaded', () => {
+    const dashboardMenuItems = document.querySelector('.dashboard');
     const userMenuItem = document.querySelector('.user');
     const docenteMenuItem = document.querySelector('.docente');
     const cursosMenuItem = document.querySelector('.curso');
@@ -15,7 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const addCursoButton = document.getElementById('addCursoButton')
     const addModuloButton = document.getElementById('addModuloButton')
     const addWorkshopButton = document.getElementById('addWorkshopButton');
+    const userCountContainer = document.getElementById('userCountContainer');
+    const matriculatedUserCountContainer = document.getElementById('matriculatedUserCountContainer');
 
+
+    dashboardMenuItems.addEventListener('click', () => {
+        ocultarTodasLasSecciones();
+        document.querySelector('table.cabecera-tabla').style.display = 'none';
+        addUserButton.style.display = 'none';
+        addDocenteButton.style.display = 'none';
+        addCursoButton.style.display = 'none';
+        addModuloButton.style.display = 'none';
+        addWorkshopButton.style.display = 'none';
+        userCountContainer.style.display = 'block';
+        matriculatedUserCountContainer.style.display = 'block';
+    });
 
     // Configurar eventos de menú
     userMenuItem.addEventListener('click', () => {
@@ -27,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'none';
+        userCountContainer.style.display = 'none';
     });
 
     docenteMenuItem.addEventListener('click', () => {
@@ -38,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'none';
+        userCountContainer.style.display = 'none';
     });
 
 
@@ -50,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'block';
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'none';
+        userCountContainer.style.display = 'none';
     });
 
     modulosMenuItem.addEventListener('click', () => {
@@ -61,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'block';
         addWorkshopButton.style.display = 'none';
+        userCountContainer.style.display = 'none';
     });
 
     workshopsMenuItem.addEventListener('click', () => {
@@ -72,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'block';
+        userCountContainer.style.display = 'none';
     });
 
 
@@ -248,6 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.cursoAdd').style.display = 'none';
         document.querySelector('.moduloAdd').style.display = 'none';
         document.querySelector('.workshopAdd').style.display = 'none';
+        userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
     }
 });
 

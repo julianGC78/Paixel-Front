@@ -346,7 +346,7 @@ form {
 
 /* Estilo cuando el checkbox está seleccionado */
 #addMatricula:checked,
-#matricual:checked {
+#matricula:checked {
     background-color: var(--color-azul); /* Fondo negro cuando está seleccionado */
 }
 .matricula{
