@@ -37,7 +37,7 @@ function fetchMatriculatedUserCount() {
         return;
     }
 
-    fetch('http://127.0.0.1:8081/users/countMatriculated', {
+    fetch('http://127.0.0.1:8081/matricula/countMatriculated', {  // Verifica que este endpoint coincida con el definido en tu controlador
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -62,18 +62,23 @@ function fetchMatriculatedUserCount() {
     });
 }
 
+
 function displayUserCount(count) {
     const userCountSpan = document.getElementById('userCount');
     userCountSpan.textContent = count;
 }
+
 function displayMatriculatedUserCount(count) {
     const matriculatedUserCountSpan = document.getElementById('matriculatedUserCount');
     matriculatedUserCountSpan.textContent = count;
 }
 
-// Llamar a fetchUserCount cada 10 segundos para actualizar el conteo de usuarios
-setInterval(fetchUserCount, 10000);
-setInterval(fetchMatriculatedUserCount, 10000);
+// Llama a esta función cuando cargue la página o en el evento que prefieras
+fetchMatriculatedUserCount();
+fetchUserCount();
 
 // Llamar a fetchUserCount al cargar la página por primera vez
-window.onload = fetchUserCount;
+window.onload = () => {
+    fetchUserCount();
+    fetchMatriculatedUserCount();
+};
