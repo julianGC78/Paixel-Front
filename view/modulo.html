@@ -21,38 +21,49 @@
 
 
     <script type="module" src="../js/modulo.js"></script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
 </head>
 
 <body>
-  <article class="modulo">
-    <div class="video-modulos">
-        <div class="video-container">
-            <div class="menu-modulo">
-                <a class="titulo-curso" href="#">
-                    <span class="ir">&larr; IR a</span> <span class="curso-nombre"></span>
-                </a>               
-                <span class="titulo-modulo"></span>
-                <a class="siguiente" href="#">SIGUIENTE</a>
+    <article class="modulo">
+        <div class="video-modulos">
+            <div class="video-container">
+                <div class="menu-modulo">
+                    <a class="titulo-curso" href="#">
+                        <span class="ir">&larr; IR a</span> <span class="curso-nombre"></span>
+                    </a>
+                    <span class="titulo-modulo"></span>
+                    <a class="siguiente" href="#">SIGUIENTE</a>
+                </div>
+                <video id="videoFrame" width="560" height="315" controls>
+                    <source id="videoSource" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
-            <video id="videoFrame" width="560" height="315" controls>
-                <source id="videoSource" src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="module-links">
+                <h2>Modulos</h2>
+                <!-- Los módulos se agregarán dinámicamente aquí -->
+            </div>
         </div>
-        <div class="module-links">
-            <h2>Modulos</h2>
-            <!-- Los módulos se agregarán dinámicamente aquí -->
+        <div class="preguntas">
+            <h3>Preguntas de los alumnos:</h3>
+            <div class="tex-user">
+
+                <i class="fa-solid fa-circle-user"></i>
+                <textarea id="textarea-id" rows="1" cols="10" placeholder="Escribe tus preguntas aquí..."></textarea>
+            </div>
+            <div class="botones">
+                <button class="btn-enviar">Enviar</button>
+                <button class="btn-cance">Cancelar</button>
+            </div>
+            <div id="preguntas-lista">
+                <!-- Las preguntas se agregarán dinámicamente aquí -->
+            </div>
         </div>
-    </div>
-    <div class="preguntas">
-        <h3>Preguntas de los alumnos:</h3>
-        <textarea id="student-questions" rows="14" cols="50" placeholder="Escribe tus preguntas aquí..."></textarea>
-        <div class="botones">
-            <button class="enviar">Enviar</button>
-            <button class="cancelar">Cancelar</button>
-        </div>
-    </div>
-</article>
+    </article>
 
 
 

@@ -86,6 +86,7 @@ export function cargarWorkshops() {
                     document.getElementById('confirmDeleteUserButton').style.display = 'none';
                     document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
                     document.getElementById('confirmDeleteCursoButton').style.display = 'none';
+                    document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
                     document.getElementById('confirmDeleteModuloButton').style.display = 'none';
                     document.getElementById('deletePopup').style.display = 'block';
 

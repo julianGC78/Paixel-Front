@@ -90,6 +90,7 @@ document.querySelectorAll('.delete-curso').forEach(icon => {
         document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
         document.getElementById('confirmDeleteModuloButton').style.display = 'none';
         document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+        document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
         document.getElementById('deletePopup').style.display = 'block';
 
         const confirmDeleteCursoButton = document.getElementById('confirmDeleteCursoButton');

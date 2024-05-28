@@ -82,8 +82,12 @@ export function cargarDocentes() {
             icon.addEventListener('click', (event) => {
                 docenteIdToDelete = event.currentTarget.dataset.id;
                 document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este docente?";
-                document.getElementById('confirmDeleteUserButton').style.display = 'none';
                 document.getElementById('confirmDeleteDocenteButton').style.display = 'block';
+                document.getElementById('confirmDeleteUserButton').style.display = 'none';
+                document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
+                document.getElementById('confirmDeleteCursoButton').style.display = 'none';
+                document.getElementById('confirmDeleteModuloButton').style.display = 'none';
+                document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
                 document.getElementById('deletePopup').style.display = 'block';
             });
         });

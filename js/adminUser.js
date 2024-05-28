@@ -73,6 +73,7 @@ export function cargarUsuarios() {
                     document.getElementById('confirmDeleteCursoButton').style.display = 'none';
                     document.getElementById('confirmDeleteModuloButton').style.display = 'none';
                     document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+                    document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
 
                     document.getElementById('deletePopup').style.display = 'block';
                 });

@@ -24,6 +24,7 @@
                     <li class="curso"><i class="fa-solid fa-book-open"></i>Cursos</li>
                     <li class="modulo"><i class="fa-solid fa-book-open-reader"></i>Modulos</li>
                     <li class="workshop"><i class="fa-solid fa-image"></i>Workshop</li>
+                    <li class="pregunta"><i class="fa-solid fa-question"></i>Preguntas</li>
                 </ul>
             </nav>
         </div>
@@ -46,6 +47,8 @@
              <button id="addCursoButton" style="display: none;">Añadir curso</button>
              <button id="addModuloButton" style="display: none;">Añadir modulo</button>
              <button id="addWorkshopButton" style="display: none;">Añadir workshop</button>
+             <button id="addPreguntaButton" style="display: none;">Añadir pregunta</button>
+
                 <table class="cabecera-tabla">
                     <thead>
                         <tr class="tableHeaders"></tr>
@@ -100,6 +103,16 @@
                         </tbody>
                     </table>
                     <button class="backToWorkshops">Volver a la lista de workshops</button>
+                </div>
+                
+                <div class="preguntaDetails" style="display: none;">
+                    <h2>Detalles de la Pregunta</h2>
+                    <table>
+                        <tbody class="preguntaDetailsBody">
+                            <!-- Los detalles de la pregunta se insertarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                    <button class="backToPreguntas">Volver a la lista de preguntas</button>
                 </div>
                 <!-- FORMULARIOS DE USUARIOS-->
                 <div class="userEdit" style="display: none;">
@@ -442,6 +455,60 @@
                         </div>
                     </form>
                 </div>
+                <div class="preguntaEdit" style="display: none;">
+                    <h2>Editar Pregunta</h2>
+                    <form class="register-form" id="preguntaEditForm" method="POST">
+                        <div class="form-control">
+                            <textarea id="preguntaContenido" name="contenido" rows="4" required></textarea>
+                            <label for="preguntaContenido">Contenido</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="preguntaFecha" name="fecha" required>
+                            <label for="preguntaFecha">Fecha</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="preguntaIdUsuario" name="idusuario" required>
+                            <label for="preguntaIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="preguntaIdModulo" name="idmodulo" required>
+                            <label for="preguntaIdModulo">ID Módulo</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-actualizar" type="submit">Guardar</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="preguntaAdd" style="display: none;">
+                    <h2>Añadir Pregunta</h2>
+                    <form class="register-form" id="preguntaAddForm" method="POST">
+                        <div class="form-control">
+                            <textarea id="addPreguntaContenido" name="contenido" rows="4" required></textarea>
+                            <label for="addPreguntaContenido">Contenido</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="date" id="addPreguntaFecha" name="fecha" required>
+                            <label for="addPreguntaFecha">Fecha</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addPreguntaIdUsuario" name="idusuario" required>
+                            <label for="addPreguntaIdUsuario">ID Usuario</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="number" id="addPreguntaIdModulo" name="idmodulo" required>
+                            <label for="addPreguntaIdModulo">ID Módulo</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-añadir" type="submit">Añadir</button>
+                            <button type="button" class="btn-cancelar backToList">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+
+                
                 
 
         </div>
@@ -456,10 +523,12 @@
                     <button id="confirmDeleteCursoButton" style="display:none;">Eliminar Curso</button>
                     <button id="confirmDeleteModuloButton" style="display:none;">Eliminar Módulo</button>
                     <button id="confirmDeleteWorkshopButton" style="display:none;">Eliminar Workshop</button>
+                    <button id="confirmDeletePreguntaButton" style="display:none;">Eliminar Pregunta</button>
                     <button id="cancelDeleteButton">Cancelar</button>
                 </div>
             </div>
         </div>
+        
         
         
 

@@ -3,6 +3,7 @@ import { headerContent } from "../parciales/headerContent.js";
 import { footerContent } from "../parciales/footerContent.js";
 import { setupMenuAndAuth } from '../js/menuHandler.js';
 import { customizeMenuColor, redirectBasedOnAuth, checkPaymentStatus } from '../js/comun.js';
+import { setupVideo } from '../js/progreso.js';
 
 let globalModules = [];
 
@@ -24,17 +25,59 @@ function setup() {
 
     // Cargar los detalles del módulo y del curso al cargar la página
     loadModuleAndCourseDetails();
+
+    // Asignar el evento de clic al botón para enviar la pregunta
+     // Asignar eventos a los botones de enviar y cancelar
+     const sendButton = document.querySelector('.btn-enviar');
+     const cancelButton = document.querySelector('.btn-cance');
+ 
+     if (sendButton) {
+         sendButton.addEventListener('click', () => {
+             sendPregunta();
+             clearTextarea();  // Limpiar el textarea después de enviar
+         });
+     } else {
+         console.error('No se encontró el botón con clase "btn-enviar"');
+     }
+ 
+     if (cancelButton) {
+         cancelButton.addEventListener('click', clearTextarea);
+     } else {
+         console.error('No se encontró el botón con clase "btn-cance"');
+     }
+      // Obtener y mostrar las preguntas del módulo al cargar la página
+    const moduleId = getModuleId();
+    if (moduleId) {
+        fetchPreguntasByModulo(moduleId);
+    } else {
+        console.error('No module ID found in URL');
+    }
 }
 
-// Obtener ID del módulo desde la URL
 function getModuleId() {
     const queryParams = new URLSearchParams(window.location.search);
     return queryParams.get('id');
 }
 
+// Obtener ID del usuario desde el token JWT
+function getUserId() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (token) {
+        const decodedToken = jwt_decode(token);
+        return decodedToken.id || decodedToken.userId || decodedToken.sub; // Ajusta según cómo se almacene el ID del usuario en tu token
+    } else {
+        console.error('No JWT token found in sessionStorage');
+        return null;
+    }
+}
+
 // Función para cargar detalles del módulo y del curso
 function loadModuleAndCourseDetails() {
     const moduleId = getModuleId();
+    const userId = getUserId();
+
+    console.log('Module ID:', moduleId);
+    console.log('User ID:', userId);
 
     if (moduleId) {
         fetchModuleDetails(moduleId);
@@ -115,7 +158,6 @@ function displayCourseDetails(curso) {
         console.error("Elemento del DOM para el título del curso no está disponible.");
     }
 }
-
 
 // Función para obtener y mostrar los módulos de un curso
 function fetchModulesByCourse(idcurso) {
@@ -201,7 +243,169 @@ function setupNextButton(currentModuleId) {
     }
 }
 
+// Función para enviar la pregunta al backend
+function sendPregunta() {
+    const textarea = document.getElementById('textarea-id');
+    
+    if (!textarea) {
+        console.error('No se encontró el textarea con id "textarea-id"');
+        return;
+    }
+
+    const textoPregunta = textarea.value;
+    const userId = getUserId();
+    const moduleId = getModuleId();
+
+    if (!userId || !moduleId || !textoPregunta) {
+        console.error('User ID, Module ID, or question text is missing');
+        return;
+    }
+
+    const token = sessionStorage.getItem('jwtToken');
+    const headers = token ? { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    } : {
+        'Content-Type': 'application/json'
+    };
+
+    // Crear el objeto de la pregunta
+    const pregunta = {
+        contenido: textoPregunta,
+        idusuario: parseInt(userId),  // Asegurarse de que sea un entero
+        idmodulo: parseInt(moduleId)  // Asegurarse de que sea un entero
+    };
+
+    // Enviar los datos al backend
+    fetch('http://localhost:8081/pregunta/add', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(pregunta)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add question, status: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+         fetchPreguntasByModulo(moduleId); 
+              clearTextarea();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function clearTextarea() {
+    const textarea = document.getElementById('textarea-id');
+    if (textarea) {
+        textarea.value = '';
+    }
+}
+
+function fetchPreguntasByModulo(idmodulo) {
+    const token = sessionStorage.getItem('jwtToken');
+    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+    console.log('Fetching questions for module:', idmodulo);
+
+    fetch(`http://localhost:8081/pregunta/byModulo/${idmodulo}`, {
+        headers: headers
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch questions, status: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(preguntas => {
+        displayPreguntas(preguntas);
+    })
+    .catch(error => {
+        console.error('Error fetching questions:', error);
+    });
+}
+
+/*
+function displayPreguntas(preguntas) {
+    const preguntasLista = document.getElementById('preguntas-lista');
+    preguntasLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevas preguntas
+
+    preguntas.forEach(pregunta => {
+        const preguntaItem = document.createElement('div');
+        preguntaItem.className = 'pregunta-item';
+
+        const usuarioNombre = document.createElement('span');
+        usuarioNombre.className = 'usuario-nombre';
+        usuarioNombre.textContent = pregunta.usuario.username || 'Nombre no disponible'; 
+
+        const contenidoPregunta = document.createElement('p');
+        contenidoPregunta.className = 'contenido-pregunta';
+        contenidoPregunta.textContent = pregunta.contenido;
+        console.log('Usuario:', pregunta.usuario.username);
+        console.log('Pregunta:', contenidoPregunta.textContent);
+
+        preguntaItem.appendChild(usuarioNombre);
+        preguntaItem.appendChild(contenidoPregunta);
+
+        preguntasLista.appendChild(preguntaItem);
+    });
+}
+*/
+function displayPreguntas(preguntas) {
+    const preguntasLista = document.getElementById('preguntas-lista');
+    preguntasLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevas preguntas
+
+    preguntas.forEach(pregunta => {
+        const preguntaItem = document.createElement('div');
+        preguntaItem.className = 'div-respuesta';
+
+        // Contenedor de la pregunta
+        const preguntaContainer = document.createElement('div');
+        preguntaContainer.className = 'd-flex align-items-start';
+
+        // Icono del usuario
+        const userIcon = document.createElement('i');
+        userIcon.className = 'fa-solid fa-circle-user res ';
+
+        // Contenedor del contenido
+        const contenidoContainer = document.createElement('div');
+        
+        // Nombre del usuario
+        const usuarioNombre = document.createElement('span');
+        usuarioNombre.className = 'usuario-nombre font-weight-bold d-block';
+        usuarioNombre.textContent = pregunta.usuario.username || 'Nombre no disponible';
+
+        // Contenedor de la pregunta con línea azul
+        const contenidoPreguntaContainer = document.createElement('div');
+        contenidoPreguntaContainer.className = 'd-flexa align-items-start mt-2';
+
+     
+
+        // Contenido de la pregunta
+        const contenidoPregunta = document.createElement('p');
+        contenidoPregunta.className = 'contenido-pregunta mb-0';
+        contenidoPregunta.textContent = pregunta.contenido;
+
+     
+       
+        contenidoPreguntaContainer.appendChild(contenidoPregunta);
+        contenidoContainer.appendChild(usuarioNombre);
+        contenidoContainer.appendChild(contenidoPreguntaContainer);
+        preguntaContainer.appendChild(userIcon);
+        preguntaContainer.appendChild(contenidoContainer);
+        preguntaItem.appendChild(preguntaContainer);
+        preguntasLista.appendChild(preguntaItem);
+
+        console.log('Usuario:', pregunta.usuario.nombre);
+        console.log('Pregunta:', pregunta.contenido);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', setup);
+
 
 
 
