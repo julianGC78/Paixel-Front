@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../../css/admin.css">
     <script src="https://kit.fontawesome.com/97457a5c00.js" crossorigin="anonymous"></script>
     <script type="module" src="../../js/admin.js"></script>
-    <script  src="../../js/adminDashboard.js"></script>
+    <script type="module"  src="../../js/adminDashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
                 <img class="logo" src="../../images/paixel_P_T.png" alt="">
                 <ul>
                     <a class="home" href="./home.html"><li class="home"><i class="fa-solid fa-house"></i>Home</li></a>
-                    <li class="dashboard"><i class="fa-solid fa-chart-pie"></i>Dashboard</li>
+                    <li class="dashboard-menu"><i class="fa-solid fa-chart-pie"></i>Dashboard</li>
                     <li class="user"><i class="fa-solid fa-users"></i>Usuarios</li>
                     <li class="docente"><i class="fa-solid fa-user-tie"></i>Docentes</li>
                     <li class="curso"><i class="fa-solid fa-book-open"></i>Cursos</li>
@@ -33,12 +34,22 @@
             <nav>    
                 <div class="head"><span><i class="fa-solid fa-user-shield"></i>Admin</span></div>
             </nav>            
-            <h1>Dashboard de Paixel</h1>
-            <div id="userCountContainer">
-                <Span>Usuarios registrados</Span>: <span id="userCount">0</span>
-            </div>
-            <div id="matriculatedUserCountContainer">
-                <span>Usuarios matriculados</span>: <span id="matriculatedUserCount">0</span>
+            <h1 id="main-titles" class="titulo-dashboard">Dashboard de Paixel</h1>
+            <div class="dashboard-contenedor">
+                <div class="column1">
+                    <div id="userCountContainer">
+                        <span>Usuarios registrados</span>: <span id="userCount">0</span>
+                    </div>
+                    <div id="matriculatedUserCountContainer">
+                        <span>Usuarios matriculados</span>: <span id="matriculatedUserCount">0</span>
+                    </div>
+                    <div id="totalPreguntasContainer">
+                        <span>Total de preguntas</span>: <span id="totalPreguntas">0</span>
+                    </div>
+                </div>
+                <div class="column2">
+                    <canvas id="preguntasPorCursoChart" width="1300" height="800"></canvas>
+                </div>
             </div>
             
              <h1 class="main-title"></h1>

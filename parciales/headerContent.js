@@ -17,17 +17,17 @@ const headerContent = `
                         <div class="submenu">                          
                               <div class="column">
                                     <a href="allCursos.html">Todos los cursos</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=3">Diseño Gráfico</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=4">Photoshop</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=5">Desarrollo Web</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=6">UI/UX</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=1">Diseño Gráfico</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=2">Photoshop</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=3">Desarrollo Web</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=4">UI/UX</a>
                               </div>
                               <div class="column">                                  
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=7">Logotipos y Branding</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=8">Ilustración</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=9">3D y Animación</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=10">Introducción a Figma</a>
-                                    <a href="http://127.0.0.1:5500/view/curso.html?id=11">Composición y FX</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=5">Logotipos y Branding</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=6">Ilustración</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=7">3D y Animación</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=8">Introducción a Figma</a>
+                                    <a href="http://127.0.0.1:5500/view/curso.html?id=9">Composición y FX</a>
                               </div>
                         </div>
                   </div>

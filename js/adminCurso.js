@@ -25,7 +25,7 @@ export function cargarCursos() {
             return response.json();
         })
         .then(data => {
-            console.log(data);  // Log de la respuesta para verificar campos
+            console.log(data);
 
             const tableHeaders = document.querySelector('.cabecera-tabla thead .tableHeaders');
             const tableBody = document.querySelector('.cabecera-tabla tbody.cuerpo-tabla');
@@ -44,7 +44,7 @@ export function cargarCursos() {
             <th>Acciones</th>
         `;
 
-            tableBody.innerHTML = ''; // Limpiar las filas existentes
+            tableBody.innerHTML = '';
 
             data.forEach(curso => {
                 console.log('Curso:', curso.titulo, 'ID Usuario:', curso.user ? curso.user.iduser : 'undefined', 'ID Docente:', curso.docente ? curso.docente.iddocente : 'undefined'); // Debugging line
@@ -65,13 +65,13 @@ export function cargarCursos() {
                 tableBody.appendChild(row);
             });
 
-            addCursoButton.style.display = 'block'; // Mostrar el botón de añadir curso
+            addCursoButton.style.display = 'block';
 
             // Agregar event listeners a los íconos de lupa (similar a usuarios y docentes)
             document.querySelectorAll('.view-curso').forEach(icon => {
                 icon.addEventListener('click', (event) => {
                     const cursoId = event.currentTarget.dataset.id;
-                    mostrarDetallesCurso(cursoId); // Implementa esta función similar a mostrarDetallesUsuario
+                    mostrarDetallesCurso(cursoId);
                 });
             });
             document.querySelectorAll('.edit-curso').forEach(icon => {
@@ -81,25 +81,25 @@ export function cargarCursos() {
                 });
             });
             // Agregar event listeners a los íconos de eliminación de cursos
-document.querySelectorAll('.delete-curso').forEach(icon => {
-    icon.addEventListener('click', (event) => {
-        const cursoIdToDelete = event.currentTarget.dataset.id;
-        document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este curso?";
-        document.getElementById('confirmDeleteCursoButton').style.display = 'block';
-        document.getElementById('confirmDeleteUserButton').style.display = 'none';
-        document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
-        document.getElementById('confirmDeleteModuloButton').style.display = 'none';
-        document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
-        document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
-        document.getElementById('deletePopup').style.display = 'block';
+            document.querySelectorAll('.delete-curso').forEach(icon => {
+                icon.addEventListener('click', (event) => {
+                    const cursoIdToDelete = event.currentTarget.dataset.id;
+                    document.getElementById('deletePopupMessage').textContent = "¿Estás seguro de que deseas eliminar este curso?";
+                    document.getElementById('confirmDeleteCursoButton').style.display = 'block';
+                    document.getElementById('confirmDeleteUserButton').style.display = 'none';
+                    document.getElementById('confirmDeleteDocenteButton').style.display = 'none';
+                    document.getElementById('confirmDeleteModuloButton').style.display = 'none';
+                    document.getElementById('confirmDeleteWorkshopButton').style.display = 'none';
+                    document.getElementById('confirmDeletePreguntaButton').style.display = 'none';
+                    document.getElementById('deletePopup').style.display = 'block';
 
-        const confirmDeleteCursoButton = document.getElementById('confirmDeleteCursoButton');
-        confirmDeleteCursoButton.removeEventListener('click', deleteCurso); // Asegúrate de no agregar múltiples event listeners
-        confirmDeleteCursoButton.addEventListener('click', () => {
-            deleteCurso(cursoIdToDelete);
-        });
-    });
-})
+                    const confirmDeleteCursoButton = document.getElementById('confirmDeleteCursoButton');
+                    confirmDeleteCursoButton.removeEventListener('click', deleteCurso);
+                    confirmDeleteCursoButton.addEventListener('click', () => {
+                        deleteCurso(cursoIdToDelete);
+                    });
+                });
+            })
         })
         .catch(error => {
             console.error('Error fetching curso data:', error);
@@ -233,32 +233,32 @@ function updateCurso(cursoId) {
         },
         body: JSON.stringify(cursoUpdates)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(error => {
-                if (response.status === 403) {
-                    throw new Error('No tienes permiso para actualizar este curso');
-                } else {
-                    throw new Error(`Error al actualizar el curso: ${error.message}`);
-                }
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log("Curso updated successfully:", data);
-        if (data.newToken) {
-            sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
-        }
-        showMessage('Curso actualizado con éxito', 'success');
-        document.querySelector('.cursoEdit').style.display = 'none';
-        document.querySelector('table.cabecera-tabla').style.display = 'table';
-        cargarCursos();
-    })
-    .catch(error => {
-        console.error('Error updating curso:', error);
-        showMessage(`Error al actualizar el curso: ${error.message}`, 'error');
-    });
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    if (response.status === 403) {
+                        throw new Error('No tienes permiso para actualizar este curso');
+                    } else {
+                        throw new Error(`Error al actualizar el curso: ${error.message}`);
+                    }
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Curso updated successfully:", data);
+            if (data.newToken) {
+                sessionStorage.setItem('jwtToken', data.newToken);
+            }
+            showMessage('Curso actualizado con éxito', 'success');
+            document.querySelector('.cursoEdit').style.display = 'none';
+            document.querySelector('table.cabecera-tabla').style.display = 'table';
+            cargarCursos();
+        })
+        .catch(error => {
+            console.error('Error updating curso:', error);
+            showMessage(`Error al actualizar el curso: ${error.message}`, 'error');
+        });
 }
 
 
@@ -287,30 +287,30 @@ export function addCurso() {
         },
         body: JSON.stringify(cursoData)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(error => {
-                throw new Error(`Error al añadir el curso: ${error.message}`);
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        showMessage('Curso añadido con éxito', 'success');
-        document.querySelector('.cursoAdd').style.display = 'none';
-        document.querySelector('table.cabecera-tabla').style.display = 'table';
-        document.getElementById('addCursoButton').style.display = 'block';
-        cargarCursos(); // Volver a cargar la lista de cursos
-    })
-    .catch(error => {
-        console.error('Error adding curso:', error);
-        showMessage(`Error al añadir el curso: ${error.message}`, 'error');
-    });
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(`Error al añadir el curso: ${error.message}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            showMessage('Curso añadido con éxito', 'success');
+            document.querySelector('.cursoAdd').style.display = 'none';
+            document.querySelector('table.cabecera-tabla').style.display = 'table';
+            document.getElementById('addCursoButton').style.display = 'block';
+            cargarCursos();
+        })
+        .catch(error => {
+            console.error('Error adding curso:', error);
+            showMessage(`Error al añadir el curso: ${error.message}`, 'error');
+        });
 }
 
-// Handle adding a curso
+
 document.getElementById('cursoAddForm').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
     addCurso();
 });
 
@@ -331,23 +331,23 @@ function deleteCurso(cursoId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(error => {
-                throw new Error(`Error al eliminar el curso: ${error.message}`);
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        showMessage('Curso eliminado con éxito', 'success');
-        document.getElementById('deletePopup').style.display = 'none';
-        cargarCursos(); // Volver a cargar la lista de cursos
-    })
-    .catch(error => {
-        console.error('Error deleting curso:', error);
-        showMessage(`Error al eliminar el curso: ${error.message}`, 'error');
-    });
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(`Error al eliminar el curso: ${error.message}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            showMessage('Curso eliminado con éxito', 'success');
+            document.getElementById('deletePopup').style.display = 'none';
+            cargarCursos();
+        })
+        .catch(error => {
+            console.error('Error deleting curso:', error);
+            showMessage(`Error al eliminar el curso: ${error.message}`, 'error');
+        });
 }
 
 

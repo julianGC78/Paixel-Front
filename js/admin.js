@@ -2,11 +2,39 @@ import { cargarUsuarios } from './adminUser.js';
 import { cargarDocentes } from './adminDocente.js';
 import { cargarCursos } from './adminCurso.js';
 import { cargarModulos } from './adminModulo.js';
-import { cargarWorkshops } from './adminWorkshop.js'; 
+import { cargarWorkshops } from './adminWorkshop.js';
 import { cargarPreguntas } from './adminPregunta.js';
+import { fetchUserCount, fetchMatriculatedUserCount, fetchPreguntasPorCurso, fetchTotalPreguntas } from './adminDashboard.js';
+
+function displayUserCount(count) {
+    const userCountSpan = document.getElementById('userCount');
+    userCountSpan.textContent = count;
+}
+
+function displayMatriculatedUserCount(count) {
+    const matriculatedUserCountSpan = document.getElementById('matriculatedUserCount');
+    matriculatedUserCountSpan.textContent = count;
+}
+
+function displayTotalPreguntas(count) {
+    const totalPreguntasSpan = document.getElementById('totalPreguntas');
+    totalPreguntasSpan.textContent = count;
+}
+
+
+
+// Llamar a fetchUserCount al cargar la página por primera vez
+window.onload = () => {
+    fetchUserCount(displayUserCount);
+    fetchMatriculatedUserCount(displayMatriculatedUserCount);
+    fetchPreguntasPorCurso();
+    fetchTotalPreguntas(displayTotalPreguntas);
+};
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    const dashboardMenuItems = document.querySelector('.dashboard');
+    const dashboardMenuItems = document.querySelector('.dashboard-menu');
     const userMenuItem = document.querySelector('.user');
     const docenteMenuItem = document.querySelector('.docente');
     const cursosMenuItem = document.querySelector('.curso');
@@ -21,7 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const addPreguntaButton = document.getElementById('addPreguntaButton');
     const userCountContainer = document.getElementById('userCountContainer');
     const matriculatedUserCountContainer = document.getElementById('matriculatedUserCountContainer');
+    const totalPreguntasContainer = document.getElementById('totalPreguntasContainer');
+    const preguntasPorCursoChart= document.getElementById('preguntasPorCursoChart');
 
+    const mainTitles = document.getElementById('main-titles');
 
     dashboardMenuItems.addEventListener('click', () => {
         ocultarTodasLasSecciones();
@@ -31,11 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'none';
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'none';
+        addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'block';
         matriculatedUserCountContainer.style.display = 'block';
+        totalPreguntasContainer.style.display = 'block';
+        preguntasPorCursoChart.style.display = 'block';
+        mainTitles.textContent = 'Dashboard de Paixel'; // Actualizar el título
     });
-
-    // Configurar eventos de menú
+    
     userMenuItem.addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
@@ -47,7 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        mainTitles.textContent = 'Usuarios'; // Actualizar el título
     });
+    
+    
 
     docenteMenuItem.addEventListener('click', () => {
         ocultarTodasLasSecciones();
@@ -60,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        mainTitles.textContent = 'Docentes'; // Actualizar el título
     });
 
 
@@ -74,6 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        mainTitles.textContent = 'Cursos'; // Actualizar el título
     });
 
     modulosMenuItem.addEventListener('click', () => {
@@ -87,6 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        modulosMenuItem.style.display = 'block';
+        mainTitles.textContent = 'Modulos'; // Actualizar el título
     });
 
     workshopsMenuItem.addEventListener('click', () => {
@@ -100,10 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'block';
         addPreguntaButton.style.display = 'none';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        mainTitles.textContent = 'Workshops'; // Actualizar el título
     });
 
-     // Configurar eventos de menú
-     preguntaMenuItem.addEventListener('click', () => {
+    // Configurar eventos de menú
+    preguntaMenuItem.addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarPreguntas();
@@ -114,6 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'block';
         userCountContainer.style.display = 'none';
+        matriculatedUserCountContainer.style.display = 'none';
+        totalPreguntasContainer.style.display = 'none';
+        preguntasPorCursoChart.style.display = 'none';
+        mainTitles.textContent = 'Preguntas'; // Actualizar el título
     });
 
 
@@ -129,19 +190,20 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
     });
 
-    // Evento para cancelar el formulario de edición de usuario y volver a la lista
+
     document.querySelector('.userEdit .backToList').addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         addUserButton.style.display = 'block';
 
     });
-    // Manejar la edición de un usuario
+
     document.getElementById('userEditForm').addEventListener('submit', (event) => {
-        event.preventDefault(); // Previene el comportamiento por defecto del formulario
-        const userId = document.querySelector('.edit-user').dataset.id; // Obtén el ID del usuario que estás editando
+        event.preventDefault();
+        const userId = document.querySelector('.edit-user').dataset.id;
         updateUser(userId);
     });
+
     //*********************************Docente*********************************************/
     // Evento para cancelar el añadido de usuario y volver a la lista
     document.querySelector('.docenteAdd .backToList').addEventListener('click', () => {
@@ -154,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
     });
 
-    // Evento para cancelar el formulario de edición de usuario y volver a la lista
     document.querySelector('.docenteEdit .backToList').addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
@@ -163,8 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // Handle editing a docente
     document.getElementById('docenteEditForm').addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission
-        const docenteId = document.querySelector('.edit-docente').dataset.id; // Get the ID of the docente being edited
+        event.preventDefault();
+        const docenteId = document.querySelector('.edit-docente').dataset.id;
         updateDocente(docenteId);
     });
 
@@ -184,8 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addCursoButton.style.display = 'block';
     });
     document.getElementById('cursoEditForm').addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission
-        const cursoId = document.querySelector('.edit-curso').dataset.id; // Get the ID of the curso being edited
+        event.preventDefault();
+        const cursoId = document.querySelector('.edit-curso').dataset.id;
         updateCurso(cursoId);
     });
 
@@ -205,8 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addModuloButton.style.display = 'block';
     });
     document.getElementById('moduloEditForm').addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission
-        const moduloId = document.querySelector('.edit-modulo').dataset.id; // Get the ID of the modulo being edited
+        event.preventDefault();
+        const moduloId = document.querySelector('.edit-modulo').dataset.id;
         updateModulo(moduloId);
     });
 
@@ -220,14 +281,14 @@ document.addEventListener('DOMContentLoaded', () => {
         addModuloButton.style.display = 'none';
         addWorkshopButton.style.display = 'block';
     });
-    document.querySelector('.workshopEdit .backToList').addEventListener('click', () => {   
+    document.querySelector('.workshopEdit .backToList').addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         addWorkshopButton.style.display = 'block';
     });
     document.getElementById('workshopEditForm').addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission
-        const workshopId = document.querySelector('.edit-workshop').dataset.id; // Get the ID of the workshop being edited
+        event.preventDefault();
+        const workshopId = document.querySelector('.edit-workshop').dataset.id;
         updateWorkshop(workshopId);
     });
 
@@ -242,12 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
         addWorkshopButton.style.display = 'none';
         addPreguntaButton.style.display = 'block';
     });
-    document.querySelector('.preguntaEdit .backToList').addEventListener('click', () => {   
+    document.querySelector('.preguntaEdit .backToList').addEventListener('click', () => {
         ocultarTodasLasSecciones();
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         addPreguntaButton.style.display = 'block';
     });
-    
+
     //*********************************EVENTOS CLICK ADDBUTTON PARA OCULTAR BOTONES*********************************************/
 
     addUserButton.addEventListener('click', () => {
@@ -297,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-//*******************************FUNCION PARA OCULTAR TODAS LAS SECIONES ********************/
+    //*******************************FUNCION PARA OCULTAR TODAS LAS SECIONES ********************/
     function ocultarTodasLasSecciones() {
         document.querySelector('.userDetails').style.display = 'none';
         document.querySelector('.docenteDetails').style.display = 'none';

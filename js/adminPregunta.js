@@ -255,7 +255,9 @@ export function updatePregunta(preguntaId) {
 }
 
 
-export function addPregunta() {
+
+
+function addPregunta() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
@@ -264,11 +266,17 @@ export function addPregunta() {
     }
 
     const preguntaData = {
-        contenido: document.getElementById('addPreguntaContenido').value,
+        contenido: document.getElementById('addPreguntaContenido').value.trim(),
         fecha: document.getElementById('addPreguntaFecha').value,
-        idusuario: document.getElementById('addPreguntaIdUsuario').value,
-        idmodulo: document.getElementById('addPreguntaIdModulo').value
+        idusuario: parseInt(document.getElementById('addPreguntaIdUsuario').value, 10),
+        idmodulo: parseInt(document.getElementById('addPreguntaIdModulo').value, 10)
     };
+
+    if (!preguntaData.contenido || isNaN(preguntaData.idusuario) || isNaN(preguntaData.idmodulo)) {
+        console.error('Campos requeridos faltantes o incorrectos');
+        showMessage('Campos requeridos faltantes o incorrectos', 'error');
+        return;
+    }
 
     console.log('Pregunta data:', preguntaData);
 
@@ -280,23 +288,23 @@ export function addPregunta() {
         },
         body: JSON.stringify(preguntaData)
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al añadir la pregunta: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            showMessage('Pregunta añadida con éxito', 'success');
-            document.querySelector('.preguntaAdd').style.display = 'none';
-            document.querySelector('table.cabecera-tabla').style.display = 'table';
-            document.getElementById('addPreguntaButton').style.display = 'block';
-            cargarPreguntas(); // Volver a cargar la lista de preguntas
-        })
-        .catch(error => {
-            console.error('Error adding pregunta:', error);
-            showMessage(`Error al añadir la pregunta: ${error.message}`, 'error');
-        });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al añadir la pregunta: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        showMessage('Pregunta añadida con éxito', 'success');
+        document.querySelector('.preguntaAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addPreguntaButton').style.display = 'block';
+        cargarPreguntas(); // Volver a cargar la lista de preguntas
+    })
+    .catch(error => {
+        console.error('Error adding pregunta:', error);
+        showMessage(`Error al añadir la pregunta: ${error.message}`, 'error');
+    });
 }
 
 
@@ -342,11 +350,6 @@ function deletePregunta(preguntaId) {
     });
 }
 
-
-document.getElementById('preguntaAddForm').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the default form submission
-    addPregunta();
-});
 
   // Aquí puedes agregar la lógica para mostrar y editar la pregunta
 document.addEventListener('DOMContentLoaded', () => {
