@@ -243,7 +243,6 @@ function setupNextButton(currentModuleId) {
     }
 }
 
-// Función para enviar la pregunta al backend
 function sendPregunta() {
     const textarea = document.getElementById('textarea-id');
     
@@ -255,6 +254,7 @@ function sendPregunta() {
     const textoPregunta = textarea.value;
     const userId = getUserId();
     const moduleId = getModuleId();
+    const fecha = new Date().toISOString().split('T')[0];  // Usar la fecha actual en formato ISO (YYYY-MM-DD)
 
     if (!userId || !moduleId || !textoPregunta) {
         console.error('User ID, Module ID, or question text is missing');
@@ -269,14 +269,15 @@ function sendPregunta() {
         'Content-Type': 'application/json'
     };
 
-    // Crear el objeto de la pregunta
     const pregunta = {
         contenido: textoPregunta,
-        idusuario: parseInt(userId),  // Asegurarse de que sea un entero
-        idmodulo: parseInt(moduleId)  // Asegurarse de que sea un entero
+        idusuario: parseInt(userId, 10),  // Asegurarse de que sea un entero
+        idmodulo: parseInt(moduleId, 10), // Asegurarse de que sea un entero
+        fecha: fecha // Añadir la fecha actual
     };
 
-    // Enviar los datos al backend
+    console.log('Datos enviados:', pregunta);
+
     fetch('http://localhost:8081/pregunta/add', {
         method: 'POST',
         headers: headers,
@@ -284,14 +285,16 @@ function sendPregunta() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Failed to add question, status: ' + response.status);
+            return response.json().then(error => {
+                throw new Error('Failed to add question, status: ' + response.status + ', error: ' + JSON.stringify(error));
+            });
         }
         return response.json();
     })
     .then(data => {
         console.log('Success:', data);
-         fetchPreguntasByModulo(moduleId); 
-              clearTextarea();
+        fetchPreguntasByModulo(moduleId); 
+        clearTextarea();
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -327,32 +330,6 @@ function fetchPreguntasByModulo(idmodulo) {
     });
 }
 
-/*
-function displayPreguntas(preguntas) {
-    const preguntasLista = document.getElementById('preguntas-lista');
-    preguntasLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevas preguntas
-
-    preguntas.forEach(pregunta => {
-        const preguntaItem = document.createElement('div');
-        preguntaItem.className = 'pregunta-item';
-
-        const usuarioNombre = document.createElement('span');
-        usuarioNombre.className = 'usuario-nombre';
-        usuarioNombre.textContent = pregunta.usuario.username || 'Nombre no disponible'; 
-
-        const contenidoPregunta = document.createElement('p');
-        contenidoPregunta.className = 'contenido-pregunta';
-        contenidoPregunta.textContent = pregunta.contenido;
-        console.log('Usuario:', pregunta.usuario.username);
-        console.log('Pregunta:', contenidoPregunta.textContent);
-
-        preguntaItem.appendChild(usuarioNombre);
-        preguntaItem.appendChild(contenidoPregunta);
-
-        preguntasLista.appendChild(preguntaItem);
-    });
-}
-*/
 function displayPreguntas(preguntas) {
     const preguntasLista = document.getElementById('preguntas-lista');
     preguntasLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevas preguntas
@@ -361,35 +338,25 @@ function displayPreguntas(preguntas) {
         const preguntaItem = document.createElement('div');
         preguntaItem.className = 'div-respuesta';
 
-        // Contenedor de la pregunta
         const preguntaContainer = document.createElement('div');
         preguntaContainer.className = 'd-flex align-items-start';
 
-        // Icono del usuario
         const userIcon = document.createElement('i');
         userIcon.className = 'fa-solid fa-circle-user res ';
 
-        // Contenedor del contenido
         const contenidoContainer = document.createElement('div');
         
-        // Nombre del usuario
         const usuarioNombre = document.createElement('span');
         usuarioNombre.className = 'usuario-nombre font-weight-bold d-block';
         usuarioNombre.textContent = pregunta.usuario.username || 'Nombre no disponible';
 
-        // Contenedor de la pregunta con línea azul
         const contenidoPreguntaContainer = document.createElement('div');
         contenidoPreguntaContainer.className = 'd-flexa align-items-start mt-2';
 
-     
-
-        // Contenido de la pregunta
         const contenidoPregunta = document.createElement('p');
         contenidoPregunta.className = 'contenido-pregunta mb-0';
         contenidoPregunta.textContent = pregunta.contenido;
 
-     
-       
         contenidoPreguntaContainer.appendChild(contenidoPregunta);
         contenidoContainer.appendChild(usuarioNombre);
         contenidoContainer.appendChild(contenidoPreguntaContainer);
@@ -402,6 +369,8 @@ function displayPreguntas(preguntas) {
         console.log('Pregunta:', pregunta.contenido);
     });
 }
+
+
 
 
 document.addEventListener('DOMContentLoaded', setup);
