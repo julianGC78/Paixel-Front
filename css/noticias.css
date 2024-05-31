@@ -1,0 +1,76 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    overflow-x: hidden;
+}
+
+.noticias {
+    background-color: var(--color-negro);
+}
+
+main {
+    height: auto;
+    padding: 20px;
+    background-color: var(--color-negro);
+}
+
+.noticias {
+    text-align: center;
+}
+
+.noticias-grid {
+    display: grid;
+    width: 80%;
+    margin: 0 auto; /* Centra la cuadrícula dentro del contenedor principal */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    margin-top: 20px;
+}
+
+.noticia {
+    background-color: rgba(185, 185, 185, 0.575);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar el contenido horizontalmente */
+    text-align: center; /* Asegurar que el texto también esté centrado */
+}
+
+.noticia img {
+    width: 70%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Asegurar que la imagen esté centrada dentro del contenedor */
+}
+
+.noticia h2 {
+    margin: 15px 10px 10px;
+    font-size: 1.5vw;
+    font-family: var(--fuente);
+  padding: 20px;
+}
+
+.noticia p {
+    font-family: var(--fuente);
+    margin: 0 10px 15px;
+    font-size: 1vw;
+    line-height: 1.5;
+    padding: 20px;
+}
+
+.noticia:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+

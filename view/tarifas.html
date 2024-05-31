@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifas</title>
+
+    <link rel="stylesheet" href="../css/tarifas.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+
+    <link rel="stylesheet" href="../fonts/Webfont Kit/stylesheet.css">
+   
+
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <script src="https://kit.fontawesome.com/97457a5c00.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script type="module" src="../js/tarifas.js"></script>
+</head>
+<body>
+
+   <article class="precios">
+    <div class="price-container">
+        <div class="price-card">
+            <h2>Plan Básico Mensual</h2>
+            <p class="price">€39.90/mes</p>
+            <p>Perfecto para quienes comienzan a aprender y explorar nuevas habilidades sin compromiso a largo plazo.</p>
+            <button class="btn">Comenzar Ahora</button>
+            <ul>
+                <li>Acceso a cursos seleccionados</li>
+                <li>Soporte por email</li>
+                <li>Cancelación en cualquier momento</li>
+            </ul>
+        </div>
+        <div class="price-card">
+            <h2>Plan Experto Anual</h2>
+            <p class="price">€225/año</p>
+            <p>Adecuado para profesionales que buscan profundizar y expandir sus habilidades con acceso total.</p>
+            <button class="btn gris">Comenzar Ahora</button>
+            <ul>
+                <li>Acceso ilimitado a todos los cursos</li>
+                <li>Soporte prioritario</li>
+                <li>Certificados de finalización</li>
+            </ul>
+        </div>
+    </div>  
+    <div id="paymentPopup" class="payment-popup" style="display: none;">
+        <div class="popup-content">
+            <p>¿Deseas confirmar el pago? Esta acción no se puede deshacer.</p>
+            <button class="btn-confirmar" id="confirmPayment">Aceptar</button>
+            <button class="cancelPayment">Cancelar</button>
+        </div>
+    </div>  
+   </article> 
+</body>
+</html>

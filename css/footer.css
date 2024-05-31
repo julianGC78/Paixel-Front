@@ -1,0 +1,28 @@
+@import url('../css/comun.css');
+footer {
+    height: 400px;
+    background-color: var(--color-negroOs);  
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items: center;
+}
+ .social i{ 
+    color: #565656;
+    font-size: 30px;
+    padding: 10px;
+    margin-top: 100px;
+}
+.isotipo{
+    align-self: flex-start;
+}
+.info{
+    display: flex;
+    color: #565656;
+}
+.info p{
+    margin: 0;
+    padding: 10px;
+}

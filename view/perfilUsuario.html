@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil usuario</title>
+
+    <link rel="stylesheet" href="../css/perfilUsuario.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+
+    <link rel="stylesheet" href="../fonts/Webfont Kit/stylesheet.css">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <script src="https://kit.fontawesome.com/97457a5c00.js" crossorigin="anonymous"></script>
+
+    <script type="module" src="../js/home.js"></script>
+    <script type="module" src="../js/perfilUsuario.js"></script>
+    
+    
+</head>
+<body>
+    <article class="perfilUsuario">
+        <div class="titulo">
+            <h2>MI CUENTA</h2>
+            <div class="linea-titulo"></div>
+        </div>
+        <div class="lista">
+            <ul>
+                <li><a href="perfilUsuario.html" id="linkDatosCuenta">
+                    <span>Datos de la cuenta</span>
+                </a></li>
+                <li><a href="#" id="linkMisCursos">
+                    <span>Mis cursos</span>
+                </a></li>
+                <li><a href="#" id="linkMisDiplomas">
+                    <span>Mis diplomas</span>
+                </a></li>
+            </ul>            
+        </div>
+        <div class="user-card">
+            <p class="infor">Información de contacto</p>
+            <div class="user-data">
+            </div>
+            <p class="a1">
+                <a href="editarInformacion.html">Editar información</a> |            
+                <a id="deleteUserLink" href="#">Eliminar cuenta</a>
+            </p>
+        </div>
+        <div id="deletePopup" class="delete-popup" style="display: none;">
+            <div class="popup-content">
+                <p>¿Estás seguro de que deseas eliminar tu cuenta? <br> acción no se puede deshacer.</p>
+                <button class="btn-eliminar" id="confirmDelete">Eliminar</button>
+                <button id="cancelDelete">Cancelar</button>
+                <p id="deleteMessage" style="color: red;"></p> 
+            </div>
+        </div>
+        
+       
+        
+    </article>
+      
+</body>
+</html>
