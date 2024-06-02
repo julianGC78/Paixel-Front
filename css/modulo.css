@@ -210,3 +210,135 @@ body {
 .btn-cance {
     background-color: var(--color-gris);
 }
+
+/**************************Media Queries**************************/
+
+@media (width < 1100px) {
+    .video-modulos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .video-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .module-links {
+        width: 90%;
+        margin-top: 20px;
+    }
+
+    .preguntas {
+        width: 90%;
+        margin-left: 0;
+    }
+
+    .menu-modulo a, .menu-modulo span, .menu-modulo .siguiente {
+        font-size: 1.5vw;
+    }
+
+    .titulo-modulo {
+        font-size: 3vw;
+    }
+
+    .usuario-nombre {
+        font-size: 1.5vw;
+    }
+
+    .contenido-pregunta {
+        font-size: 1.2vw;
+    }
+
+    .fa-circle-user {
+        font-size: 2em;
+    }
+}
+
+
+@media (width < 700px) {
+    .menu-modulo a, .menu-modulo span, .menu-modulo .siguiente {
+        font-size: 2vw;
+    }
+
+    .titulo-modulo {
+        font-size: 4vw;
+    }
+
+    .module-link {
+        padding: 10px;
+    }
+
+    .module-link span {
+        font-size: 2.5vw;
+    }
+
+    .usuario-nombre {
+        font-size: 2vw;
+    }
+
+    .contenido-pregunta {
+        font-size: 1.5vw;
+    }
+
+    .fa-circle-user {
+        font-size: 1.5em;
+    }
+
+    .botones button {
+        width: 80px;
+        font-size: 14px;
+    }
+
+    .btn-enviar {
+        padding: 8px 16px;
+    }
+
+    .btn-cance {
+        padding: 8px 16px;
+    }
+}
+
+
+@media (width < 550px) {
+    .menu-modulo a, .menu-modulo span, .menu-modulo .siguiente {
+        font-size: 2.5vw;
+    }
+
+    .titulo-modulo {
+        font-size: 5vw;
+    }
+
+    .module-link {
+        padding: 8px;
+    }
+
+    .module-link span {
+        font-size: 3vw;
+    }
+
+    .usuario-nombre {
+        font-size: 2.5vw;
+    }
+
+    .contenido-pregunta {
+        font-size: 2vw;
+    }
+
+    .fa-circle-user {
+        font-size: 1.2em;
+    }
+
+    .botones button {
+        width: 70px;
+        font-size: 12px;
+    }
+
+    .btn-enviar {
+        padding: 6px 12px;
+    }
+
+    .btn-cance {
+        padding: 6px 12px;
+    }
+}

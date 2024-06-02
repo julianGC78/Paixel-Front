@@ -26,3 +26,58 @@ footer {
     margin: 0;
     padding: 10px;
 }
+
+/*********************************Media Queries*********************************/
+/* Estilo para pantallas medianas */
+@media (max-width: 900px) {
+    footer {
+        height: 300px;
+        padding: 15px;
+    }
+    
+    .social i {
+        font-size: 25px;
+        padding: 8px;
+        margin-top: 50px;
+    }
+    
+    .info {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .info p {
+        padding: 8px;
+    }
+    
+    .isotipo {
+        align-self: center;
+    }
+}
+/* Estilo para pantallas pequeñas */
+@media (max-width: 600px) {
+    footer {
+        height: auto; 
+        padding: 10px;
+    }
+    
+    .social i {
+        font-size: 20px;
+        padding: 5px;
+        margin-top: 20px;
+    }
+    
+    .info {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .info p {
+        padding: 5px;
+    }
+    
+    .isotipo {
+        align-self: center;
+    }
+}

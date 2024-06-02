@@ -142,3 +142,104 @@ select {
    font-size: 15px;
    color: var(--color-verde);
 }
+
+/************************* Media Queries *************************/
+
+
+/* Pantallas menores que 1100px */
+@media (max-width: 1100px) {
+  .formulario {
+      width: 90%;
+  }
+
+  .register-form,
+  .login-form,
+  .edit-contact-form {
+      max-width: 90%;
+  }
+
+  .titulo h2 {
+      font-size: 2.5rem;
+  }
+
+  .form-control input,
+  .form-control textarea,
+  select {
+      font-size: 16px;
+      padding: 12px;
+  }
+
+  button {
+      font-size: 16px;
+      padding: 15px;
+  }
+
+  p {
+      font-size: 16px;
+  }
+}
+
+/* Pantallas menores que 700px */
+@media (max-width: 700px) {
+  .formulario {
+      width: 100%;
+  }
+
+  .register-form,
+  .login-form,
+  .edit-contact-form {
+      max-width: 100%;
+  }
+
+  .titulo h2 {
+      font-size: 2rem;
+  }
+
+  .form-control input,
+  .form-control textarea,
+  select {
+      font-size: 14px;
+      padding: 10px;
+  }
+
+  button {
+      font-size: 14px;
+      padding: 12px;
+  }
+
+  p {
+      font-size: 14px;
+  }
+}
+
+/* Pantallas menores que 550px */
+@media (width< 550px) {
+  .formulario {
+    width: 90%;
+}
+  .titulo h2 {
+      font-size: 1.5rem;
+      padding: 0 20px;
+  }
+
+  .form-control input,
+  .form-control textarea,
+  select {
+      font-size: 12px;
+      padding: 8px;
+  }
+
+  button {
+      font-size: 12px;
+      padding: 10px;
+  }
+
+  p {
+      font-size: 12px;
+  }
+
+  .linea-titulo {
+      height: 3px;
+      bottom: 20px;
+  }
+}

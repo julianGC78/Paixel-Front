@@ -28,12 +28,14 @@ header {
     align-items: center;
     position: relative;
     color: white;
-    font-size: 22px;
-    font-family: "SafiroMedium", sans-serif;
 }
 
 .menu div {
     padding: 20px;
+}
+.menu a{
+    font-family: "SafiroMedium", sans-serif;
+    font-size: 28px;
 }
 
 .menu a.active:before {
@@ -148,4 +150,103 @@ Submenu y Hover
 .submenu-m5 a:hover {
     background-color: #ddd;
     color: black;
+}
+
+
+/***********************Media Queries***********************/
+
+@media (width < 1000px) {
+    .menu {
+        margin-right: 10px;
+    }
+    .menu a{
+        
+        font-size: 20px;
+    }
+
+    .menu div {
+        padding: 15px;
+    }
+
+    .logo img {
+        width: 80%;
+    }
+}
+
+
+@media (width < 700px) {
+    .menu {
+
+        margin-right: 5px;
+    }
+    
+    .menu div {
+       
+        padding: 7px;
+    }
+    .menu a{
+        font-size: 14px;
+    }
+
+
+    .logo img {
+        width: 70%;
+    }
+    
+    .linea {
+        padding-bottom: 4px;
+    }
+
+    .linea:before {
+        top: 24px;
+    }
+    a img{
+        width: 30px;
+    }
+
+}
+
+
+@media (width < 550px) {
+    .menu {
+        margin-right: 4px;
+    }
+    
+    .menu div {
+       
+        padding: 5px;
+    }
+    .menu a{
+        font-size: 10px;
+    }
+
+    .logo img {
+        width: 70%;
+    }
+    
+.submenu {
+    width: 80%;
+    top: 80px;
+}
+
+
+.submenu .column {
+    width: 50%;
+    padding: 7px;
+}
+
+.submenu a {
+    padding: 8px;
+}
+
+.submenu-m5 a {
+    padding: 6px;
+}
+a img{
+    width: 20px;
+}
+.m1 span{
+    display: none;
+}
+
 }

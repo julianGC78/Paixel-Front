@@ -51,20 +51,20 @@ li a{
 }
 
 .user-data {
-    position: relative; /* Asegura que el posicionamiento absoluto funcione correctamente */
+    position: relative; 
     width: 600px;
     height: auto;
     border: 1px solid rgb(174, 174, 174);
     border-radius: 5px;
     padding: 20px;
-    overflow: hidden; /* Asegura que nada se desborde fuera del contenedor */
+    overflow: hidden; 
 }
 
 
 .user-data .a1{
-    position: absolute; /* Posicionamiento absoluto */
-    bottom: 10px;  /* Espacio desde el fondo del contenedor */
-    right: 10px;   /* Espacio desde la derecha del contenedor */
+    position: absolute; 
+    bottom: 10px;  
+    right: 10px;   
    margin-top: 10px;
 }
 
@@ -136,7 +136,7 @@ p.infor{
 .active-link::after {
     content: '';
     position: absolute;
-    bottom: 5px; /* Controla la posición vertical del subrayado */
+    bottom: 5px; 
     left: 0;
     width: 100%;
     height: 2px;

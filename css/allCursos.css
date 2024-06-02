@@ -14,8 +14,8 @@ body {
   }
 
   .allCursos {
-    width: 100%; /* Asegura que el artículo ocupe todo el ancho disponible */
-    height: auto; /* O ajusta según la altura deseada */
+    width: 100%; 
+    height: auto; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,39 +55,115 @@ h1{
 
 .cursos-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Crea tres columnas de igual tamaño */
-    grid-gap: 60px; /* Espacio entre las celdas */
-    padding: 20px; /* Espaciado dentro del contenedor */
-    max-width: 1200px; /* Ancho máximo del contenedor */
-    margin: auto; /* Centrar la cuadrícula en la página */
+    grid-template-columns: repeat(3, 1fr); 
+    grid-gap: 60px; 
+    padding: 20px; 
+    max-width: 1200px; 
+    margin: auto; 
     margin-bottom: 100px;
   }
   
   .celda {
-    background: #fff; /* Fondo blanco para cada celda */
-    border: 1px solid #ddd; /* Borde sutil para cada celda */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra ligera para resaltar las celdas */
-    border-radius: 8px; /* Bordes redondeados para estética */
-    overflow: hidden; /* Oculta el contenido que se salga de los bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar sobre las celdas */
+    background: #fff; 
+    border: 1px solid #ddd; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    overflow: hidden; 
+    cursor: pointer; 
   }
   
   .celda-content {
-    text-align: center; /* Centra el contenido en la celda */
+    text-align: center; 
   }
   
   .celda-content img {
-    width: 100%; /* La imagen cubre el ancho de la celda */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100%; 
+    height: auto; 
   }
   
   .celda-content h4 {
-    margin: 10px 0; /* Margen superior e inferior para el título */
-    color: #333; /* Color del texto para mejorar la legibilidad */
+    margin: 10px 0; 
+    color: #333; 
     font-family: var(--fuente);
     font-size: 1.4vw;
   }
 
+
+/*******************MEDIA QUERIES*******************/
   
   
+@media  (width<1100px) {
+  .cursos-container {
+      grid-template-columns: repeat(2, 1fr); 
+      grid-gap: 40px; 
+  }
   
+  .texto-principal div {
+      margin-left: 50px;
+      width: 80%;
+  }
+  
+  .titulo {
+      font-size: 6vh;
+  }
+  
+  .texto-principal {
+    height: auto;
+    padding: 20px;
+}
+
+.texto-principal div {
+    margin-left: 50px;
+    width: 80%;
+}
+
+.titulo {
+    font-size: 6vh;
+}
+
+.frase {
+    font-size: 2.5vh;
+}
+}
+
+/* Estilo para pantallas pequeñas (menor o igual a 600px) */
+@media (width < 700px) {
+  .cursos-container {
+      grid-template-columns: 1fr; 
+      grid-gap: 20px; 
+  }
+  
+  .texto-principal div {
+      margin-left: 20px;
+      width: 90%;
+  }
+  
+  .titulo {
+      font-size: 5vh;
+  }
+  
+  .frase {
+      font-size: 2vh;
+  }
+  .texto-principal {
+    height: auto;
+    padding: 10px;
+}
+
+.texto-principal div {
+    margin-left: 20px;
+    width: 90%;
+}
+
+.titulo {
+    font-size: 3.5vh;
+}
+
+.frase {
+    font-size: 1.9vh;
+}
+.celda-content h4{
+  font-size: 3vw;
+}
+
+}

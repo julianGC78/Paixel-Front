@@ -186,5 +186,120 @@ body {
     color: #555;
 }
 
+/****************************media queries************************************/
+/* Pantallas menores que 1100px */
+@media (max-width: 1100px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Una columna */
+        grid-template-rows: repeat(4, 500px); /* Cuatro filas */
+    }
 
+    .grid-item {
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    .cursoImageContainer {
+        border-radius: 20px 20px 0 0; /* Bordes redondeados superiores */
+    }
+
+    .docenteImageContainer {
+        border-radius: 0; /* Sin bordes redondeados */
+    }
+
+    .large {
+        border-radius: 0 0 0 20px; /* Bordes redondeados inferiores izquierdos */
+    }
+
+    .small {
+        border-radius: 0 0 20px 0; /* Bordes redondeados inferiores derechos */
+    }
+
+    .overlay h1 {
+        font-size: 4vw;
+    }
+
+    .overlay span {
+        font-size: 2vw;
+    }
+}
+
+/* Pantallas menores que 700px */
+@media (max-width: 700px) {
+    .overlay h1 {
+        font-size: 5vw;
+    }
+
+    .overlay span {
+        font-size: 3vw;
+    }
+
+    .overlay button {
+        width: 80px;
+        font-size: 14px;
+    }
+
+    .titulo-modulo {
+        font-size: 3vw;
+    }
+
+    .module-link {
+        padding: 10px;
+    }
+
+    .module-link span {
+        font-size: 2vw;
+    }
+
+    .instructor-info h3 {
+        font-size: 2vw;
+    }
+
+    .instructor-info h4 {
+        font-size: 1.8vw;
+    }
+
+    .instructor-info p {
+        font-size: 1.5vw;
+    }
+}
+
+/* Pantallas menores que 550px */
+@media (max-width: 550px) {
+    .overlay h1 {
+        font-size: 6vw;
+    }
+
+    .overlay span {
+        font-size: 4vw;
+    }
+
+    .overlay button {
+        width: 60px;
+        font-size: 12px;
+    }
+
+    .titulo-modulo {
+        font-size: 4vw;
+    }
+
+    .module-link {
+        padding: 8px;
+    }
+
+    .module-link span {
+        font-size: 2.5vw;
+    }
+
+    .instructor-info h3 {
+        font-size: 2.5vw;
+    }
+
+    .instructor-info h4 {
+        font-size: 2vw;
+    }
+
+    .instructor-info p {
+        font-size: 1.8vw;
+    }
+}
 

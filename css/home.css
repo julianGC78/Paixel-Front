@@ -19,7 +19,7 @@
       text-align: center;
       width: 55%;
       height: auto;
-      font-size: 100px;
+      font-size: 5vw;
       color: rgb(255, 255, 255);
       z-index: 1;
       font-weight: bolder;
@@ -134,7 +134,7 @@
 }
 
 .final {
-      height: 400px;
+      height: 25%;
       background-color: white;
       color: var(color-negro);
       text-align: center;
@@ -147,7 +147,7 @@
 
 .stat {
       text-align: center;
-      width: 500px;
+      width: 25%;
       margin-right: 50px;
 }
 
@@ -165,3 +165,109 @@
       font-size: 26px;
       color: var(--color-gris);
 }
+
+
+/**************************Medias Querys*****************/
+
+@media (max-width: 1100px) {
+   .slogan{
+      font-size: 4vh;
+   }
+  
+      .mensaje h1 {
+          font-size: 60px;
+      }
+  
+      .mensaje p {
+          font-size: 20px;
+      }
+  
+      .contenedor_grid {
+          flex-wrap: wrap;
+      }
+  
+      .columna {
+          flex: 1 1 45%; /* Ajustar el flex basis a 45% para dos columnas */
+      }
+  
+      
+  
+      .stat-number {
+          font-size: 60px;
+      }
+  
+      .stat-title {
+          font-size: 30px;
+      }
+  
+      .stat-desc {
+          font-size: 24px;
+      }
+  }
+  
+  /* Pantallas menores que 700px */
+  @media (max-width: 700px) {
+
+  
+      .mensaje h1 {
+          font-size: 50px;
+      }
+  
+      .mensaje p {
+          font-size: 18px;
+      }
+  
+      .contenedor_grid {
+          flex-direction: column;
+      }
+  
+      .columna {
+          flex: 1 1 100%; /* Una columna */
+      }
+  
+      .stat-number {
+          font-size: 50px;
+      }
+  
+      .stat-title {
+          font-size: 28px;
+      }
+  
+      .stat-desc {
+          font-size: 22px;
+      }
+  }
+  
+  /* Pantallas menores que 550px */
+  @media (max-width: 550px) {
+      .slogan {
+            font-size: 3vh;
+      }
+  
+      .mensaje h1 {
+          font-size: 40px;
+      }
+  
+      .mensaje p {
+          font-size: 16px;
+      }
+  
+      .contenedor-mensaje {
+          height: auto;
+          padding: 20px;
+      }
+      .stat{
+            width: 18%;
+      }
+      .stat-number {
+          font-size: 20px;
+      }
+  
+      .stat-title {
+          font-size: 14px;
+      }
+  
+      .stat-desc {
+          font-size: 10px;
+      }
+  }
