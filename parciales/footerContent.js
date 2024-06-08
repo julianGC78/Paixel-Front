@@ -14,8 +14,8 @@ const footerContent = `
       <i class="fa-brands fa-square-instagram"></i>
       <div class="info">
             <p>© 2021 Paixel. Todos los derechos reservados</p>
-            <p>Política de privacidad</p>
-            <p>Terminos y condiciones</p>
+             <p><a href="../view/politica.html">Política de privacidad</a></p>
+                        <p><a href="../view/terminos.html">Términos y condiciones</a></p>
       </div>
       
 </div>

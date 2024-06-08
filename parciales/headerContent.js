@@ -34,6 +34,7 @@ const headerContent = `
                   <div class="m2"><a class="linea" href="tarifas.html">Tarifas</a></div>
                   <div class="m3"><a class="linea" href="workshop.html">Workshop</a></div>
                   <div class="m4"><a class="linea" href="noticias.html">Noticias</a></div>
+                   <div class="m4"><a class="linea" href="contacto.html">Contacto</a></div>
                    <div class="m5">
             <a href="login.html">
                   <img src="../images/usuario1.png" alt="usuario">

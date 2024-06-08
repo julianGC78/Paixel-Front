@@ -1,0 +1,66 @@
+@import url('../css/header.css');
+@import url('../css/footer.css');
+@import url('../css/comun.css');
+@import url('../css/formularioLoginRegister.css');
+
+/* contacto.css */
+
+
+.contacto {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.formulario{
+    width: 600px;
+    margin-right: 50px;
+}
+.contenido {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+button {
+   margin-left: 260px;
+    
+}
+.mensaje{
+    margin-top: -10px;
+}
+
+#mapa {
+ width: 600px;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+textarea {
+    resize: vertical; /* Permitir redimensionar solo verticalmente */
+    overflow: auto; /* Mostrar la barra de desplazamiento cuando sea necesario */
+}
+
+.divider {
+    width: 2px;
+    background-color: #000; /* Puedes cambiar el color según tus necesidades */
+    margin-right: 40px;
+}
+.form{
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+#mapa{
+ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+address{
+    margin-top: 30px;
+}

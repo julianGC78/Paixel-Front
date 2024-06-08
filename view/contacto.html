@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/contacto.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" href="../blanco.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../fonts/Webfont Kit/stylesheet.css">
+    
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <script src="https://kit.fontawesome.com/97457a5c00.js" crossorigin="anonymous"></script>
+
+    <script type="module" src="../js/contacto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    
+</head>
+
+<body>
+
+    <article class="contacto">
+        <div class="titulo">
+            <h2>Contacto</h2>
+            <div class="linea-titulo"></div>
+        </div>
+        <div class="contenido">
+            <div class="formulario">
+                <form class="contact-form" id="contactForm" method="POST">
+                    <div class="form-control">
+                        <input type="text" id="nombre" name="nombre" required>
+                        <label for="nombre">Nombre</label>
+                    </div>
+                    <div class="form-control">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Correo Electrónico</label>
+                    </div>
+                    <div class="form-control">
+                        <input type="text" id="asunto" name="asunto" required>
+                        <label for="asunto">Asunto</label>
+                    </div>
+                    <div class="form-control">
+                        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                        <label class="mensaje" for="mensaje">Mensaje</label>
+                    </div>
+                    <div class="form">
+                        <input type="checkbox" id="politica" name="politica" required>
+                        <label for="politica">Declaro haber leído y entendido la <a href="../view/politica.html" target="_blank">política de privacidad</a>.</label>
+                    </div>
+                    <div class="button">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="divider"></div> 
+            <div id="mapa">
+                <div id="map"></div>
+            <address>
+                Paixel<br>
+                Dirección: Calle paixel 20<br>
+                Correo electrónico: email@paixel.com<br>
+                Teléfono: 666999666
+            </address>
+            </div>
+            <script>
+                // Inicializar el mapa
+                var map = L.map('map').setView([43.545, -5.661], 13);
+        
+                // Añadir la capa de OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+        
+                // Añadir un marcador
+                L.marker([43.545, -5.661]).addTo(map)
+                    .bindPopup('Aquí estamos en Gijón.')
+                    .openPopup();
+            </script>
+        </div>
+    </article>
+   
+
+
+</body>
+
+</html>

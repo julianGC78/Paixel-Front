@@ -125,7 +125,7 @@ function checkPaymentStatus(userId, cursoId) {
     .then(pagado => {
         if (pagado) {
             console.log('Pago verificado: true');
-            window.location.href = ''; // Redirige a la página de cursos si el pago es true
+            window.location.href = 'cursos.html'; // Redirige a la página de cursos si el pago es true
         } else {
             console.log('Pago verificado: false');
             window.location.href = 'tarifas.html'; // Redirige a la página de precios si el pago es false
