@@ -1,0 +1,38 @@
+<ul class="customer-info-products">
+    {% set prevLineItemId = null %}
+    {# @var item Siroko\Orders\Application\Dto\OrderLineItemDto #}
+    {% for i, item in order.lineItems %}
+        {% if prevLineItemId != item.variantId or (prevLineItemId == item.variantId and orderIsReturnable) or item.isBogo %}
+            {% set prevLineItemId = item.variantId %}
+            {% set productImage = item.productImage.getImageUrl('thumbs', 'tiny') %}
+            {% if productImage starts with "http" == false %}
+                {% set productImage = item.productImage.getImageUrl('desktop', 'large') %}
+            {% endif %}
+            {% set productLink = item.productSlug is not null ? path('get_product_details', {'slug': item.productSlug, 'variant': item.variantId, '_locale': order.locale}) : '#' %}
+            <li class="customer-info-product js-customer-li {{ item.returned ? 'customer-info-product--is-returned' : '' }}"
+                id="id-{{ loop.index0 }}">
+                <div class="customer-info-product__data">
+                    <div class="customer-info-product__data__image">
+                        <a href="{{ productLink }}"
+                           target="_blank" rel="noopener">
+                            <img src="{{ productImage }}">
+                        </a>
+                    </div>
+                    <div class="customer-info-product__data__name-qty">
+                        <a href="{{ productLink }}"
+                           target="_blank" rel="noopener">
+                            <span>{{ item.productName }} {{ item.variantName != 'default.default' ? ' - ' ~ (item.variantName | trans({},'variants','es')) : '' }}</span>
+                        </a>
+                        <span class="customer-info-product__data__qty">{{ 'customer.order.units'|trans({'%count%': item.quantity }) }}</span>
+                        {% if item.returned %}
+                            <span class="warning-message">{{ 'customer.return.status.returned'|trans }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="customer-info-product__price">
+                    <span>{{ showFormattedPriceAmountCurrencyWithDecimals(item.price.amount, item.price.currency) }}</span>
+                </div>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

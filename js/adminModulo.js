@@ -281,7 +281,7 @@ function updateModulo(moduloId) {
 
 
 
-export function addModulo() {
+function addModulo() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
@@ -289,28 +289,32 @@ export function addModulo() {
         return;
     }
 
-    const moduloData = {
-        descripcion: document.getElementById('addModuloDescripcion').value,
-        orden: document.getElementById('addModuloOrden').value,
-        recurso: document.getElementById('addModuloRecurso').value,
-        tiempo: document.getElementById('addModuloTiempo').value,
-        titulo: document.getElementById('addModuloTitulo').value,
-        idcurso: document.getElementById('addModuloIdCurso').value
-    };
-    console.log('Adding modulo:', moduloData);
+    const titulo = document.getElementById('addModuloTitulo').value;
+    const tiempo = document.getElementById('addModuloTiempo').value;
+    const descripcion = document.getElementById('addModuloDescripcion').value;
+    const orden = document.getElementById('addModuloOrden').value;
+    const idCurso = document.getElementById('addModuloIdCurso').value;
+    const recursoInput = document.getElementById('addModuloRecurso');
+    const recurso = recursoInput.value.replace(/C:\\fakepath\\/i, ''); // Obtener solo el nombre del archivo
+
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('tiempo', tiempo);
+    formData.append('descripcion', descripcion);
+    formData.append('orden', orden);
+    formData.append('idcurso', idCurso);
+    formData.append('recurso', recurso);
+
     fetch('http://127.0.0.1:8081/modulo/add', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(moduloData)
+        body: formData
     })
     .then(response => {
         if (!response.ok) {
-            return response.json().then(error => {
-                throw new Error(`Error al añadir el módulo: ${error.message}`);
-            });
+            return response.text().then(text => { throw new Error(text); });
         }
         return response.json();
     })
@@ -323,9 +327,15 @@ export function addModulo() {
     })
     .catch(error => {
         console.error('Error adding modulo:', error);
-        showMessage(`Error al añadir el módulo: ${error.message}`, 'error');
+        showMessage('Error al añadir el módulo: ' + error.message, 'error');
     });
 }
+
+document.getElementById('moduloAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addModulo();
+});
+
 
 function deleteModulo(moduloId) {
     const token = sessionStorage.getItem('jwtToken');

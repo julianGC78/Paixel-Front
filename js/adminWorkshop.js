@@ -259,7 +259,7 @@ function updateWorkshop(workshopId) {
 
 
 
-export function addWorkshop() {
+function addWorkshop() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
@@ -267,42 +267,60 @@ export function addWorkshop() {
         return;
     }
 
-    const workshopData = {
-        contenido: document.getElementById('addWorkshopContenido').value,
-        descripcion: document.getElementById('addWorkshopDescripcion').value,
-        fecha: document.getElementById('addWorkshopFecha').value,
-        idusuario: document.getElementById('addWorkshopIdUsuario').value
-    };
-    console.log('Workshop data:', workshopData);
+    const descripcion = document.getElementById('addWorkshopDescripcion').value;
+    const fecha = document.getElementById('addWorkshopFecha').value;
+    const idusuario = document.getElementById('addWorkshopIdUsuario').value;
+    const recursoInput = document.getElementById('addWorkshopContenido');
+    const contenido = recursoInput.files[0].name; // Obtener el nombre del archivo seleccionado
+
+    if (!contenido) {
+        console.error('No se seleccionó ningún archivo');
+        showMessage('No se seleccionó ningún archivo', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('contenido', contenido);
+    formData.append('descripcion', descripcion);
+    formData.append('fecha', fecha);
+    formData.append('idusuario', idusuario);
 
     fetch('http://127.0.0.1:8081/workshop/add', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(workshopData)
+        body: formData
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al añadir el workshop: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            showMessage('Workshop añadido con éxito', 'success');
-            document.querySelector('.workshopAdd').style.display = 'none';
-            document.querySelector('table.cabecera-tabla').style.display = 'table';
-            document.getElementById('addWorkshopButton').style.display = 'block';
-            /*
-            cargarWorkshops(); 
-            */
-        })
-        .catch(error => {
-            console.error('Error adding workshop:', error);
-            showMessage(`Error al añadir el workshop: ${error.message}`, 'error');
-        });
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text); });
+        }
+        return response.json();
+    })
+    .then(data => {
+        showMessage('Workshop añadido con éxito', 'success');
+        document.querySelector('.workshopAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addWorkshopButton').style.display = 'block';
+        cargarWorkshops(); // Volver a cargar la lista de workshops
+    })
+    .catch(error => {
+        console.error('Error adding workshop:', error);
+        showMessage('Error al añadir el workshop: ' + error.message, 'error');
+    });
 }
+
+document.getElementById('workshopAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addWorkshop();
+});
+
+
+
+
+
+
 function deleteWorkshop(workshopId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {

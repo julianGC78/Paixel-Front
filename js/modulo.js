@@ -254,7 +254,7 @@ function sendPregunta() {
     const textoPregunta = textarea.value;
     const userId = getUserId();
     const moduleId = getModuleId();
-    const fecha = new Date().toISOString().split('T')[0];  // Usar la fecha actual en formato ISO (YYYY-MM-DD)
+    const fecha = new Date().toISOString().split('.')[0];  // Usar la fecha actual en formato ISO sin la parte de los milisegundos (yyyy-MM-ddTHH:mm:ss)
 
     if (!userId || !moduleId || !textoPregunta) {
         console.error('User ID, Module ID, or question text is missing');
@@ -273,7 +273,7 @@ function sendPregunta() {
         contenido: textoPregunta,
         idusuario: parseInt(userId, 10),  // Asegurarse de que sea un entero
         idmodulo: parseInt(moduleId, 10), // Asegurarse de que sea un entero
-        fecha: fecha // Añadir la fecha actual
+        fecha: fecha // Añadir la fecha actual en formato ISO
     };
 
     console.log('Datos enviados:', pregunta);
@@ -308,6 +308,9 @@ function clearTextarea() {
     }
 }
 
+
+
+
 function fetchPreguntasByModulo(idmodulo) {
     const token = sessionStorage.getItem('jwtToken');
     const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
@@ -323,6 +326,8 @@ function fetchPreguntasByModulo(idmodulo) {
         return response.json();
     })
     .then(preguntas => {
+        // Ordenar las preguntas por fecha (más reciente primero)
+        preguntas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
         displayPreguntas(preguntas);
     })
     .catch(error => {
@@ -330,9 +335,36 @@ function fetchPreguntasByModulo(idmodulo) {
     });
 }
 
+function timeSince(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // Convertir la fecha a la zona horaria local
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+    const seconds = Math.floor((now - localDate) / 1000);
+    const intervals = [
+        { label: 'años', seconds: 31536000 },
+        { label: 'meses', seconds: 2592000 },
+        { label: 'días', seconds: 86400 },
+        { label: 'horas', seconds: 3600 },
+        { label: 'minutos', seconds: 60 },
+        { label: 'segundos', seconds: 1 }
+    ];
+
+    for (const interval of intervals) {
+        const count = Math.floor(seconds / interval.seconds);
+        if (count >= 1) {
+            return `${count} ${interval.label}`;
+        }
+    }
+    return 'justo ahora';
+}
+
+
 function displayPreguntas(preguntas) {
     const preguntasLista = document.getElementById('preguntas-lista');
-    preguntasLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevas preguntas
+    preguntasLista.innerHTML = ''; 
 
     preguntas.forEach(pregunta => {
         const preguntaItem = document.createElement('div');
@@ -350,6 +382,10 @@ function displayPreguntas(preguntas) {
         usuarioNombre.className = 'usuario-nombre font-weight-bold d-block';
         usuarioNombre.textContent = pregunta.usuario.username || 'Nombre no disponible';
 
+        const fechaPregunta = document.createElement('span');
+        fechaPregunta.className = 'fecha-pregunta';
+        fechaPregunta.textContent = `Hace ${timeSince(pregunta.fecha)}`;
+
         const contenidoPreguntaContainer = document.createElement('div');
         contenidoPreguntaContainer.className = 'd-flexa align-items-start mt-2';
 
@@ -359,6 +395,7 @@ function displayPreguntas(preguntas) {
 
         contenidoPreguntaContainer.appendChild(contenidoPregunta);
         contenidoContainer.appendChild(usuarioNombre);
+        contenidoContainer.appendChild(fechaPregunta); 
         contenidoContainer.appendChild(contenidoPreguntaContainer);
         preguntaContainer.appendChild(userIcon);
         preguntaContainer.appendChild(contenidoContainer);
@@ -369,6 +406,7 @@ function displayPreguntas(preguntas) {
         console.log('Pregunta:', pregunta.contenido);
     });
 }
+
 
 
 

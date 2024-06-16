@@ -230,6 +230,7 @@ function updateDocente(docenteId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -263,17 +264,17 @@ function updateDocente(docenteId) {
         if (data.newToken) {
             sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
         }
-        alert('Docente actualizado con éxito');
+        showMessage('docente actualizado con éxito', 'success');
         document.querySelector('.docenteEdit').style.display = 'none';
         document.querySelector('table.cabecera-tabla').style.display = 'table';
         cargarDocentes(); 
     })
     .catch(error => {
         console.error('Error updating docente:', error);
-        alert(error.message);
+        showMessage(`Error al actualizar el docente: ${error.message}`, 'error');
     });
 }
-
+/*
 function addDocente() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
@@ -334,6 +335,61 @@ document.getElementById('docenteAddForm').addEventListener('submit', (event) => 
     event.preventDefault(); // Prevent the default form submission
     addDocente();
 });
+*/
+
+function addDocente() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
+        return;
+    }
+
+    const username = document.getElementById('addDocenteUsername').value;
+    const especialidad = document.getElementById('addDocenteEspecialidad').value;
+    const descripcion = document.getElementById('addDocenteDescripcion').value;
+    const recursoInput = document.getElementById('addDocenteRecurso');
+    const recurso = recursoInput.value.replace(/C:\\fakepath\\/i, ''); // Obtener solo el nombre del archivo
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('especialidad', especialidad);
+    formData.append('descripcion', descripcion);
+    formData.append('recurso', recurso);
+
+    fetch('http://127.0.0.1:8081/docente/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text); });
+        }
+        return response.json();
+    })
+    .then(data => {
+        showMessage('Docente añadido con éxito', 'success');
+        document.querySelector('.docenteAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addDocenteButton').style.display = 'block';
+        cargarDocentes(); // Volver a cargar la lista de docentes
+    })
+    .catch(error => {
+        console.error('Error adding docente:', error);
+        showMessage('Error al añadir el docente: ' + error.message, 'error');
+    });
+}
+
+// Handle adding a docente
+document.getElementById('docenteAddForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    addDocente();
+});
+
+
 
 
 

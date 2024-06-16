@@ -206,6 +206,7 @@ function updateUser(userId) {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
+        showMessage('No se encontró el token de autenticación', 'error');
         return;
     }
 
@@ -243,14 +244,14 @@ function updateUser(userId) {
             if (data.newToken) {
                 sessionStorage.setItem('jwtToken', data.newToken); // Actualizar el token en el almacenamiento de sesión
             }
-            alert('Usuario actualizado con éxito');
+            showMessage('alumno actualizado con éxito', 'success');
             document.querySelector('.userEdit').style.display = 'none';
             document.querySelector('table.cabecera-tabla').style.display = 'table';
             cargarUsuarios();
         })
         .catch(error => {
             console.error('Error updating user:', error);
-            alert(error.message);
+            showMessage(`Error al actualizar el alumno: ${error.message}`, 'error');
         });
 }
 
@@ -334,8 +335,8 @@ function deleteUser() {
         })
         .then(data => {
             document.getElementById('deletePopup').style.display = 'none';
-            showMessage(data.message, true);
-            cargarUsuarios(); // Volver a cargar la lista de usuarios
+            showMessage('Usuario eliminado con éxito', 'success');
+            cargarUsuarios();
         })
         .catch(error => {
             console.error('Error deleting user:', error);

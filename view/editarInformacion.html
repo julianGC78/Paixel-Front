@@ -36,7 +36,7 @@
         <p class="dato-email"></p>
         <div class="formulario">
 
-            <form class="edit-contact-form" id="editContactForm" >          
+            <form class="edit-contact-form" id="editContactForm" method="POST">
                 <!-- Campo para el nombre -->
                 <div class="form-control">
                     <input type="text" id="username" name="username" required>
@@ -78,12 +78,20 @@
                     <label for="localidad">Localidad</label>
                 </div>
             
+                <!-- Mensajes de éxito y error -->
+                <div class="form-control">
+                    <p id="successMessage" style="color: #0d6efd; display: none;">Usuario actualizado con éxito!</p>
+                    <p id="errorMessage" style="color: red; display: none;">Hubo un error al actualizar el usuario. Por favor, inténtalo de nuevo.</p>
+                </div>
+            
                 <!-- Botones de acción -->
                 <div class="button">
-                    <a href="perfilUsuario.html"><button  class="btn-cancelar" type="button" >CANCELAR</button></a>
+                    <a href="perfilUsuario.html"><button class="btn-cancelar" type="button">CANCELAR</button></a>
                     <button class="updateUserInfo" type="submit" id="saveChangesButton">GUARDAR CAMBIOS</button>
                 </div>
             </form>
+           
+            
         </div>
         
     </head>

@@ -263,7 +263,7 @@ function updateCurso(cursoId) {
 
 
 
-export function addCurso() {
+function addCurso() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
         console.error('No se encontró el token de autenticación');
@@ -271,48 +271,52 @@ export function addCurso() {
         return;
     }
 
-    const cursoData = {
-        descripcion: document.getElementById('addCursoDescripcion').value,
-        recurso: document.getElementById('addCursoRecurso').value,
-        titulo: document.getElementById('addCursoTitulo').value,
-        idusuario: document.getElementById('addCursoIdUsuario').value,
-        iddocente: document.getElementById('addCursoIdDocente').value
-    };
+    const titulo = document.getElementById('addCursoTitulo').value;
+    const descripcion = document.getElementById('addCursoDescripcion').value;
+    const idUsuario = document.getElementById('addCursoIdUsuario').value;
+    const idDocente = document.getElementById('addCursoIdDocente').value;
+    const recursoInput = document.getElementById('addCursoRecurso');
+    const recurso = recursoInput.value.replace(/C:\\fakepath\\/i, ''); // Obtener solo el nombre del archivo
+
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('descripcion', descripcion);
+    formData.append('idusuario', idUsuario);
+    formData.append('iddocente', idDocente);
+    formData.append('recurso', recurso);
 
     fetch('http://127.0.0.1:8081/curso/add', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(cursoData)
+        body: formData
     })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(error => {
-                    throw new Error(`Error al añadir el curso: ${error.message}`);
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            showMessage('Curso añadido con éxito', 'success');
-            document.querySelector('.cursoAdd').style.display = 'none';
-            document.querySelector('table.cabecera-tabla').style.display = 'table';
-            document.getElementById('addCursoButton').style.display = 'block';
-            cargarCursos();
-        })
-        .catch(error => {
-            console.error('Error adding curso:', error);
-            showMessage(`Error al añadir el curso: ${error.message}`, 'error');
-        });
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text); });
+        }
+        return response.json();
+    })
+    .then(data => {
+        showMessage('Curso añadido con éxito', 'success');
+        document.querySelector('.cursoAdd').style.display = 'none';
+        document.querySelector('table.cabecera-tabla').style.display = 'table';
+        document.getElementById('addCursoButton').style.display = 'block';
+        cargarCursos(); // Volver a cargar la lista de cursos
+    })
+    .catch(error => {
+        console.error('Error adding curso:', error);
+        showMessage('Error al añadir el curso: ' + error.message, 'error');
+    });
 }
 
-
+// Handle adding a curso
 document.getElementById('cursoAddForm').addEventListener('submit', (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default form submission
     addCurso();
 });
+
 
 
 // Función para eliminar curso

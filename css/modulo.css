@@ -210,6 +210,10 @@ body {
 .btn-cance {
     background-color: var(--color-gris);
 }
+.fecha-pregunta{
+    margin-left: 20px;
+    font-size: 1.5vh;
+}
 
 /**************************Media Queries**************************/
 

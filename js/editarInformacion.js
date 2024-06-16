@@ -24,14 +24,13 @@ function setup() {
         });  
     }, 100);
 
-     // Vincula el evento de envío del formulario a updateUserInfo
+    
      document.getElementById('editContactForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Evita el envío del formulario de forma tradicional
+        event.preventDefault();  
         updateUserInfo();
     });
 
-     
-
+    
 }
 
 window.onload = setup;
@@ -54,16 +53,16 @@ function displayUserInfo(user) {
 
 
 // Función para actualizar la información del usuario
-async function updateUserInfo() {
-const userId = JSON.parse(atob(sessionStorage.getItem('jwtToken').split('.')[1])).userId;
+document.getElementById('editContactForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevenir el envío del formulario para manejarlo con JavaScript
 
-const rawFecha = document.getElementById('fecha_nacimiento').value;
-const fechaNacimiento = new Date(rawFecha);
-const fechaFormateada = fechaNacimiento.toISOString().slice(0, 10); // Esto da formato YYYY-MM-DD
-console.log("Fecha formateada:", fechaFormateada);
+    const userId = JSON.parse(atob(sessionStorage.getItem('jwtToken').split('.')[1])).userId;
 
-    
+    const rawFecha = document.getElementById('fecha_nacimiento').value;
+    const fechaNacimiento = new Date(rawFecha);
+    const fechaFormateada = fechaNacimiento.toISOString().slice(0, 10); // Esto da formato YYYY-MM-DD
     console.log("Fecha formateada:", fechaFormateada);
+
     const updatedData = {
         username: document.getElementById('username').value,
         apellidos: document.getElementById('apellidos').value,
@@ -76,7 +75,7 @@ console.log("Fecha formateada:", fechaFormateada);
 
     const token = sessionStorage.getItem('jwtToken');
 
-    return fetch(`http://127.0.0.1:8081/usuario/update/${userId}`, {
+    fetch(`http://127.0.0.1:8081/usuario/update/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -95,14 +94,21 @@ console.log("Fecha formateada:", fechaFormateada);
         if (data.newToken) {
             sessionStorage.setItem('jwtToken', data.newToken);
         }
-        alert('Datos actualizados con éxito.');
+        document.getElementById('successMessage').innerText = 'Usuario actualizado con éxito!';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('errorMessage').style.display = 'none';
+        setTimeout(() => {
+            window.location.href = 'perfilUsuario.html';  // Redirige después de 1 segundo
+        }, 2000);
     })
     .catch(error => {
         console.error('Error updating user:', error);
-        alert('Error al actualizar los datos.');
+        document.getElementById('errorMessage').innerText = 'Error al actualizar los datos. Por favor, inténtalo de nuevo.';
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'none';
     });
+});
 
-}
 
 
 
